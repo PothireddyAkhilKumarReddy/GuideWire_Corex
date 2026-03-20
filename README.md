@@ -315,7 +315,3 @@ High-risk claims flagged for manual verification.
 - Ensures fairness  
 
 ---
-
-# 🎥 Demo Video
-
-[]
