@@ -1,6 +1,151 @@
-/* Minimal CSS reset for the app */
+/* Minimal CSS Reset and Global Styles */
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f0f4f8; /* Soft background */
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+/* Card Style Container */
+.app-container {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08); /* Soft modern shadow */
+  width: 100%;
+  max-width: 480px;
+  margin: 20px;
+  box-sizing: border-box;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 0;
+  color: #1a202c;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 18px;
+  color: #4a5568;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 10px;
+}
+
+/* Form layout */
+.form-group {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #4a5568;
+}
+
+input, select {
+  padding: 12px;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  background-color: #f8fafc;
+  box-sizing: border-box;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #3182ce;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+}
+
+/* Buttons */
+.button-group {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+button {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #fff;
+  transition: all 0.2s ease;
+}
+
+button:active {
+  transform: translateY(2px);
+}
+
+.btn-register {
+  background-color: #3182ce; /* Blue */
+}
+
+.btn-register:hover {
+  background-color: #2b6cb0;
+}
+
+.btn-risk {
+  background-color: #38a169; /* Green */
+}
+
+.btn-risk:hover {
+  background-color: #2f855a;
+}
+
+/* Output Section */
+.output-section {
+  margin-top: 35px;
+  padding: 25px;
+  background-color: #f7fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.output-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.result-card {
+  background: white;
+  padding: 16px 20px;
+  border-radius: 8px;
+  border: 1px solid #edf2f7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.result-label {
+  color: #718096;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.result-value {
+  font-size: 18px;
+  font-weight: 800; /* Extra bold highlight */
+  color: #2d3748;
+}
+
+.status-triggered {
+  color: #38a169; /* Green text for triggered */
 }
