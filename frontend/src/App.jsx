@@ -1,372 +1,543 @@
 import { useState } from 'react'
 
-function App() {
-  const [currentView, setCurrentView] = useState('home') // 'home', 'login', 'signup'
-  const [role, setRole] = useState('worker') // 'worker', 'admin'
+export default function App() {
+  const [currentView, setCurrentView] = useState('landing')
+  const [role, setRole] = useState('worker')
+  
+  // Legacy Demo Logic
   const [formData, setFormData] = useState({ name: '', city: '', zone: 'Zone A' })
   const [results, setResults] = useState({ riskScore: null, weeklyPremium: null, claimStatus: null })
-  const [registerMessage, setRegisterMessage] = useState('')
   const [loadingRisk, setLoadingRisk] = useState(false)
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setFormData({ ...formData, [name]: value })
-  }
-
-  const handleRegister = (e) => {
-    e.preventDefault()
-    setRegisterMessage('Worker Registered Successfully')
-    setTimeout(() => setRegisterMessage(''), 3000)
-  }
 
   const handleCheckRisk = () => {
     setLoadingRisk(true)
-    
-    // Decoupled from backend for Vercel deployment
-    const data = {
-      risk: "High",
-      premium: 90,
-      claim: "Triggered"
-    }
-
+    const data = { risk: "High", premium: 90, claim: "Triggered" }
     setTimeout(() => {
-      setResults({
-        riskScore: data.risk,
-        weeklyPremium: `₹${data.premium}`,
-        claimStatus: data.claim
-      })
+      setResults({ riskScore: data.risk, weeklyPremium: `₹${data.premium}`, claimStatus: data.claim })
       setLoadingRisk(false)
     }, 500)
   }
 
-  const scrollToSection = (id) => {
-    setCurrentView('home')
-    setTimeout(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-    }, 50)
-  }
-
-  const renderNav = () => (
-    <nav className="navbar">
-      <div className="nav-brand" onClick={() => setCurrentView('home')}>InsurGig AI</div>
-      <div className="nav-links">
-        <span onClick={() => setCurrentView('home')}>Home</span>
-        <span onClick={() => scrollToSection('features')}>Features</span>
-        <span onClick={() => scrollToSection('pricing')}>Pricing</span>
-        <button className="nav-login-btn" onClick={() => setCurrentView('login')}>Login</button>
+  const Sidebar = ({ active }) => (
+    <div className="sidebar">
+      <div className="sidebar-logo" onClick={()=>setCurrentView('landing')} style={{cursor:'pointer'}}>
+        InsurGig AI
       </div>
-    </nav>
-  )
-
-  const renderLogin = () => (
-    <div className="auth-container fade-up">
-      <div className="auth-card">
-        <h2>Welcome Back</h2>
-        <div className="role-toggle">
-          <button type="button" className={role === 'worker' ? 'active' : ''} onClick={() => setRole('worker')}>Worker</button>
-          <button type="button" className={role === 'admin' ? 'active' : ''} onClick={() => setRole('admin')}>Insurer / Admin</button>
+      <div className="worker-card">
+        <div className="worker-avatar">👤</div>
+        <div>
+          <div style={{fontSize:'12px', fontWeight:'700'}}>Worker ID: 8829</div>
+          <div className="status active" style={{padding:'2px 8px', fontSize:'10px', marginTop:'4px', background:'transparent', border:'none'}}>
+            <span className="dot dot-green"></span> Protected
+          </div>
         </div>
-        <form onSubmit={(e) => { e.preventDefault(); alert(`Logged in as ${role}!`) }}>
-          <div className="form-group">
-            <label>Email Address</label>
-            <input type="email" placeholder="Enter your email" required />
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input type="password" placeholder="Enter your password" required />
-          </div>
-          <button type="submit" className="btn-primary auth-btn">Login</button>
-        </form>
-        <p className="auth-footer">Don't have an account? <span onClick={() => setCurrentView('signup')}>Sign Up</span></p>
+      </div>
+      <div className="nav-menu">
+        <div className={`nav-item ${active === 'dashboard' ? 'active' : ''}`} onClick={() => setCurrentView('dashboard')}>❖ Overview</div>
+        <div className={`nav-item ${active === 'claims' ? 'active' : ''}`} onClick={() => setCurrentView('claims')}>📊 Claims AI</div>
+        <div className={`nav-item ${active === 'map' ? 'active' : ''}`} onClick={() => setCurrentView('map')}>🗺️ Risk Map</div>
+        <div className={`nav-item ${active === 'plans' ? 'active' : ''}`} onClick={() => setCurrentView('plans')}>💳 Plans</div>
+        <div className={`nav-item ${active === 'admin' ? 'active' : ''}`} onClick={() => setCurrentView('admin')}>🛡️ Admin</div>
+      </div>
+      <div style={{marginTop: 'auto'}}>
+        <button className="btn-primary" style={{width:'100%'}}>Upgrade Plan</button>
       </div>
     </div>
   )
 
-  const renderSignup = () => (
-    <div className="auth-container fade-up">
-      <div className="auth-card">
-        <h2>Create Account</h2>
-        <div className="role-toggle">
-          <button type="button" className={role === 'worker' ? 'active' : ''} onClick={() => setRole('worker')}>Worker</button>
-          <button type="button" className={role === 'admin' ? 'active' : ''} onClick={() => setRole('admin')}>Insurer / Admin</button>
+  const renderLanding = () => (
+    <div style={{background: 'var(--bg-dark)'}}>
+      <nav className="top-nav">
+        <div className="nav-brand" style={{cursor:'pointer'}} onClick={() => setCurrentView('landing')}>InsurGig AI</div>
+        <div className="nav-links">
+          <span>Product</span><span>Solutions</span><span>Intelligence</span><span onClick={() => setCurrentView('plans')} style={{cursor:'pointer', color:'var(--accent-blue)'}}>Pricing</span>
         </div>
-        <form onSubmit={(e) => { e.preventDefault(); alert(`Signed up as ${role}!`) }}>
-          <div className="form-group">
-            <label>Full Name</label>
-            <input type="text" placeholder="John Doe" required />
+        <div className="nav-actions">
+          <button className="btn-nav-login" onClick={() => setCurrentView('auth')}>Login</button>
+          <button className="btn-primary" onClick={() => setCurrentView('auth')}>Get Started</button>
+        </div>
+      </nav>
+
+      <section className="hero-sec">
+        <div className="badge"><span className="dot dot-green"></span> SYSTEM STATUS: SENTINEL ACTIVE</div>
+        <h1>AI-Powered Insurance for<br/><span>Gig Workers</span></h1>
+        <p>Predictive protection for the modern gig workforce. Automatic payouts triggered by real-world disruptions like weather, traffic, and AQI—no manual claims required.</p>
+        <div className="hero-btns">
+          <button className="btn-primary" onClick={() => setCurrentView('dashboard')}>Get Started</button>
+          <button className="btn-outline" onClick={() => setCurrentView('auth')}>Login</button>
+        </div>
+      </section>
+
+      <section style={{textAlign:'center', padding:'60px 20px', background:'#0c121e'}}>
+        <div className="flow-grid">
+          <div className="flow-card">
+            <div className="icon-box">📡</div>
+            <h3>Real-time Risk Detection</h3>
+            <p>Continuous monitoring of environmental sensors and local data streams to anticipate disruptions before they impact your workflow.</p>
           </div>
-          <div className="form-group">
-            <label>Email Address</label>
-            <input type="email" placeholder="name@example.com" required />
+          <div className="flow-card">
+            <div className="icon-box">💵</div>
+            <h3>Automatic Claim Payouts</h3>
+            <p>Zero paperwork. Our smart contracts execute payments instantly when threshold conditions are met, ensuring financial liquidity.</p>
           </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input type="password" placeholder="Create a strong password" required />
+          <div className="flow-card">
+            <div className="icon-box">📍</div>
+            <h3>Hyper-local Risk Zones</h3>
+            <p>Precision coverage tailored to your exact coordinates. Dynamic pricing based on neighborhood intelligence.</p>
           </div>
-          <button type="submit" className="btn-primary auth-btn">Sign Up</button>
-        </form>
-        <p className="auth-footer">Already have an account? <span onClick={() => setCurrentView('login')}>Login</span></p>
+        </div>
+      </section>
+
+      {/* Legacy Demo Integration */}
+      <section className="demo-wrap" id="demo">
+        <h2>Explore the <span style={{color:'var(--accent-blue)'}}>Sentinel</span> Interface</h2>
+        <p style={{color:'var(--text-muted)', marginBottom:'30px'}}>Experience the power of predictive protection firsthand. Our demo dashboard lets you simulate disruption events.</p>
+        <div className="demo-form">
+          <label className="sys-label">Worker Name</label>
+          <input type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="Enter name" />
+          <label className="sys-label">Target City</label>
+          <input type="text" value={formData.city} onChange={(e) => setFormData({...formData, city: e.target.value})} placeholder="Enter city" />
+          <label className="sys-label">Deployment Zone</label>
+          <select value={formData.zone} onChange={(e) => setFormData({...formData, zone: e.target.value})}>
+            <option>Zone A</option><option>Zone B</option><option>Zone C</option>
+          </select>
+          <button className="btn-primary" style={{width:'100%', marginTop:'15px'}} onClick={handleCheckRisk}>
+            {loadingRisk ? 'AI Analyzing...' : 'Initialize Risk Simulation'}
+          </button>
+        </div>
+
+        {results.riskScore && (
+          <div style={{marginTop: '30px', padding:'20px', background:'rgba(255,255,255,0.03)', borderRadius:'12px', border:'1px solid var(--border-color)', display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'20px'}}>
+            <div>
+               <div className="sys-label">Risk Profile</div>
+               <div style={{fontSize:'24px', fontWeight:'800', color:'var(--accent-red)'}}>{results.riskScore}</div>
+            </div>
+            <div>
+               <div className="sys-label">Premium Val</div>
+               <div style={{fontSize:'24px', fontWeight:'800', color:'var(--accent-blue)'}}>{results.weeklyPremium}</div>
+            </div>
+            <div>
+               <div className="sys-label">Coverage Status</div>
+               <div style={{fontSize:'24px', fontWeight:'800', color:'var(--accent-green)'}}>{results.claimStatus}</div>
+            </div>
+          </div>
+        )}
+      </section>
+
+    </div>
+  )
+
+  const renderPlans = () => (
+    <div style={{background: 'var(--bg-dark)', minHeight: '100vh', paddingBottom:'100px'}}>
+      <nav className="top-nav" style={{padding:'20px 40px'}}>
+        <div style={{display:'flex', alignItems:'center', gap:'30px'}}>
+           <div className="nav-brand" style={{cursor:'pointer'}} onClick={()=>setCurrentView('landing')}>InsurGig AI</div>
+           <div className="nav-links" style={{fontSize:'12px', letterSpacing:'1px', textTransform:'uppercase'}}>
+             <span onClick={()=>setCurrentView('dashboard')}>DASHBOARD</span>
+             <span onClick={()=>setCurrentView('map')}>RISK MAP</span>
+             <span onClick={()=>setCurrentView('plans')} style={{color:'var(--accent-blue)', borderBottom:'2px solid var(--accent-blue)', paddingBottom:'5px'}}>PLANS</span>
+           </div>
+        </div>
+        <div className="nav-actions">
+           <span style={{fontSize:'20px', cursor:'pointer'}}>🔔</span>
+           <span style={{fontSize:'20px', cursor:'pointer'}}>👤</span>
+        </div>
+      </nav>
+
+      <div style={{textAlign:'center', padding:'60px 20px', maxWidth:'1000px', margin:'0 auto'}}>
+         <h1 style={{fontSize:'48px', marginBottom:'15px', fontWeight:'800'}}>Predictive Protection <span style={{color:'var(--accent-blue)'}}>Pricing</span></h1>
+         <p style={{color:'var(--text-muted)', fontSize:'18px', maxWidth:'600px', margin:'0 auto 60px'}}>Dynamic, risk-adjusted coverage for the modern gig workforce. Let our InsurGig AI calculate your safety net.</p>
+
+         <div className="pricing-grid" style={{marginBottom:'100px'}}>
+           <div className="price-card">
+              <h3 style={{fontSize:'20px', margin:'0 0 10px'}}>Basic</h3>
+              <div className="price-tag" style={{fontSize:'36px', fontWeight:'800'}}>₹35<span style={{fontSize:'14px', color:'var(--text-muted)'}}>/wk</span></div>
+              <p style={{fontSize:'10px', color:'var(--text-muted)', letterSpacing:'1px', textTransform:'uppercase', margin:'-15px 0 20px 0'}}>FIXED ENTRY RATE</p>
+              <ul className="chk-list" style={{textAlign:'left', fontSize:'13px', marginBottom:'40px'}}>
+                <li>Rain & Extreme Heat Protection</li>
+                <li>48hr Payout Velocity</li>
+                <li>AQI & Traffic Analysis</li>
+              </ul>
+              <button className="btn-outline" style={{width:'100%', padding:'15px'}}>SELECT BASIC</button>
+           </div>
+           <div className="price-card standard">
+              <div className="badge badge-active" style={{position:'absolute', top:'-15px', left:'50%', transform:'translateX(-50%)'}}>MOST PROTECTIVE</div>
+              <h3 style={{fontSize:'20px', margin:'0 0 10px'}}>Standard</h3>
+              <div className="price-tag" style={{fontSize:'42px', fontWeight:'800'}}>₹60<span style={{fontSize:'14px', color:'var(--text-muted)'}}>/wk</span></div>
+              <p style={{fontSize:'10px', color:'var(--accent-blue)', fontWeight:'700', letterSpacing:'1px', textTransform:'uppercase', margin:'-15px 0 20px 0'}}>AI RECOMMENDED</p>
+              <ul className="chk-list" style={{textAlign:'left', fontSize:'13px', marginBottom:'40px'}}>
+                <li>Full Environmental Protection</li>
+                <li>Instant Payout Approval</li>
+                <li>1.5x Trust Score Multiplier</li>
+                <li>Live Traffic Rerouting AI</li>
+              </ul>
+              <button className="btn-primary" style={{width:'100%', padding:'15px'}}>GET PROTECTED</button>
+           </div>
+           <div className="price-card">
+              <h3 style={{fontSize:'20px', margin:'0 0 10px'}}>Premium</h3>
+              <div className="price-tag" style={{fontSize:'36px', fontWeight:'800'}}>₹90<span style={{fontSize:'14px', color:'var(--text-muted)'}}>/wk</span></div>
+              <p style={{fontSize:'10px', color:'var(--accent-red)', fontWeight:'700', letterSpacing:'1px', textTransform:'uppercase', margin:'-15px 0 20px 0'}}>RISK-ADJUSTED STARTING RATE</p>
+              <ul className="chk-list" style={{textAlign:'left', fontSize:'13px', marginBottom:'40px'}}>
+                <li>Unlimited Smart Coverage</li>
+                <li>Dedicated Safety Concierge</li>
+                <li>2.5x Trust Score Multiplier</li>
+              </ul>
+              <button className="btn-outline" style={{width:'100%', padding:'15px'}}>CUSTOMIZE PREMIUM</button>
+           </div>
+         </div>
+
+         <h2 style={{marginTop:'80px', marginBottom:'40px', fontSize:'28px'}}>Feature Breakdown</h2>
+         <div style={{background:'var(--bg-card)', border:'1px solid var(--border-color)', borderRadius:'12px', overflow:'hidden', textAlign:'left'}}>
+            <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', borderBottom:'1px solid var(--border-color)', background:'#1f2937', fontSize:'10px', fontWeight:'700', letterSpacing:'1px', textTransform:'uppercase', color:'var(--text-muted)'}}>
+               <div>DISRUPTION ANALYSIS</div><div>BASIC</div><div style={{color:'var(--accent-blue)'}}>STANDARD</div><div>PREMIUM</div>
+            </div>
+            <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', borderBottom:'1px solid var(--border-color)', fontSize:'14px', alignItems:'center'}}>
+               <div style={{color:'var(--text-main)', fontWeight:'600'}}>Rain Protection</div>
+               <div style={{color:'var(--accent-green)'}}>✓</div>
+               <div style={{color:'var(--accent-green)'}}>✓</div>
+               <div style={{color:'var(--accent-green)'}}>✓</div>
+            </div>
+            <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', borderBottom:'1px solid var(--border-color)', fontSize:'14px', alignItems:'center'}}>
+               <div style={{color:'var(--text-main)', fontWeight:'600'}}>Heat & AQI Alerts</div>
+               <div style={{color:'var(--accent-red)'}}>✕</div>
+               <div style={{color:'var(--accent-blue)'}}>Advanced</div>
+               <div style={{color:'var(--text-main)'}}>Real-time</div>
+            </div>
+            <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', borderBottom:'1px solid var(--border-color)', fontSize:'14px', alignItems:'center'}}>
+               <div style={{color:'var(--text-main)', fontWeight:'600'}}>Traffic Congestion</div>
+               <div style={{color:'var(--accent-red)'}}>✕</div>
+               <div style={{color:'var(--accent-blue)'}}>Included</div>
+               <div style={{color:'var(--text-main)'}}>Predictive</div>
+            </div>
+            <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', borderBottom:'1px solid var(--border-color)', fontSize:'14px', alignItems:'center'}}>
+               <div style={{color:'var(--text-main)', fontWeight:'600'}}>Payout Speed</div>
+               <div style={{color:'var(--text-muted)'}}>48 Hours</div>
+               <div style={{color:'var(--text-main)', fontWeight:'700'}}>Instant</div>
+               <div style={{color:'var(--text-main)'}}>Flash Pay</div>
+            </div>
+            <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', fontSize:'14px', alignItems:'center'}}>
+               <div style={{color:'var(--text-main)', fontWeight:'600'}}>Trust-Score Multiplier</div>
+               <div style={{color:'var(--text-muted)'}}>1.0x</div>
+               <div style={{color:'var(--accent-blue)', fontWeight:'700'}}>1.5x</div>
+               <div style={{color:'var(--text-main)', fontWeight:'700'}}>2.5x</div>
+            </div>
+         </div>
+
+         <div style={{display:'flex', gap:'40px', marginTop:'100px', textAlign:'left', alignItems:'center'}}>
+            <div style={{flex:1}}>
+               <h2 style={{fontSize:'32px', marginBottom:'20px', margin:'0'}}>The <span style={{color:'var(--accent-green)'}}>Trust Score</span> Engine</h2>
+               <p style={{color:'var(--text-muted)', lineHeight:'1.6', fontSize:'14px', marginBottom:'40px'}}>Our AI doesn't just calculate risk; it rewards resilience. By maintaining a high Trust Score through safe delivery and activity patterns, your Premium drops dynamically over time. Standard and Premium users receive significant score multipliers.</p>
+               <div style={{display:'flex', gap:'50px'}}>
+                 <div>
+                    <div style={{fontSize:'32px', fontWeight:'800', color:'var(--accent-green)'}}>94%</div>
+                    <div style={{fontSize:'10px', color:'var(--text-muted)', fontWeight:'700', letterSpacing:'1px', textTransform:'uppercase'}}>AVG. USER SCORE</div>
+                 </div>
+                 <div>
+                    <div style={{fontSize:'32px', fontWeight:'800', color:'var(--accent-blue)'}}>-₹450</div>
+                    <div style={{fontSize:'10px', color:'var(--text-muted)', fontWeight:'700', letterSpacing:'1px', textTransform:'uppercase'}}>MAX MONTHLY SAVINGS</div>
+                 </div>
+               </div>
+            </div>
+            <div style={{flex:1, height:'250px', background:'linear-gradient(135deg, rgba(255,255,255,0.05), transparent)', borderRadius:'16px', border:'1px solid var(--border-color)', display:'flex', alignItems:'center', justifyItems:'center', overflow:'hidden', position:'relative'}}>
+               {/* Decorative structural network logic mesh mapping representation */}
+               <div style={{position:'absolute', top:'-50%', left:'-50%', width:'200%', height:'200%', background:'radial-gradient(circle, rgba(56,189,248,0.1) 10%, transparent 60%)', filter:'blur(40px)'}}></div>
+               <div style={{color:'var(--text-muted)', fontSize:'30px', position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)'}}>🌐</div>
+            </div>
+         </div>
       </div>
     </div>
   )
 
-  const renderHome = () => (
-    <div className="home-content">
-      {/* 1. HERO SECTION */}
-      <section className="hero-section fade-up delay-1">
-        <div className="hero-text">
-          <h1 className="hero-title">Income Protection for Gig Workers</h1>
-          <p className="hero-subtitle">AI-powered automatic payouts guaranteed during sudden weather and traffic disruptions.</p>
-          <div className="hero-buttons">
-            <button className="btn-primary" onClick={() => scrollToSection('demo')}>Get Started</button>
-            <button className="btn-secondary" onClick={() => scrollToSection('demo')}>Check Risk</button>
-          </div>
-        </div>
-        <div className="hero-image-placeholder">
-          <div className="placeholder-art">🚀🛡️</div>
-        </div>
-      </section>
-
-      {/* 2. PARTNERS / TRUST SECTION */}
-      <section className="partners-section fade-up delay-2">
-        <p>Trusted by modern gig platforms</p>
-        <div className="partner-logos">
-          <span>Uber</span>
-          <span>Zomato</span>
-          <span>Swiggy</span>
-          <span>Urban Company</span>
-        </div>
-      </section>
-
-      {/* 3. SERVICES SECTION */}
-      <div className="services-wrapper fade-up delay-3">
-        <section className="services-section">
-          <h2>What We Offer</h2>
-          <div className="services-grid">
-            <div className="service-card dark-card">
-              <div className="icon">🧠</div>
-              <h4>AI Risk Prediction</h4>
-              <p>Real-time machine learning analytics for accurate premium pricing</p>
-            </div>
-            <div className="service-card dark-card">
-              <div className="icon">⚡</div>
-              <h4>Automatic Claim Trigger</h4>
-              <p>Zero paperwork payouts when precise thresholds are met</p>
-            </div>
-            <div className="service-card dark-card">
-              <div className="icon">🛡️</div>
-              <h4>Fraud Detection</h4>
-              <p>Advanced AI validation prevents false claims globally</p>
-            </div>
-            <div className="service-card dark-card">
-              <div className="icon">📍</div>
-              <h4>Hyper-local Risk Zones</h4>
-              <p>Pricing dynamically adjusted by precise geographic risk data</p>
-            </div>
-          </div>
-        </section>
+  const renderAuth = () => (
+    <div className="auth-wrapper">
+      <div className="badge" style={{position:'absolute', top:'40px'}}><span style={{color:'var(--accent-blue)'}}>🛡️</span> INSURGIG AI SENTINEL</div>
+      <div className="auth-header">
+        <h1>InsurGig <span>Secure</span></h1>
+        <p>Predictive Identity Verification</p>
       </div>
-
-      {/* 4. ABOUT SECTION */}
-      <section className="about-section fade-up">
-        <div className="about-image-placeholder">
-          <div className="placeholder-art">📊📈</div>
+      <div className="auth-box">
+        <button className="auth-google">G  Sign in with Google</button>
+        <div className="proto-label">SYSTEM PROTOCOL</div>
+        <div className="auth-toggle">
+          <button className={role === 'worker' ? 'active' : ''} onClick={()=>setRole('worker')}>👤 Worker Login</button>
+          <button className={role === 'admin' ? 'active' : ''} onClick={()=>setRole('admin')}>🛡️ Admin / Insurer</button>
         </div>
-        <div className="about-text">
-          <h2>Smarter Insurance for Modern Gig Workers</h2>
-          <p>Our automation intelligently tracks real-time data across hundreds of active zones. We use artificial intelligence to verify disruptions like heavy rain or traffic instantly, depositing payouts directly into your wallet automatically without ever having to wait for a claim specialist.</p>
+        <div className="auth-form">
+          <label>SYSTEM IDENTIFIER</label>
+          <input type="email" placeholder="node_id@insurgig.network" />
+          <div style={{display:'flex', justifyContent:'space-between'}}>
+            <label>ACCESS KEY</label>
+            <label style={{color:'var(--accent-blue)', cursor:'pointer'}}>REQUEST RESET</label>
+          </div>
+          <input type="password" placeholder="••••••••••••" />
+          <button className="btn-auth" onClick={() => setCurrentView(role === 'worker' ? 'verify' : 'admin')}>
+            Initialize Session →
+          </button>
         </div>
-      </section>
-
-      {/* 5. FEATURES SECTION */}
-      <section className="features-section fade-up" id="features">
-        <h2>Core Features</h2>
-        <div className="features-grid">
-          <div className="feature-card">
-            <h4>🌦️ Weather Monitoring</h4>
-            <p>Tracks rain, storms, and heat thresholds simultaneously to guarantee fair coverage.</p>
-          </div>
-          <div className="feature-card">
-            <h4>💨 AQI Tracking</h4>
-            <p>Activates safety payouts whenever local air quality reaches highly dangerous levels.</p>
-          </div>
-          <div className="feature-card">
-            <h4>🚗 Traffic Risk</h4>
-            <p>Compensates you automatically for unusually severe or catastrophic gridlock events.</p>
-          </div>
-          <div className="feature-card">
-            <h4>📅 Weekly Premium Model</h4>
-            <p>Flexible micro-payments that fit neatly inside your variable weekly gig earnings.</p>
-          </div>
-          <div className="feature-card">
-            <h4>💸 Fast Payouts</h4>
-            <p>Funds transferred to your linked bank account within 4 hours of a triggered event.</p>
-          </div>
-          <div className="feature-card">
-            <h4>🔒 Fraud Protection</h4>
-            <p>Bank-grade security and AI telemetry effectively stopping bad actors from abusing the pool.</p>
-          </div>
+        <div className="auth-footer" style={{marginTop:'30px', display:'flex', justifyContent:'space-between', fontSize:'11px', color:'var(--text-muted)', fontWeight:'700', letterSpacing:'1px'}}>
+          <span style={{color:'var(--accent-green)'}}><span className="dot dot-green" style={{display:'inline-block'}}></span> AI SENTINEL ACTIVE</span>
+          <span style={{display:'flex', gap:'15px'}}><span>COMPLIANCE</span><span>PRIVACY NODE</span></span>
         </div>
-      </section>
-
-      {/* PRICING SECTION */}
-      <section className="pricing-section fade-up" id="pricing">
-        <h2>Simple Weekly Plans</h2>
-        <div className="pricing-grid">
-          <div className="pricing-card">
-            <h4>Basic Plan</h4>
-            <div className="price">₹35<span>/week</span></div>
-            <p>Coverage: ₹1200</p>
-            <p className="sub-detail">Low risk zones</p>
-            <button className="btn-secondary">Choose Plan</button>
-          </div>
-          <div className="pricing-card popular">
-            <div className="badge">Most Popular</div>
-            <h4>Standard Plan</h4>
-            <div className="price">₹60<span>/week</span></div>
-            <p>Coverage: ₹2500</p>
-            <p className="sub-detail">Medium risk zones</p>
-            <button className="btn-primary">Choose Plan</button>
-          </div>
-          <div className="pricing-card">
-            <h4>Premium Plan</h4>
-            <div className="price">₹90<span>/week</span></div>
-            <p>Coverage: ₹4000</p>
-            <p className="sub-detail">High risk zones</p>
-            <button className="btn-secondary">Choose Plan</button>
-          </div>
-        </div>
-      </section>
-
-      {/* 6. TRIGGERS SECTION */}
-      <div className="triggers-wrapper fade-up">
-        <section className="triggers-section">
-          <h2>Covered Disruptions</h2>
-          <div className="triggers-grid">
-            <div className="trigger-card">
-              <div className="trigger-icon">🌧️</div>
-              <span>Heavy Rain</span>
-            </div>
-            <div className="trigger-card">
-              <div className="trigger-icon">☀️</div>
-              <span>Extreme Heat</span>
-            </div>
-            <div className="trigger-card">
-              <div className="trigger-icon">💨</div>
-              <span>High AQI</span>
-            </div>
-            <div className="trigger-card">
-              <div className="trigger-icon">🚗</div>
-              <span>Traffic Congestion</span>
-            </div>
-            <div className="trigger-card">
-              <div className="trigger-icon">🌊</div>
-              <span>Flood</span>
-            </div>
-            <div className="trigger-card">
-              <div className="trigger-icon">🚧</div>
-              <span>Operational Disruption</span>
-            </div>
-          </div>
-        </section>
       </div>
+    </div>
+  )
 
-      {/* 7. DEMO SECTION */}
-      <div className="demo-section-wrapper fade-up" id="demo">
-        <section className="demo-section">
-          <div className="app-container">
-            <h1>Try It Yourself</h1>
-            <h2>InsurGig Registration Simulator</h2>
-            <form onSubmit={handleRegister}>
-              <div className="form-group">
-                <label>Name</label>
-                <input 
-                  type="text" 
-                  name="name" 
-                  value={formData.name} 
-                  onChange={handleInputChange} 
-                  placeholder="Enter worker name"
-                  required
-                />
+  const renderVerify = () => (
+    <div className="auth-wrapper">
+      <div style={{position:'absolute', top:'30px', left:'30px', color:'var(--accent-blue)', fontWeight:'700'}}>InsurGig Secure</div>
+      <div style={{width:'100%', maxWidth:'800px'}}>
+        <div style={{marginBottom:'30px', borderBottom:'2px solid var(--accent-blue)', paddingBottom:'20px'}}>
+          <div style={{fontSize:'12px', color:'var(--text-muted)', fontWeight:'700', letterSpacing:'1px', marginBottom:'10px'}}>STEP 2 OF 2</div>
+          <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end'}}>
+            <h1 style={{margin:0}}>Identity Verification</h1>
+            <div style={{textAlign:'right'}}>
+              <div style={{fontSize:'12px', color:'var(--text-muted)'}}>Validation Status</div>
+              <div style={{color:'var(--accent-green)', fontWeight:'700'}}>Awaiting Scan</div>
+            </div>
+          </div>
+        </div>
+        <div style={{display:'grid', gridTemplateColumns:'1fr 300px', gap:'30px'}}>
+          <div className="card">
+             <div style={{display:'flex', justifyContent:'space-between', marginBottom:'20px'}}>
+                <h3 style={{margin:0}}>Scan Gig ID</h3>
+                <span className="badge badge-active">LIVE CAMERA</span>
+             </div>
+             <div style={{height:'200px', background:'#0b0f19', borderRadius:'12px', border:'1px dashed var(--border-color)', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'30px', position:'relative'}}>
+                <div style={{color:'var(--text-muted)', fontSize:'14px'}}>Center your platform ID within the markers for AI validation.</div>
+             </div>
+             <div style={{display:'flex', gap:'20px'}}>
+                <button className="btn-outline" style={{flex:1}}>Upload Manual Copy</button>
+                <button className="btn-primary" style={{flex:1}} onClick={() => setCurrentView('dashboard')}>Begin Live Scan</button>
+             </div>
+          </div>
+          <div className="card" style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+             <div className="sys-label">Predictive Trust Score</div>
+             <div className="risk-circle" style={{margin:'30px 0', height:'140px', width:'140px', borderColor:'var(--border-color)', borderTopColor:'var(--accent-green)', borderRightColor:'var(--accent-green)'}}>
+                <div className="risk-circle-inner">
+                   <h2>320</h2>
+                   <span>ESTABLISHING</span>
+                </div>
+             </div>
+             <div style={{width:'100%', background:'#0b0f19', padding:'15px', borderRadius:'8px', display:'flex', justifyContent:'space-between', marginBottom:'10px', border:'1px solid var(--border-color)'}}>
+               <span style={{fontSize:'13px', color:'var(--text-muted)'}}>Fraud Probability</span>
+               <span style={{fontSize:'13px', color:'var(--accent-green)', fontWeight:'700'}}>Low-Risk</span>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  const renderDashboard = () => (
+    <div className="app-layout">
+      <Sidebar active="dashboard" />
+      <div className="main-area">
+        <div className="dash-header">
+           <div>
+             <h2>Operational Canvas</h2>
+             <p style={{color:'var(--text-muted)', margin:'5px 0 0 0'}}>Predictive risk assessment and active coverage status for your current shift in Central District.</p>
+           </div>
+           <div className="header-actions">
+             <div className="status active"><span className="dot dot-green"></span> Active & Protected</div>
+           </div>
+        </div>
+        <div className="dash-content">
+           <div className="ops-canvas-grid">
+              <div className="card insight-body">
+                 <div className="risk-circle">
+                    <div className="risk-circle-inner">
+                       <h2>78</h2>
+                       <span>RISK SCORE</span>
+                    </div>
+                 </div>
+                 <div>
+                    <h3 style={{fontSize:'24px', margin:'0 0 10px 0'}}>Intelligence Insight</h3>
+                    <p style={{color:'var(--text-muted)', lineHeight:'1.6', marginBottom:'20px'}}>Your current score is optimal. AI has automatically adjusted your dynamic coverage premium for the next 2 hours.</p>
+                    <div style={{display:'flex', gap:'10px'}}>
+                       <span className="badge">🌧️ Rainfall: High</span>
+                       <span className="badge">💨 AQI: Moderate</span>
+                     </div>
+                 </div>
               </div>
-
-              <div className="form-group">
-                <label>City</label>
-                <input 
-                  type="text" 
-                  name="city" 
-                  value={formData.city} 
-                  onChange={handleInputChange} 
-                  placeholder="Enter city"
-                  required
-                />
+              <div className="card" style={{display:'flex', flexDirection:'column'}}>
+                 <div className="sys-label">ACTIVE ZONE</div>
+                 <h3 style={{margin:'0 0 15px 0'}}>Zone B - Central</h3>
+                 <div style={{flex:1, background:'#0b0f19', borderRadius:'8px', border:'1px solid var(--border-color)', position:'relative', overflow:'hidden', minHeight:'120px', marginBottom:'15px'}}></div>
+                 <button className="btn-outline" style={{width:'100%'}} onClick={() => setCurrentView('map')}>EXPAND RISK MAP →</button>
               </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  )
 
-              <div className="form-group">
-                <label>Zone</label>
-                <select 
-                  name="zone" 
-                  value={formData.zone} 
-                  onChange={handleInputChange} 
-                >
-                  <option value="Zone A">Zone A</option>
-                  <option value="Zone B">Zone B</option>
-                  <option value="Zone C">Zone C</option>
-                </select>
-              </div>
-
-              <div className="button-group">
-                <button type="submit" className="btn-register">Register</button>
-                <button type="button" onClick={handleCheckRisk} className="btn-risk">Check Risk</button>
+  const renderClaims = () => (
+    <div className="app-layout">
+      <Sidebar active="claims" />
+      <div className="main-area">
+        <div className="dash-header">
+           <div>
+             <h2>Claims <span style={{color:'var(--accent-blue)'}}>Intelligence</span></h2>
+             <p style={{color:'var(--text-muted)', margin:'5px 0 0 0'}}>Real-time parametric monitoring. Our Sentinel AI detects policy breaches and triggers instant payouts.</p>
+           </div>
+           <div className="header-actions">
+             <div className="status active"><span className="dot dot-green"></span> Operational</div>
+           </div>
+        </div>
+        <div className="dash-content" style={{gridTemplateColumns:'2fr 1fr'}}>
+           <div style={{display:'flex', flexDirection:'column', gap:'30px'}}>
+              <div className="card">
+                 <div style={{display:'flex', justifyContent:'space-between', marginBottom:'40px'}}>
+                    <span className="badge badge-active">LIVE SIMULATION</span>
+                    <div style={{textAlign:'right'}}>
+                       <div className="sys-label">Simulation ID</div>
+                       <div className="mono">SIM-882-XQ</div>
+                    </div>
+                 </div>
+                 <h2 style={{margin:'0 0 40px 0', fontSize:'32px'}}>Event: Urban Flood (Zone A4)</h2>
+                 
+                 <div style={{background:'rgba(52, 211, 153, 0.05)', border:'1px solid rgba(52, 211, 153, 0.2)', padding:'20px', borderRadius:'12px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                    <div>
+                       <div className="sys-label" style={{color:'var(--accent-green)'}}>PROJECTED PAYOUT</div>
+                       <div style={{fontSize:'32px', fontWeight:'800', color:'white'}}>₹4,000</div>
+                    </div>
+                    <button className="btn-outline">ABORT SIMULATION</button>
+                 </div>
               </div>
               
-              {registerMessage && (
-                <div style={{ marginTop: '20px', color: '#38a169', fontWeight: 'bold', textAlign: 'center' }}>
-                  {registerMessage}
-                </div>
-              )}
-            </form>
+              <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'30px'}}>
+                 <div className="card">
+                    <h3 style={{margin:'0 0 25px 0'}}>Trigger Breakdown</h3>
+                    <div style={{display:'flex', justifyContent:'space-between', marginBottom:'15px', borderBottom:'1px solid var(--border-color)', paddingBottom:'15px'}}>
+                       <div><div style={{fontWeight:'600'}}>Rainfall Intensity</div></div>
+                       <div style={{textAlign:'right', color:'var(--accent-green)', fontWeight:'700'}}>15mm/hr</div>
+                    </div>
+                 </div>
+                 <div className="card">
+                    <h3 style={{margin:'0 0 5px 0'}}>Node Analysis</h3>
+                    <p style={{fontSize:'12px', color:'var(--text-muted)', margin:'0 0 30px 0'}}>Sentinel verification engine</p>
+                    <div style={{display:'flex', justifyContent:'space-between', marginBottom:'10px'}}>
+                       <span className="sys-label">CONFIDENCE</span>
+                       <span style={{color:'var(--accent-green)', fontWeight:'700'}}>99.2%</span>
+                    </div>
+                 </div>
+              </div>
+           </div>
 
-            <div className="output-section">
-              {loadingRisk ? (
-                <div style={{ padding: '30px 0', textAlign: 'center', color: '#718096', fontWeight: '600', fontSize: '18px' }}>
-                  Calculating risk...
-                </div>
-              ) : (
-                <div className="output-grid">
-                  <div className="result-card-output">
-                    <span className="result-label">Risk Score</span>
-                    <span className={`result-value ${results.riskScore ? 'val-risk' : ''}`}>{results.riskScore !== null ? results.riskScore : '--'}</span>
-                  </div>
-                  <div className="result-card-output">
-                    <span className="result-label">Weekly Premium</span>
-                    <span className={`result-value ${results.weeklyPremium ? 'val-premium' : ''}`}>{results.weeklyPremium !== null ? results.weeklyPremium : '--'}</span>
-                  </div>
-                  <div className="result-card-output">
-                    <span className="result-label">Claim Status</span>
-                    <span className={`result-value ${results.claimStatus ? 'val-claim' : ''}`}>
-                      {results.claimStatus !== null ? results.claimStatus : '--'}
-                    </span>
-                  </div>
-                </div>
-              )}
+           <div className="card">
+              <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'30px'}}>
+                 <h3 style={{margin:0}}>Claim History</h3>
+              </div>
+              <div style={{background:'#0b0f19', border:'1px solid var(--border-color)', borderRadius:'12px', padding:'20px', marginBottom:'20px'}}>
+                 <div style={{display:'flex', justifyContent:'space-between', marginBottom:'10px'}}><span className="sys-label">24 OCT 2023</span><span className="badge badge-green">SETTLED</span></div>
+                 <div style={{fontWeight:'700', fontSize:'16px', marginBottom:'15px'}}>Micro-Transport Delay</div>
+                 <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-end'}}>
+                    <div><div className="sys-label">REFERENCE</div><div className="mono" style={{fontSize:'13px'}}>CLM-102-Y</div></div>
+                    <div style={{textAlign:'right'}}><div className="sys-label">PAYOUT</div><div style={{fontWeight:'800', fontSize:'18px'}}>₹800</div></div>
+                 </div>
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  const renderAdmin = () => (
+    <div className="app-layout">
+      <Sidebar active="admin" />
+      <div className="main-area">
+        <div className="dash-content">
+           <div className="admin-metrics">
+              <div className="metric-card">
+                 <p>TOTAL ACTIVE COVERAGE</p>
+                 <h3 style={{color:'white'}}>₹1300Cr</h3>
+                 <span style={{color:'var(--accent-green)', fontSize:'12px', fontWeight:'600'}}>↗ +12.4% from last month</span>
+              </div>
+              <div className="metric-card">
+                 <p>TRIGGERED PAYOUTS (24H)</p>
+                 <h3 style={{color:'white'}}>₹8.5L</h3>
+                 <span style={{color:'var(--accent-blue)', fontSize:'12px', fontWeight:'600'}}>↺ 42 automated settlements</span>
+              </div>
+              <div className="metric-card">
+                 <p>DETECTED FRAUD ATTEMPTS</p>
+                 <h3 style={{color:'var(--accent-red)'}}>1,084</h3>
+                 <span style={{color:'var(--accent-red)', fontSize:'12px', fontWeight:'600'}}>⚠ 8.2% increase in malicious activity</span>
+              </div>
+           </div>
+           
+           <div style={{display:'grid', gridTemplateColumns:'2fr 1fr', gap:'30px'}}>
+              <div className="card" style={{display:'flex', flexDirection:'column'}}>
+                 <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px'}}>
+                    <div>
+                       <h3 style={{margin:'0 0 5px 0'}}>Zone-Level Risk Heatmap</h3>
+                    </div>
+                    <div style={{display:'flex', gap:'10px'}}>
+                       <span className="badge" style={{background:'var(--accent-red)', color:'white', borderColor:'var(--accent-red)'}}>HIGH ALERT</span>
+                    </div>
+                 </div>
+                 <div style={{flex:1, background:'#0b0f19', borderRadius:'12px', border:'1px solid var(--border-color)', position:'relative', minHeight:'300px', overflow:'hidden'}}></div>
+              </div>
+              
+              <div className="card">
+                 <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'25px'}}>
+                    <h3 style={{margin:0}}>Claim Activity Feed</h3>
+                 </div>
+                 
+                 <div style={{background:'#0b0f19', border:'1px solid var(--border-color)', borderRadius:'12px', padding:'15px', marginBottom:'15px'}}>
+                    <div style={{display:'flex', justifyContent:'space-between', marginBottom:'10px'}}>
+                       <span className="sys-label mono" style={{fontSize:'10px', color:'var(--text-muted)'}}>ID: #CLM-9921</span>
+                       <span style={{fontSize:'10px', background:'rgba(248,113,113,0.1)', color:'var(--accent-red)', padding:'2px 6px', borderRadius:'4px', border:'1px solid var(--accent-red)'}}>94% FRAUD</span>
+                    </div>
+                    <div style={{fontWeight:'700', fontSize:'14px', marginBottom:'5px'}}>Device Theft: iPhone 15 Pro</div>
+                    <div style={{display:'flex', justifyContent:'space-between', marginBottom:'15px', fontSize:'12px', color:'var(--text-muted)'}}>
+                       <span>Location: Neo-Downtown</span>
+                       <span style={{color:'white', fontWeight:'700'}}>₹65,000</span>
+                    </div>
+                    <div style={{display:'flex', gap:'10px'}}>
+                       <button className="btn-outline" style={{padding:'8px', flex:1, fontSize:'12px'}}>FLAG</button>
+                       <button className="btn-primary" style={{padding:'8px', flex:1, fontSize:'12px', background:'var(--accent-red)', color:'white', boxShadow:'none'}}>REJECT</button>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+      </div>
+    </div>
+  )
+
+  const renderMap = () => (
+    <div className="app-layout">
+      <Sidebar active="map" />
+      <div className="main-area" style={{background:'#06090f', position:'relative', padding:'40px'}}>
+         <div className="card" style={{background:'rgba(21,27,40,0.8)', backdropFilter:'blur(10px)', marginBottom:'20px', maxWidth:'400px', zIndex:10, position:'relative'}}>
+            <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px'}}>
+               <h3 style={{margin:0}}>Risk Overview</h3>
+               <span style={{color:'var(--accent-green)'}}>📊</span>
             </div>
-          </div>
-        </section>
+            <div className="sys-label">ACTIVE ZONES</div>
+            <div style={{fontSize:'48px', fontWeight:'800', color:'var(--accent-blue)', marginBottom:'20px', borderBottom:'2px solid var(--accent-blue)', paddingBottom:'10px', display:'inline-block'}}>12</div>
+            <div style={{display:'flex', justifyContent:'space-between', marginBottom:'25px'}}>
+               <div style={{textAlign:'center'}}><div className="sys-label">SAFE</div><div style={{color:'var(--accent-green)', fontWeight:'700', fontSize:'18px'}}>72%</div></div>
+               <div style={{textAlign:'center'}}><div className="sys-label">WARNING</div><div style={{color:'#fbbf24', fontWeight:'700', fontSize:'18px'}}>18%</div></div>
+               <div style={{textAlign:'center'}}><div className="sys-label">CRITICAL</div><div style={{color:'var(--accent-red)', fontWeight:'700', fontSize:'18px'}}>10%</div></div>
+            </div>
+            <button className="btn-primary" style={{width:'100%'}}>GENERATE TACTICAL REPORT</button>
+         </div>
+         <div style={{position:'absolute', inset:0, background:'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize:'40px 40px'}}></div>
       </div>
     </div>
   )
 
   return (
     <div className="app-root">
-      {renderNav()}
-      <div className="main-content">
-        {currentView === 'home' && renderHome()}
-        {currentView === 'login' && renderLogin()}
-        {currentView === 'signup' && renderSignup()}
-      </div>
+      {currentView === 'landing' && renderLanding()}
+      {currentView === 'auth' && renderAuth()}
+      {currentView === 'verify' && renderVerify()}
+      {currentView === 'dashboard' && renderDashboard()}
+      {currentView === 'claims' && renderClaims()}
+      {currentView === 'admin' && renderAdmin()}
+      {currentView === 'map' && renderMap()}
+      {currentView === 'plans' && renderPlans()}
     </div>
   )
 }
-
-export default App

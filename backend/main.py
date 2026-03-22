@@ -1,88 +1,31 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-import mysql.connector
+from database.database import engine, Base
 
-app = FastAPI()
+# Import Routers
+from routes import auth, risk, claims, plans, admin
 
-# Allow frontend to access the backend easily
+# Initialize DB Tables directly (in a real production app use Alembic for migrations)
+Base.metadata.create_all(bind=engine)
+
+app = FastAPI(title="InsurGig AI API", description="Predictive Security & Automated Claims for Gig Workers")
+
+# Configure CORS for React frontend connecting from localhost during demo
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"], # Allow all for demo purposes
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Helper function to get database connection
-def get_db_connection():
-    try:
-        conn = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="root",  # Match user's MySQL workbench password
-            database="insurgig_db"
-        )
-        return conn
-    except mysql.connector.Error as err:
-        print(f"Database error: {err}")
-        return None
+# Mount Routers
+app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
+app.include_router(risk.router, prefix="/api/risk", tags=["Risk Engine"])
+app.include_router(claims.router, prefix="/api/claims", tags=["Claims"])
+app.include_router(plans.router, prefix="/api/subscriptions", tags=["Plans"])
+app.include_router(admin.router, prefix="/api/dashboard", tags=["Admin"])
 
-# Pydantic model for validating incoming registration data
-class Worker(BaseModel):
-    name: str
-    city: str
-    zone: str
-
-@app.on_event("startup")
-def startup_db_client():
-    # Attempt to create table automatically on startup to keep it simple
-    conn = get_db_connection()
-    if conn:
-        print("Successfully connected to MySQL database: insurgig_db")
-        try:
-            cursor = conn.cursor()
-            cursor.execute('''
-                CREATE TABLE IF NOT EXISTS workers (
-                    id INT AUTO_INCREMENT PRIMARY KEY,
-                    name VARCHAR(255) NOT NULL,
-                    city VARCHAR(255) NOT NULL,
-                    zone VARCHAR(255) NOT NULL
-                )
-            ''')
-            conn.commit()
-            cursor.close()
-        except Exception as e:
-            print(f"Could not create table automatically: {e}")
-        finally:
-            conn.close()
-    else:
-        print("Warning: Could not connect to MySQL database insurgig_db. Ensure it is created.")
-
-@app.post("/register")
-def register_worker(worker: Worker):
-    conn = get_db_connection()
-    if not conn:
-        raise HTTPException(status_code=500, detail="Database connection failed")
-    
-    try:
-        cursor = conn.cursor()
-        query = "INSERT INTO workers (name, city, zone) VALUES (%s, %s, %s)"
-        values = (worker.name, worker.city, worker.zone)
-        cursor.execute(query, values)
-        conn.commit()
-        worker_id = cursor.lastrowid
-        cursor.close()
-        conn.close()
-        
-        return {"message": "Worker successfully registered", "id": worker_id}
-    except mysql.connector.Error as err:
-        raise HTTPException(status_code=500, detail=str(err))
-
-@app.get("/risk")
-def get_risk():
-    return {
-        "risk": "High",
-        "premium": 90,
-        "claim": "Triggered"
-    }
+@app.get("/")
+def root():
+    return {"message": "InsurGig Sentinel API is Active. All Node Health normal."}
