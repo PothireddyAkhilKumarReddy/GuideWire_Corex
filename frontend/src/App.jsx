@@ -20,15 +20,15 @@ export default function App() {
 
   const Sidebar = ({ active }) => (
     <div className="sidebar">
-      <div className="sidebar-logo" onClick={()=>setCurrentView('landing')} style={{cursor:'pointer'}}>
+      <div className="sidebar-logo" onClick={() => { setCurrentView('landing'); setRole('worker'); }} style={{cursor:'pointer'}}>
         InsurGig AI
       </div>
       <div className="worker-card">
-        <div className="worker-avatar">👤</div>
+        <div className="worker-avatar">{role === 'admin' ? '🛡️' : '👤'}</div>
         <div>
-          <div style={{fontSize:'12px', fontWeight:'700'}}>Worker ID: 8829</div>
+          <div style={{fontSize:'12px', fontWeight:'700'}}>{role === 'admin' ? 'Main Admin Node' : 'Worker ID: 8829'}</div>
           <div className="status active" style={{padding:'2px 8px', fontSize:'10px', marginTop:'4px', background:'transparent', border:'none'}}>
-            <span className="dot dot-green"></span> Protected
+            <span className="dot dot-green"></span> {role === 'admin' ? 'Root Access' : 'Protected'}
           </div>
         </div>
       </div>
@@ -40,7 +40,7 @@ export default function App() {
         <div className={`nav-item ${active === 'admin' ? 'active' : ''}`} onClick={() => setCurrentView('admin')}>🛡️ Admin</div>
       </div>
       <div style={{marginTop: 'auto'}}>
-        <button className="btn-primary" style={{width:'100%'}}>Upgrade Plan</button>
+        <button className="btn-primary" style={{width:'100%'}} onClick={() => setCurrentView('plans')}>Upgrade Plan</button>
       </div>
     </div>
   )
@@ -48,9 +48,11 @@ export default function App() {
   const renderLanding = () => (
     <div style={{background: 'var(--bg-dark)'}}>
       <nav className="top-nav">
-        <div className="nav-brand" style={{cursor:'pointer'}} onClick={() => setCurrentView('landing')}>InsurGig AI</div>
+        <div className="nav-brand" style={{cursor:'pointer'}} onClick={() => { setCurrentView('landing'); setRole('worker'); }}>InsurGig AI</div>
         <div className="nav-links">
-          <span>Product</span><span>Solutions</span><span>Intelligence</span><span onClick={() => setCurrentView('plans')} style={{cursor:'pointer', color:'var(--accent-blue)'}}>Pricing</span>
+          <span onClick={() => document.getElementById('demo').scrollIntoView({behavior:'smooth'})} style={{cursor:'pointer'}}>Simulation</span>
+          <span onClick={() => setCurrentView('auth')} style={{cursor:'pointer'}}>Intelligence</span>
+          <span onClick={() => setCurrentView('plans')} style={{cursor:'pointer', color:'var(--accent-blue)'}}>Pricing</span>
         </div>
         <div className="nav-actions">
           <button className="btn-nav-login" onClick={() => setCurrentView('auth')}>Login</button>
@@ -63,7 +65,7 @@ export default function App() {
         <h1>AI-Powered Insurance for<br/><span>Gig Workers</span></h1>
         <p>Predictive protection for the modern gig workforce. Automatic payouts triggered by real-world disruptions like weather, traffic, and AQI—no manual claims required.</p>
         <div className="hero-btns">
-          <button className="btn-primary" onClick={() => setCurrentView('dashboard')}>Get Started</button>
+          <button className="btn-primary" onClick={() => setCurrentView('auth')}>Get Started</button>
           <button className="btn-outline" onClick={() => setCurrentView('auth')}>Login</button>
         </div>
       </section>
@@ -128,27 +130,19 @@ export default function App() {
   )
 
   const renderPlans = () => (
-    <div style={{background: 'var(--bg-dark)', minHeight: '100vh', paddingBottom:'100px'}}>
-      <nav className="top-nav" style={{padding:'20px 40px'}}>
-        <div style={{display:'flex', alignItems:'center', gap:'30px'}}>
-           <div className="nav-brand" style={{cursor:'pointer'}} onClick={()=>setCurrentView('landing')}>InsurGig AI</div>
-           <div className="nav-links" style={{fontSize:'12px', letterSpacing:'1px', textTransform:'uppercase'}}>
-             <span onClick={()=>setCurrentView('dashboard')}>DASHBOARD</span>
-             <span onClick={()=>setCurrentView('map')}>RISK MAP</span>
-             <span onClick={()=>setCurrentView('plans')} style={{color:'var(--accent-blue)', borderBottom:'2px solid var(--accent-blue)', paddingBottom:'5px'}}>PLANS</span>
+    <div className="app-layout">
+      <Sidebar active="plans" />
+      <div className="main-area">
+        <div className="dash-header">
+           <div>
+             <h2>Predictive Protection <span style={{color:'var(--accent-blue)'}}>Pricing</span></h2>
+             <p style={{color:'var(--text-muted)', margin:'5px 0 0 0'}}>Dynamic, risk-adjusted coverage for the modern gig workforce. Let our AI calculate your perfect safety net.</p>
+           </div>
+           <div className="header-actions">
            </div>
         </div>
-        <div className="nav-actions">
-           <span style={{fontSize:'20px', cursor:'pointer'}}>🔔</span>
-           <span style={{fontSize:'20px', cursor:'pointer'}}>👤</span>
-        </div>
-      </nav>
-
-      <div style={{textAlign:'center', padding:'60px 20px', maxWidth:'1000px', margin:'0 auto'}}>
-         <h1 style={{fontSize:'48px', marginBottom:'15px', fontWeight:'800'}}>Predictive Protection <span style={{color:'var(--accent-blue)'}}>Pricing</span></h1>
-         <p style={{color:'var(--text-muted)', fontSize:'18px', maxWidth:'600px', margin:'0 auto 60px'}}>Dynamic, risk-adjusted coverage for the modern gig workforce. Let our InsurGig AI calculate your safety net.</p>
-
-         <div className="pricing-grid" style={{marginBottom:'100px'}}>
+        <div className="dash-content">
+          <div className="pricing-grid" style={{marginTop:'10px', marginBottom:'40px'}}>
            <div className="price-card">
               <h3 style={{fontSize:'20px', margin:'0 0 10px'}}>Basic</h3>
               <div className="price-tag" style={{fontSize:'36px', fontWeight:'800'}}>₹35<span style={{fontSize:'14px', color:'var(--text-muted)'}}>/wk</span></div>
@@ -158,7 +152,7 @@ export default function App() {
                 <li>48hr Payout Velocity</li>
                 <li>AQI & Traffic Analysis</li>
               </ul>
-              <button className="btn-outline" style={{width:'100%', padding:'15px'}}>SELECT BASIC</button>
+              <button className="btn-outline" style={{width:'100%', padding:'15px'}} onClick={() => setCurrentView('auth')}>SELECT BASIC</button>
            </div>
            <div className="price-card standard">
               <div className="badge badge-active" style={{position:'absolute', top:'-15px', left:'50%', transform:'translateX(-50%)'}}>MOST PROTECTIVE</div>
@@ -171,7 +165,7 @@ export default function App() {
                 <li>1.5x Trust Score Multiplier</li>
                 <li>Live Traffic Rerouting AI</li>
               </ul>
-              <button className="btn-primary" style={{width:'100%', padding:'15px'}}>GET PROTECTED</button>
+              <button className="btn-primary" style={{width:'100%', padding:'15px'}} onClick={() => setCurrentView('auth')}>GET PROTECTED</button>
            </div>
            <div className="price-card">
               <h3 style={{fontSize:'20px', margin:'0 0 10px'}}>Premium</h3>
@@ -182,68 +176,46 @@ export default function App() {
                 <li>Dedicated Safety Concierge</li>
                 <li>2.5x Trust Score Multiplier</li>
               </ul>
-              <button className="btn-outline" style={{width:'100%', padding:'15px'}}>CUSTOMIZE PREMIUM</button>
+              <button className="btn-outline" style={{width:'100%', padding:'15px'}} onClick={() => setCurrentView('auth')}>CUSTOMIZE PREMIUM</button>
            </div>
-         </div>
-
-         <h2 style={{marginTop:'80px', marginBottom:'40px', fontSize:'28px'}}>Feature Breakdown</h2>
-         <div style={{background:'var(--bg-card)', border:'1px solid var(--border-color)', borderRadius:'12px', overflow:'hidden', textAlign:'left'}}>
-            <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', borderBottom:'1px solid var(--border-color)', background:'#1f2937', fontSize:'10px', fontWeight:'700', letterSpacing:'1px', textTransform:'uppercase', color:'var(--text-muted)'}}>
-               <div>DISRUPTION ANALYSIS</div><div>BASIC</div><div style={{color:'var(--accent-blue)'}}>STANDARD</div><div>PREMIUM</div>
-            </div>
-            <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', borderBottom:'1px solid var(--border-color)', fontSize:'14px', alignItems:'center'}}>
-               <div style={{color:'var(--text-main)', fontWeight:'600'}}>Rain Protection</div>
-               <div style={{color:'var(--accent-green)'}}>✓</div>
-               <div style={{color:'var(--accent-green)'}}>✓</div>
-               <div style={{color:'var(--accent-green)'}}>✓</div>
-            </div>
-            <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', borderBottom:'1px solid var(--border-color)', fontSize:'14px', alignItems:'center'}}>
-               <div style={{color:'var(--text-main)', fontWeight:'600'}}>Heat & AQI Alerts</div>
-               <div style={{color:'var(--accent-red)'}}>✕</div>
-               <div style={{color:'var(--accent-blue)'}}>Advanced</div>
-               <div style={{color:'var(--text-main)'}}>Real-time</div>
-            </div>
-            <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', borderBottom:'1px solid var(--border-color)', fontSize:'14px', alignItems:'center'}}>
-               <div style={{color:'var(--text-main)', fontWeight:'600'}}>Traffic Congestion</div>
-               <div style={{color:'var(--accent-red)'}}>✕</div>
-               <div style={{color:'var(--accent-blue)'}}>Included</div>
-               <div style={{color:'var(--text-main)'}}>Predictive</div>
-            </div>
-            <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', borderBottom:'1px solid var(--border-color)', fontSize:'14px', alignItems:'center'}}>
-               <div style={{color:'var(--text-main)', fontWeight:'600'}}>Payout Speed</div>
-               <div style={{color:'var(--text-muted)'}}>48 Hours</div>
-               <div style={{color:'var(--text-main)', fontWeight:'700'}}>Instant</div>
-               <div style={{color:'var(--text-main)'}}>Flash Pay</div>
-            </div>
-            <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', fontSize:'14px', alignItems:'center'}}>
-               <div style={{color:'var(--text-main)', fontWeight:'600'}}>Trust-Score Multiplier</div>
-               <div style={{color:'var(--text-muted)'}}>1.0x</div>
-               <div style={{color:'var(--accent-blue)', fontWeight:'700'}}>1.5x</div>
-               <div style={{color:'var(--text-main)', fontWeight:'700'}}>2.5x</div>
-            </div>
-         </div>
-
-         <div style={{display:'flex', gap:'40px', marginTop:'100px', textAlign:'left', alignItems:'center'}}>
-            <div style={{flex:1}}>
-               <h2 style={{fontSize:'32px', marginBottom:'20px', margin:'0'}}>The <span style={{color:'var(--accent-green)'}}>Trust Score</span> Engine</h2>
-               <p style={{color:'var(--text-muted)', lineHeight:'1.6', fontSize:'14px', marginBottom:'40px'}}>Our AI doesn't just calculate risk; it rewards resilience. By maintaining a high Trust Score through safe delivery and activity patterns, your Premium drops dynamically over time. Standard and Premium users receive significant score multipliers.</p>
-               <div style={{display:'flex', gap:'50px'}}>
-                 <div>
-                    <div style={{fontSize:'32px', fontWeight:'800', color:'var(--accent-green)'}}>94%</div>
-                    <div style={{fontSize:'10px', color:'var(--text-muted)', fontWeight:'700', letterSpacing:'1px', textTransform:'uppercase'}}>AVG. USER SCORE</div>
-                 </div>
-                 <div>
-                    <div style={{fontSize:'32px', fontWeight:'800', color:'var(--accent-blue)'}}>-₹450</div>
-                    <div style={{fontSize:'10px', color:'var(--text-muted)', fontWeight:'700', letterSpacing:'1px', textTransform:'uppercase'}}>MAX MONTHLY SAVINGS</div>
-                 </div>
-               </div>
-            </div>
-            <div style={{flex:1, height:'250px', background:'linear-gradient(135deg, rgba(255,255,255,0.05), transparent)', borderRadius:'16px', border:'1px solid var(--border-color)', display:'flex', alignItems:'center', justifyItems:'center', overflow:'hidden', position:'relative'}}>
-               {/* Decorative structural network logic mesh mapping representation */}
-               <div style={{position:'absolute', top:'-50%', left:'-50%', width:'200%', height:'200%', background:'radial-gradient(circle, rgba(56,189,248,0.1) 10%, transparent 60%)', filter:'blur(40px)'}}></div>
-               <div style={{color:'var(--text-muted)', fontSize:'30px', position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)'}}>🌐</div>
-            </div>
-         </div>
+          </div>
+          <h2 style={{marginTop:'20px', marginBottom:'30px', fontSize:'24px'}}>Feature Breakdown</h2>
+          <div style={{background:'var(--bg-card)', border:'1px solid var(--border-color)', borderRadius:'12px', overflow:'hidden', textAlign:'left'}}>
+             <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', borderBottom:'1px solid var(--border-color)', background:'#1f2937', fontSize:'10px', fontWeight:'700', letterSpacing:'1px', textTransform:'uppercase', color:'var(--text-muted)'}}>
+                <div>DISRUPTION ANALYSIS</div><div>BASIC</div><div style={{color:'var(--accent-blue)'}}>STANDARD</div><div>PREMIUM</div>
+             </div>
+             <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', borderBottom:'1px solid var(--border-color)', fontSize:'14px', alignItems:'center'}}>
+                <div style={{color:'var(--text-main)', fontWeight:'600'}}>Rain Protection</div>
+                <div style={{color:'var(--accent-green)'}}>✓</div>
+                <div style={{color:'var(--accent-green)'}}>✓</div>
+                <div style={{color:'var(--accent-green)'}}>✓</div>
+             </div>
+             <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', borderBottom:'1px solid var(--border-color)', fontSize:'14px', alignItems:'center'}}>
+                <div style={{color:'var(--text-main)', fontWeight:'600'}}>Heat & AQI Alerts</div>
+                <div style={{color:'var(--accent-red)'}}>✕</div>
+                <div style={{color:'var(--accent-blue)'}}>Advanced</div>
+                <div style={{color:'var(--text-main)'}}>Real-time</div>
+             </div>
+             <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', borderBottom:'1px solid var(--border-color)', fontSize:'14px', alignItems:'center'}}>
+                <div style={{color:'var(--text-main)', fontWeight:'600'}}>Traffic Congestion</div>
+                <div style={{color:'var(--accent-red)'}}>✕</div>
+                <div style={{color:'var(--accent-blue)'}}>Included</div>
+                <div style={{color:'var(--text-main)'}}>Predictive</div>
+             </div>
+             <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', borderBottom:'1px solid var(--border-color)', fontSize:'14px', alignItems:'center'}}>
+                <div style={{color:'var(--text-main)', fontWeight:'600'}}>Payout Speed</div>
+                <div style={{color:'var(--text-muted)'}}>48 Hours</div>
+                <div style={{color:'var(--text-main)', fontWeight:'700'}}>Instant</div>
+                <div style={{color:'var(--text-main)'}}>Flash Pay</div>
+             </div>
+             <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'20px', fontSize:'14px', alignItems:'center'}}>
+                <div style={{color:'var(--text-main)', fontWeight:'600'}}>Trust-Score Multiplier</div>
+                <div style={{color:'var(--text-muted)'}}>1.0x</div>
+                <div style={{color:'var(--accent-blue)', fontWeight:'700'}}>1.5x</div>
+                <div style={{color:'var(--text-main)', fontWeight:'700'}}>2.5x</div>
+             </div>
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -256,7 +228,7 @@ export default function App() {
         <p>Predictive Identity Verification</p>
       </div>
       <div className="auth-box">
-        <button className="auth-google">G  Sign in with Google</button>
+        <button className="auth-google" onClick={() => setCurrentView('dashboard')}>G  Sign in with Google</button>
         <div className="proto-label">SYSTEM PROTOCOL</div>
         <div className="auth-toggle">
           <button className={role === 'worker' ? 'active' : ''} onClick={()=>setRole('worker')}>👤 Worker Login</button>
@@ -306,7 +278,7 @@ export default function App() {
                 <div style={{color:'var(--text-muted)', fontSize:'14px'}}>Center your platform ID within the markers for AI validation.</div>
              </div>
              <div style={{display:'flex', gap:'20px'}}>
-                <button className="btn-outline" style={{flex:1}}>Upload Manual Copy</button>
+                <button className="btn-outline" style={{flex:1}} onClick={() => setCurrentView('dashboard')}>Upload Manual Copy</button>
                 <button className="btn-primary" style={{flex:1}} onClick={() => setCurrentView('dashboard')}>Begin Live Scan</button>
              </div>
           </div>
@@ -362,7 +334,11 @@ export default function App() {
               <div className="card" style={{display:'flex', flexDirection:'column'}}>
                  <div className="sys-label">ACTIVE ZONE</div>
                  <h3 style={{margin:'0 0 15px 0'}}>Zone B - Central</h3>
-                 <div style={{flex:1, background:'#0b0f19', borderRadius:'8px', border:'1px solid var(--border-color)', position:'relative', overflow:'hidden', minHeight:'120px', marginBottom:'15px'}}></div>
+                 <div style={{flex:1, background: 'radial-gradient(circle at center, rgba(56, 189, 248, 0.1) 0%, #0b0f19 70%), linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)', backgroundSize: '100% 100%, 20px 20px, 20px 20px', borderRadius:'8px', border:'1px solid var(--border-color)', position:'relative', overflow:'hidden', minHeight:'120px', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'15px'}}>
+                    <div className="dot dot-green" style={{position:'absolute', top:'45%', left:'60%', height:'12px', width:'12px', boxShadow:'0 0 20px 8px rgba(52, 211, 153, 0.4)'}}></div>
+                    <div style={{position:'absolute', top:'45%', left:'60%', transform:'translate(-50%, -50%)', width:'30px', height:'30px', borderRadius:'50%', border:'1px solid rgba(52, 211, 153, 0.5)'}}></div>
+                    <div style={{position:'absolute', top:'45%', left:'60%', transform:'translate(-50%, -50%)', width:'60px', height:'60px', borderRadius:'50%', border:'1px solid rgba(52, 211, 153, 0.2)'}}></div>
+                 </div>
                  <button className="btn-outline" style={{width:'100%'}} onClick={() => setCurrentView('map')}>EXPAND RISK MAP →</button>
               </div>
            </div>
@@ -401,7 +377,7 @@ export default function App() {
                        <div className="sys-label" style={{color:'var(--accent-green)'}}>PROJECTED PAYOUT</div>
                        <div style={{fontSize:'32px', fontWeight:'800', color:'white'}}>₹4,000</div>
                     </div>
-                    <button className="btn-outline">ABORT SIMULATION</button>
+                    <button className="btn-outline" onClick={() => setCurrentView('dashboard')}>ABORT SIMULATION</button>
                  </div>
               </div>
               
@@ -475,7 +451,13 @@ export default function App() {
                        <span className="badge" style={{background:'var(--accent-red)', color:'white', borderColor:'var(--accent-red)'}}>HIGH ALERT</span>
                     </div>
                  </div>
-                 <div style={{flex:1, background:'#0b0f19', borderRadius:'12px', border:'1px solid var(--border-color)', position:'relative', minHeight:'300px', overflow:'hidden'}}></div>
+                  <div style={{flex:1, background: 'radial-gradient(circle at 30% 40%, rgba(248, 113, 113, 0.15) 0%, #0b0f19 60%), linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '100% 100%, 30px 30px, 30px 30px', borderRadius:'12px', border:'1px solid var(--border-color)', position:'relative', minHeight:'300px', overflow:'hidden'}}>
+                     <div className="dot" style={{position:'absolute', top:'30%', left:'25%', height:'16px', width:'16px', background:'var(--accent-red)', boxShadow:'0 0 30px 10px rgba(248, 113, 113, 0.5)'}}></div>
+                     <div className="dot" style={{position:'absolute', top:'60%', left:'70%', height:'12px', width:'12px', background:'#fbbf24', boxShadow:'0 0 20px 8px rgba(251, 191, 36, 0.4)'}}></div>
+                     <div className="dot dot-green" style={{position:'absolute', top:'80%', left:'40%', height:'10px', width:'10px', boxShadow:'0 0 15px 5px rgba(52, 211, 153, 0.4)'}}></div>
+                     <div style={{position:'absolute', top:'50%', left:'50%', width:'200%', height:'2px', background:'linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.5), transparent)', transform:'translate(-50%, -50%) rotate(45deg)', opacity:0.5}}></div>
+                     <div style={{position:'absolute', bottom:'15px', right:'15px', color:'var(--text-muted)', fontSize:'10px', fontWeight:'700', letterSpacing:'1px', background:'rgba(0,0,0,0.5)', padding:'4px 8px', borderRadius:'4px'}}>LIVE SENSOR FEED</div>
+                  </div>
               </div>
               
               <div className="card">
@@ -521,9 +503,19 @@ export default function App() {
                <div style={{textAlign:'center'}}><div className="sys-label">WARNING</div><div style={{color:'#fbbf24', fontWeight:'700', fontSize:'18px'}}>18%</div></div>
                <div style={{textAlign:'center'}}><div className="sys-label">CRITICAL</div><div style={{color:'var(--accent-red)', fontWeight:'700', fontSize:'18px'}}>10%</div></div>
             </div>
-            <button className="btn-primary" style={{width:'100%'}}>GENERATE TACTICAL REPORT</button>
+            <button className="btn-primary" style={{width:'100%'}} onClick={() => setCurrentView('dashboard')}>GENERATE TACTICAL REPORT</button>
          </div>
-         <div style={{position:'absolute', inset:0, background:'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize:'40px 40px'}}></div>
+         <div style={{position:'absolute', inset:0, background:'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize:'40px 40px'}}>
+            <div className="dot" style={{position:'absolute', top:'20%', left:'30%', height:'24px', width:'24px', background:'var(--accent-red)', boxShadow:'0 0 40px 15px rgba(248, 113, 113, 0.4)'}}></div>
+            <div className="dot" style={{position:'absolute', top:'75%', left:'65%', height:'18px', width:'18px', background:'#fbbf24', boxShadow:'0 0 30px 10px rgba(251, 191, 36, 0.4)'}}></div>
+            <div className="dot dot-green" style={{position:'absolute', top:'50%', left:'80%', height:'14px', width:'14px', boxShadow:'0 0 20px 8px rgba(52, 211, 153, 0.4)'}}></div>
+            <div style={{position:'absolute', top:'45%', left:'45%', width:'300px', height:'300px', borderRadius:'50%', border:'2px dashed rgba(56, 189, 248, 0.2)', transform:'translate(-50%, -50%)'}}></div>
+            <div style={{position:'absolute', top:'45%', left:'45%', width:'150px', height:'150px', borderRadius:'50%', border:'1px solid rgba(56, 189, 248, 0.3)', transform:'translate(-50%, -50%)'}}></div>
+            <div style={{position:'absolute', bottom:'40px', right:'40px', background:'rgba(0,0,0,0.8)', padding:'20px', borderRadius:'12px', border:'1px solid var(--border-color)', color:'var(--text-muted)', fontSize:'12px'}}>
+               <h4 style={{color:'white', margin:'0 0 10px 0'}}>TACTICAL BRIEF</h4>
+               <p style={{margin:0}}>Storm cell approaching Zone B.<br/>Payout reserve fully liquid.</p>
+            </div>
+         </div>
       </div>
     </div>
   )
