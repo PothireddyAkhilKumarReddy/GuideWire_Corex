@@ -18,7 +18,7 @@ def trigger_claim(req: ClaimRequest, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Risk level not severe enough to trigger automated claim")
         
     # Check fraud engine BEFORE issuing payout
-    fraud_flag, trust_score = evaluate_fraud_and_update_trust(db, req.user_id)
+    fraud_flag, trust_score, fraud_score = evaluate_fraud_and_update_trust(db, req.user_id)
     
     status = "Triggered"
     if fraud_flag:
@@ -28,7 +28,7 @@ def trigger_claim(req: ClaimRequest, db: Session = Depends(get_db)):
         user_id=req.user_id,
         risk_level=req.risk_level,
         claim_status=status,
-        payout_amount=req.payout_amount if not fraud_flag else 0.0
+        payout_amount=float(req.payout_amount) if not fraud_flag else 0.0
     )
     db.add(new_claim)
     db.commit()
@@ -38,6 +38,7 @@ def trigger_claim(req: ClaimRequest, db: Session = Depends(get_db)):
         "message": "Claim processed" if not fraud_flag else "Claim halted for fraud review",
         "claim_id": new_claim.id,
         "trust_score": trust_score,
+        "fraud_score": fraud_score,
         "payout": new_claim.payout_amount,
         "status": status
     }
