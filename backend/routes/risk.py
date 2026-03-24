@@ -10,29 +10,23 @@ router = APIRouter()
 class RiskRequest(BaseModel):
     user_id: int
     city: str
-    zone: str
-    rain: float
-    heat: float
-    aqi: int
-    traffic_level: str
+    latitude: float
+    longitude: float
 
 @router.post("/calculate-risk")
 def check_risk(request: RiskRequest, db: Session = Depends(get_db)):
     # Run paramtric analysis
     results = calculate_risk(
         city=request.city,
-        zone=request.zone,
-        rain=request.rain,
-        heat=request.heat,
-        aqi=request.aqi,
-        traffic_level=request.traffic_level
+        lat=request.latitude,
+        lon=request.longitude
     )
     
     # Store the telemetry event into the database
     log = RiskLog(
         user_id=request.user_id,
         city=request.city,
-        zone=request.zone,
+        location=f"{request.latitude}, {request.longitude}",
         risk_score=results["risk_score"],
         risk_level=results["risk_level"]
     )

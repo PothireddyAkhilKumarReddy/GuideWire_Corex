@@ -34,9 +34,10 @@ export default function App() {
 
   const [role, setRole] = useState('worker')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userId, setUserId] = useState(null)
   const [authMode, setAuthMode] = useState('login')
   const [authForm, setAuthForm] = useState({ email: 'worker@insurgig.network', password: 'secure123' })
-  const [regForm, setRegForm] = useState({ name: '', email: '', password: '', city: 'Hyderabad', zone: 'Zone A', role: 'worker' })
+  const [regForm, setRegForm] = useState({ name: '', email: '', password: '', city: 'Hyderabad', role: 'worker' })
   const [authError, setAuthError] = useState('')
   const [authSuccess, setAuthSuccess] = useState('')
 
@@ -55,15 +56,52 @@ export default function App() {
   const [paymentMethod, setPaymentMethod] = useState('card')
 
   // Claims state
-  const [claimForm, setClaimForm] = useState({ name: '', mobile: '', city: 'Hyderabad', zone: 'Zone A', reason: '', description: '' })
+  const [claimForm, setClaimForm] = useState({ name: '', mobile: '', city: 'Hyderabad', location: '', reason: '', description: '' })
   const [claimResult, setClaimResult] = useState(null)
   const [claimHistory, setClaimHistory] = useState([])
   const [claimLoading, setClaimLoading] = useState(false)
 
+  // Fetch Claim History
+  useEffect(() => {
+    if (isLoggedIn && userId && currentView === 'claims') {
+      fetch(`http://127.0.0.1:8000/api/claims/${userId}`)
+        .then(res => res.json())
+        .then(data => {
+          if (data.history) {
+            const fetchedHistory = data.history.map(c => ({
+              id: `CLM-${c.id}`, date: new Date(c.created_at).toLocaleDateString('en-IN'),
+              reason: 'Parametric Disruption', city: 'Registered City', zone: 'Active Zone',
+              payout: c.payout_amount, status: c.claim_status.includes('Fraud') ? 'investigating' : 'approved', riskScore: c.risk_level
+            }));
+            setClaimHistory(fetchedHistory);
+          }
+        }).catch(e => console.error("Failed to fetch claims:", e));
+    }
+  }, [currentView, isLoggedIn, userId]);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      setUserId(null);
+      setSubscription(null);
+      setClaimHistory([]);
+    }
+  }, [isLoggedIn]);
+
   // Legacy Demo Logic
-  const [formData] = useState({ name: '', city: '', zone: 'Zone A' })
+  const [formData] = useState({ name: '', city: '', location: '' })
   const [results, setResults] = useState({ riskScore: null, weeklyPremium: null, claimStatus: null })
   const [loadingRisk, setLoadingRisk] = useState(false)
+  const [coords, setCoords] = useState({ lat: null, lon: null })
+
+  // Initialize live geolocation
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => setCoords({ lat: pos.coords.latitude, lon: pos.coords.longitude }),
+        (err) => console.log("Geolocation access denied or unavailable", err)
+      );
+    }
+  }, []);
 
   const PLANS = [
     { id: 'basic', name: 'Basic', premium: 40, coverage: 700, period: 'week', features: ['Personal Accident Cover', 'WhatsApp Claim Support', 'Hospital Cash Benefit'] },
@@ -88,6 +126,7 @@ export default function App() {
       if (!res.ok) { setAuthError("Access Denied: Invalid Email or Password."); return; }
       const data = await res.json();
       setRole(data.role); 
+      setUserId(data.user_id);
       setIsLoggedIn(true);
       setCurrentView(data.role === 'admin' ? 'admin' : 'dashboard');
     } catch (e) {
@@ -155,9 +194,16 @@ export default function App() {
     setShowPaymentModal(true);
   }
 
-  const handlePaymentSubmit = () => {
+  const handlePaymentSubmit = async () => {
     setPaymentStep('processing');
-    setTimeout(() => {
+    try {
+      if (!userId) throw new Error("Not logged in");
+      const res = await fetch("http://127.0.0.1:8000/api/plans/select-plan", {
+        method: "POST", headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ user_id: userId, plan_name: selectedPlan.name })
+      });
+      if (!res.ok) throw new Error("Payment API failed");
+      
       setPaymentStep('success');
       const expiry = new Date();
       expiry.setDate(expiry.getDate() + 7);
@@ -166,7 +212,10 @@ export default function App() {
         setShowPaymentModal(false);
         setCurrentView('dashboard');
       }, 2000);
-    }, 2500);
+    } catch {
+      setPaymentStep('select');
+      alert("Payment API connection failed. Please ensure backend is running.");
+    }
   }
 
   const handleSubmitClaim = async () => {
@@ -180,13 +229,10 @@ export default function App() {
     setClaimResult(null);
     try {
       const payload = {
-        user_id: 8829,
+        user_id: userId || 8829,
         city: claimForm.city,
-        zone: claimForm.zone,
-        rain: claimForm.reason === 'Heavy Rain' ? Math.floor(Math.random() * 60) + 50 : Math.floor(Math.random() * 30),
-        heat: claimForm.reason === 'Extreme Heat' ? Math.floor(Math.random() * 10) + 45 : Math.floor(Math.random() * 15) + 25,
-        aqi: claimForm.reason === 'Air Pollution' ? Math.floor(Math.random() * 200) + 300 : Math.floor(Math.random() * 150),
-        traffic_level: claimForm.reason === 'Traffic Congestion' ? 'severe' : ['light', 'moderate'][Math.floor(Math.random() * 2)]
+        latitude: coords.lat || 17.3850,
+        longitude: coords.lon || 78.4867
       };
       const response = await fetch('http://127.0.0.1:8000/api/risk/calculate-risk', {
         method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)
@@ -194,9 +240,21 @@ export default function App() {
       const data = await response.json();
       if (data.claim_eligible) {
         const payout = subscription.coverage;
-        const newClaim = { id: `CLM-${Date.now().toString(36).toUpperCase()}`, date: new Date().toLocaleDateString('en-IN'), reason: claimForm.reason, city: claimForm.city, zone: claimForm.zone, payout, status: 'approved', riskScore: data.risk_level };
+        // CREATE DB RECORD
+        const claimRes = await fetch('http://127.0.0.1:8000/api/claims/trigger-claim', {
+          method: 'POST', headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ user_id: userId || 8829, risk_level: data.risk_level, payout_amount: payout })
+        });
+        const claimData = await claimRes.json();
+        
+        const newClaim = { id: `CLM-${claimData.claim_id || Date.now()}`, date: new Date().toLocaleDateString('en-IN'), reason: claimForm.reason, city: claimForm.city, location: claimForm.location, payout: claimData.payout, status: claimData.status.includes('Fraud') ? 'investigating' : 'approved', riskScore: data.risk_level };
         setClaimHistory(prev => [newClaim, ...prev]);
-        setClaimResult({ status: 'approved', payout, riskScore: data.risk_level, message: `Claim approved! ₹${payout} will be credited within 24 hours.` });
+        
+        if (claimData.status.includes('Fraud')) {
+           setClaimResult({ status: 'rejected', riskScore: data.risk_level, message: `Claim halted for fraud review. Trust Score: ${claimData.trust_score}` });
+        } else {
+           setClaimResult({ status: 'approved', payout, riskScore: data.risk_level, message: `Claim approved! ₹${payout} will be credited within 24 hours.` });
+        }
       } else {
         setClaimResult({ status: 'rejected', riskScore: data.risk_level, message: `Claim not eligible. Risk level (${data.risk_level}) is below the threshold for automatic payout. Current conditions in ${claimForm.city} do not meet parametric trigger criteria.` });
       }
@@ -219,13 +277,10 @@ export default function App() {
     setLoadingRisk(true)
     try {
       const payload = {
-        user_id: 8829,
+        user_id: userId || 8829,
         city: formData.city || "Hyderabad",
-        zone: formData.zone || "Zone A",
-        rain: Math.floor(Math.random() * 120),
-        heat: Math.floor(Math.random() * 15) + 30,
-        aqi: Math.floor(Math.random() * 450),
-        traffic_level: ["light", "moderate", "heavy", "severe"][Math.floor(Math.random() * 4)]
+        latitude: coords.lat || 17.3850,
+        longitude: coords.lon || 78.4867
       };
       const response = await fetch("http://127.0.0.1:8000/api/risk/calculate-risk", {
         method: "POST",
@@ -249,7 +304,7 @@ export default function App() {
     const protectedRoutes = ['dashboard', 'claims', 'map', 'admin', 'chat'];
     if (!isLoggedIn && protectedRoutes.includes(currentView)) {
       window.location.hash = 'auth';
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+       
       setCurrentView('auth');
     }
   }, [currentView, isLoggedIn]);

@@ -1,39 +1,58 @@
-def calculate_risk(city: str, zone: str, rain: float, heat: float, aqi: int, traffic_level: str):
-    # Normalized weights based on README
-    norm_rain = min(100, (rain / 100) * 100)  
-    norm_aqi = min(100, (aqi / 400) * 100)    
+import datetime
+from services.external_api_service import get_weather_data, get_aqi_data
+
+def calculate_risk(city: str, lat: float, lon: float):
+    # Fetch real-time environmental data from external API orchestrator
+    weather = get_weather_data(lat, lon)
+    aqi = get_aqi_data(lat, lon)
     
-    traffic_mapping = {"severe": 100, "high": 80, "heavy": 80, "moderate": 50, "light": 20}
-    norm_traffic = traffic_mapping.get(traffic_level.lower(), 50)
+    rain = weather["rain_1h"]
+    heat = weather["temperature"]
     
-    # Mock demand drop percentage assumption
-    norm_demand = 50.0 
+    # Traffic (Simulated based on time, per specification)
+    hour = datetime.datetime.now().hour
+    # Peak hours: 8-10 AM and 5-8 PM
+    traffic_level = "High" if (8 <= hour <= 10) or (17 <= hour <= 20) else "Low"
     
-    # Core AI Logic Formula
-    # Risk Score = 0.4 * weather(rain/heat) + 0.3 * pollution(aqi) + 0.2 * traffic + 0.1 * demand
-    weather_score = norm_rain if rain > 20 else min(100, max(0, ((heat - 30) / 15) * 100))
-    risk_score = (0.4 * weather_score) + (0.3 * norm_aqi) + (0.2 * norm_traffic) + (0.1 * norm_demand)
-    
-    # Base modifier for hyper-local topological zones
-    if zone.lower() == "zone a": risk_score += 5
-    elif zone.lower() == "zone b": risk_score += 10
-    elif zone.lower() == "zone c": risk_score += 15
-    
+    # Calculate Risk
+    risk_score = 10.0 # Base environmental risk
     risk_level = "Low"
     claim_eligible = False
-    recommended_premium = 35.0 
-    
-    if risk_score > 75:
+
+    # 1. Weather Logic
+    if rain > 10.0: # Heavy rain
+        risk_score += 80.0
         risk_level = "High"
         claim_eligible = True
-        recommended_premium = 90.0
-    elif risk_score > 45:
+    elif heat > 40.0: # Extreme heat
+        risk_score += 65.0
+        risk_level = "High"
+        claim_eligible = True
+    elif rain > 2.0: # Moderate rain
+        risk_score += 40.0
         risk_level = "Medium"
-        recommended_premium = 60.0
+    
+    # 2. AQI Logic
+    if aqi > 150: # Poor Air Quality
+        risk_score += 35.0
+        if risk_level == "Low":
+            risk_level = "Medium"
+            
+    # 3. Traffic Logic
+    if traffic_level == "High":
+        risk_score += 15.0
+
+    # Cap Score
+    final_score = float(risk_score)
+    if final_score > 100.0:
+        final_score = 100.0
         
+    # Calculate recommended dynamic premium explicitly via standard math
+    recommended_premium = float(50.0 + (final_score * 0.6))
+    
     return {
+        "risk_score": final_score,
         "risk_level": risk_level,
-        "risk_score": round(risk_score, 2),
         "recommended_premium": recommended_premium,
         "claim_eligible": claim_eligible
     }

@@ -27,9 +27,9 @@ def evaluate_fraud_and_update_trust(db: Session, user_id: int, request_ip: str =
     else: 
         fraud_score += random.randint(10, 25) # Suspicious geolocation origin
     
-    # 3. Zone-Level Circuit Breaker (Hypothetical zone density check)
-    zone_anomaly = random.choice([True, False, False, False]) # 25% mock chance of zone attack
-    if zone_anomaly:
+    # 3. Location-Level Circuit Breaker (Hypothetical density check)
+    location_anomaly = random.choice([True, False, False, False]) # 25% mock chance of location attack
+    if location_anomaly:
         fraud_score += 30
     
     # Evaluate Hard Circuit Breakers

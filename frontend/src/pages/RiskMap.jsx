@@ -10,7 +10,7 @@ export default function RiskMap({ role, setIsLoggedIn, setCurrentView, setRole }
                <h3 style={{margin:0}}>Risk Overview</h3>
                <span style={{color:'var(--accent-green)'}}>📊</span>
             </div>
-            <div className="sys-label">ACTIVE ZONES</div>
+            <div className="sys-label">ACTIVE LOCATIONS</div>
             <div style={{fontSize:'48px', fontWeight:'800', color:'var(--accent-blue)', marginBottom:'20px', borderBottom:'2px solid var(--accent-blue)', paddingBottom:'10px', display:'inline-block'}}>12</div>
             <div style={{display:'flex', justifyContent:'space-between', marginBottom:'25px'}}>
                <div style={{textAlign:'center'}}><div className="sys-label">SAFE</div><div style={{color:'var(--accent-green)', fontWeight:'700', fontSize:'18px'}}>72%</div></div>
@@ -27,7 +27,7 @@ export default function RiskMap({ role, setIsLoggedIn, setCurrentView, setRole }
             <div style={{position:'absolute', top:'45%', left:'45%', width:'150px', height:'150px', borderRadius:'50%', border:'1px solid rgba(56, 189, 248, 0.3)', transform:'translate(-50%, -50%)'}}></div>
             <div style={{position:'absolute', bottom:'40px', right:'40px', background:'rgba(0,0,0,0.8)', padding:'20px', borderRadius:'12px', border:'1px solid var(--border-color)', color:'var(--text-muted)', fontSize:'12px'}}>
                <h4 style={{color:'white', margin:'0 0 10px 0'}}>WEATHER ALERT</h4>
-               <p style={{margin:0}}>Storm cell approaching Zone B.<br/>Payout reserve fully liquid.</p>
+               <p style={{margin:0}}>Storm cell approaching downtown.<br/>Payout reserve fully liquid.</p>
             </div>
          </div>
       </div>

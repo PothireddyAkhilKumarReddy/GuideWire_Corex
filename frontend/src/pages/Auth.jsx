@@ -60,19 +60,9 @@ export default function Auth({ role, setRole, authMode, setAuthMode, authForm, s
                   <input type="password" value={regForm.password} onChange={(e) => setRegForm({...regForm, password: e.target.value})} placeholder="••••••••••••" style={{width:'100%', padding:'15px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
                </div>
                
-               <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'15px', marginBottom:'25px'}}>
-                  <div style={{textAlign:'left'}}>
-                     <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px', marginLeft:'5px'}}>CITY</label>
-                     <input type="text" value={regForm.city} onChange={(e) => setRegForm({...regForm, city: e.target.value})} placeholder="Hyderabad" style={{width:'100%', padding:'15px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
-                  </div>
-                  <div style={{textAlign:'left'}}>
-                     <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px', marginLeft:'5px'}}>ZONE</label>
-                     <select value={regForm.zone} onChange={(e) => setRegForm({...regForm, zone: e.target.value})} style={{width:'100%', padding:'15px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'white'}}>
-                        <option value="Zone A">Zone A (High Risk)</option>
-                        <option value="Zone B">Zone B (Mid Risk)</option>
-                        <option value="Zone C">Zone C (Low Risk)</option>
-                     </select>
-                  </div>
+               <div style={{textAlign:'left', marginBottom:'25px'}}>
+                  <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px', marginLeft:'5px'}}>CITY</label>
+                  <input type="text" value={regForm.city} onChange={(e) => setRegForm({...regForm, city: e.target.value})} placeholder="Hyderabad" style={{width:'100%', padding:'15px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
                </div>
 
                {authError && <div style={{color:'var(--accent-red)', fontSize:'12px', marginBottom:'15px'}}>{authError}</div>}

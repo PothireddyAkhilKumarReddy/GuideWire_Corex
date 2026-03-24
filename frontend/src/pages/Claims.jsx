@@ -47,12 +47,8 @@ export default function Claims({ subscription, setCurrentView, setIsLoggedIn, se
                      <input type="text" value={claimForm.city} onChange={(e) => setClaimForm({...claimForm, city: e.target.value})} placeholder="Hyderabad" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
                    </div>
                    <div>
-                     <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px'}}>ZONE</label>
-                     <select value={claimForm.zone} onChange={(e) => setClaimForm({...claimForm, zone: e.target.value})} style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}}>
-                       <option value="Zone A">Zone A (High Risk)</option>
-                       <option value="Zone B">Zone B (Mid Risk)</option>
-                       <option value="Zone C">Zone C (Low Risk)</option>
-                     </select>
+                     <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px'}}>CURRENT LOCATION (GPS Tracked) 📍</label>
+                     <input type="text" value={claimForm.location} onChange={(e) => setClaimForm({...claimForm, location: e.target.value})} placeholder="e.g., Banjara Hills" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
                    </div>
                  </div>
                  <div>
@@ -63,7 +59,7 @@ export default function Claims({ subscription, setCurrentView, setIsLoggedIn, se
                      <option value="Extreme Heat">🌡️ Extreme Heat</option>
                      <option value="Air Pollution">😷 Air Pollution (AQI {'>'} 300)</option>
                      <option value="Traffic Congestion">🚗 Severe Traffic Congestion</option>
-                     <option value="Zone Closure">🚧 Zone Closure / Curfew</option>
+                     <option value="Road Block">🚧 Major Route Blockage</option>
                    </select>
                  </div>
                  <div>

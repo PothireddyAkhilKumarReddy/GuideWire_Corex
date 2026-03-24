@@ -10,7 +10,6 @@ class User(Base):
     email = Column(String(150), unique=True, index=True, nullable=False)
     password = Column(String(255), nullable=False)
     city = Column(String(100))
-    zone = Column(String(50))
     role = Column(String(50), default="worker") # worker / admin
     trust_score = Column(Float, default=100.0)
     fraud_flag = Column(Boolean, default=False)
@@ -42,7 +41,7 @@ class RiskLog(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     city = Column(String(100))
-    zone = Column(String(50))
+    location = Column(String(150))
     risk_score = Column(Float)
     risk_level = Column(String(50))
     created_at = Column(DateTime(timezone=True), server_default=func.now())

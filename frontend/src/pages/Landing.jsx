@@ -56,10 +56,10 @@ export default function Landing({ setCurrentView }) {
         <div style={{position:'relative', height:'500px', display:'flex', alignItems:'center', justifyContent:'center'}}>
            {/* Card 1: Risk Coverage */}
            <div style={{position:'absolute', top:'10%', left:'5%', width:'280px', background:'white', borderRadius:'24px', padding:'25px', boxShadow:'0 20px 50px rgba(0,0,0,0.08)', border:'1px solid #f1f5f9', transform:'rotate(-4deg)', zIndex:2, animation:'float 6s ease-in-out infinite'}}>
-              <div style={{fontSize:'10px', color:'#64748b', fontWeight:'800', letterSpacing:'1px', marginBottom:'15px'}}>LIVE ZONE RISK</div>
+              <div style={{fontSize:'10px', color:'#64748b', fontWeight:'800', letterSpacing:'1px', marginBottom:'15px'}}>LIVE LOCATION RISK</div>
               <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
                  <div>
-                    <div style={{fontSize:'24px', fontWeight:'900', color:'#0f172a'}}>Zone A4</div>
+                    <div style={{fontSize:'24px', fontWeight:'900', color:'#0f172a'}}>Madhapur</div>
                     <div style={{fontSize:'12px', color:'#ef4444', fontWeight:'700'}}>Heavy Rainfall 🌧️</div>
                  </div>
                  <div style={{width:'50px', height:'50px', background:'#fef2f2', borderRadius:'16px', display:'flex', alignItems:'center', justifyContent:'center', color:'#ef4444', fontSize:'20px', fontWeight:'900'}}>94</div>
@@ -123,13 +123,13 @@ export default function Landing({ setCurrentView }) {
          <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(220px, 1fr))', gap:'30px', textAlign:'center'}}>
             <div style={{padding:'30px'}}>
                <div style={{width:'60px', height:'60px', background:'#eff6ff', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 20px auto', fontSize:'24px', fontWeight:'900', color:'#021676'}}>1</div>
-               <h4 style={{fontSize:'18px', fontWeight:'800', color:'#0f172a', marginBottom:'10px'}}>Register & Choose Zone</h4>
-               <p style={{fontSize:'14px', color:'#64748b', lineHeight:'1.6', margin:0}}>Sign up and select your operating delivery zone (e.g., Hyderabad Zone A).</p>
+               <h4 style={{fontSize:'18px', fontWeight:'800', color:'#0f172a', marginBottom:'10px'}}>Work Anywhere</h4>
+               <p style={{fontSize:'14px', color:'#64748b', lineHeight:'1.6', margin:0}}>Sign up and work dynamically from any location across the city.</p>
             </div>
             <div style={{padding:'30px'}}>
                <div style={{width:'60px', height:'60px', background:'#f0fdf4', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 20px auto', fontSize:'24px', fontWeight:'900', color:'#16a34a'}}>2</div>
                <h4 style={{fontSize:'18px', fontWeight:'800', color:'#0f172a', marginBottom:'10px'}}>AI Monitors Conditions</h4>
-               <p style={{fontSize:'14px', color:'#64748b', lineHeight:'1.6', margin:0}}>Our AI fetches real-time rainfall, temperature, AQI, and traffic data for your zone.</p>
+               <p style={{fontSize:'14px', color:'#64748b', lineHeight:'1.6', margin:0}}>Our AI fetches real-time rainfall, temperature, AQI, and traffic data for your exact location.</p>
             </div>
             <div style={{padding:'30px'}}>
                <div style={{width:'60px', height:'60px', background:'#fef2f2', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 20px auto', fontSize:'24px', fontWeight:'900', color:'#ef4444'}}>3</div>

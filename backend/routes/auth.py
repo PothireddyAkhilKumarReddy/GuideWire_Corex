@@ -12,7 +12,6 @@ class UserCreate(BaseModel):
     email: str
     password: str
     city: str
-    zone: str
     role: str = "worker"
 
 class UserLogin(BaseModel):
@@ -31,7 +30,6 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
         email=user.email,
         password=hashed_password,
         city=user.city,
-        zone=user.zone,
         role=user.role
     )
     db.add(new_user)
