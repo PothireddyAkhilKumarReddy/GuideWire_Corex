@@ -59,14 +59,14 @@ export default function App() {
         </div>
       </div>
       <div className="nav-menu">
-        <div className={`nav-item ${active === 'dashboard' ? 'active' : ''}`} onClick={() => setCurrentView('dashboard')}>❖ Overview</div>
+        {role === 'worker' && <div className={`nav-item ${active === 'dashboard' ? 'active' : ''}`} onClick={() => setCurrentView('dashboard')}>❖ Overview</div>}
         <div className={`nav-item ${active === 'claims' ? 'active' : ''}`} onClick={() => setCurrentView('claims')}>📊 Claims AI</div>
         <div className={`nav-item ${active === 'map' ? 'active' : ''}`} onClick={() => setCurrentView('map')}>🗺️ Risk Map</div>
-        <div className={`nav-item ${active === 'plans' ? 'active' : ''}`} onClick={() => setCurrentView('plans')}>💳 Plans</div>
-        <div className={`nav-item ${active === 'admin' ? 'active' : ''}`} onClick={() => setCurrentView('admin')}>🛡️ Admin</div>
+        {role === 'worker' && <div className={`nav-item ${active === 'plans' ? 'active' : ''}`} onClick={() => setCurrentView('plans')}>💳 Plans</div>}
+        {role === 'admin' && <div className={`nav-item ${active === 'admin' ? 'active' : ''}`} onClick={() => setCurrentView('admin')}>🛡️ Admin</div>}
       </div>
       <div style={{marginTop: 'auto'}}>
-        <button className="btn-primary" style={{width:'100%'}} onClick={() => setCurrentView('plans')}>Upgrade Plan</button>
+        {role === 'worker' && <button className="btn-primary" style={{width:'100%'}} onClick={() => setCurrentView('plans')}>Upgrade Plan</button>}
       </div>
     </div>
   )
