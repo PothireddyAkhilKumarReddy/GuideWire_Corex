@@ -1,6 +1,6 @@
 import BottomNav from '../components/BottomNav'
 
-export default function Claims({ subscription, setCurrentView, setIsLoggedIn, setRole, claimForm, setClaimForm, claimResult, setClaimResult, claimHistory, claimLoading, handleSubmitClaim }) {
+export default function Claims({ subscription, setCurrentView, setIsLoggedIn, setRole, claimForm, setClaimForm, claimResult, claimHistory, claimLoading, handleSubmitClaim }) {
   return (
     <div style={{background: '#f8fafc', minHeight:'100vh', padding:'30px 20px 120px 20px', fontFamily:'"Inter", sans-serif'}}>
       <div style={{maxWidth:'600px', margin:'0 auto'}}>

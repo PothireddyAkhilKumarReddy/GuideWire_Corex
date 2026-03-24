@@ -1,6 +1,6 @@
 import BottomNav from '../components/BottomNav'
 
-export default function Chat({ role, isLoggedIn, setCurrentView, setIsLoggedIn, setRole, chatMessages, setChatMessages, chatInput, setChatInput, chatFilter, setChatFilter, handleSendChat }) {
+export default function Chat({ role, isLoggedIn, setCurrentView, setIsLoggedIn, setRole, chatMessages, chatInput, setChatInput, chatFilter, setChatFilter, handleSendChat }) {
   return (
     <div style={{background:'#f8fafc', minHeight:'100vh', padding:'30px 20px 120px 20px', fontFamily:'"Inter", sans-serif'}}>
       <div style={{maxWidth:'700px', margin:'0 auto'}}>

@@ -1,4 +1,4 @@
-export default function Auth({ role, setRole, authMode, setAuthMode, authForm, setAuthForm, regForm, setRegForm, authError, authSuccess, handleAuthSubmit, handleRegSubmit, setCurrentView }) {
+export default function Auth({ role, setRole, authMode, setAuthMode, authForm, setAuthForm, regForm, setRegForm, authError, authSuccess, handleAuthSubmit, handleRegSubmit }) {
   return (
     <div style={{background: '#f8fafc', color:'#0f172a', minHeight:'100vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'40px 20px', fontFamily:'"Inter", sans-serif'}}>
        <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'20px', fontWeight:'800', marginBottom:'40px', color:'#021676'}}>

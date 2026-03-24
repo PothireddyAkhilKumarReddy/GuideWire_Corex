@@ -61,7 +61,7 @@ export default function App() {
   const [claimLoading, setClaimLoading] = useState(false)
 
   // Legacy Demo Logic
-  const [formData, setFormData] = useState({ name: '', city: '', zone: 'Zone A' })
+  const [formData] = useState({ name: '', city: '', zone: 'Zone A' })
   const [results, setResults] = useState({ riskScore: null, weeklyPremium: null, claimStatus: null })
   const [loadingRisk, setLoadingRisk] = useState(false)
 
@@ -200,7 +200,7 @@ export default function App() {
       } else {
         setClaimResult({ status: 'rejected', riskScore: data.risk_level, message: `Claim not eligible. Risk level (${data.risk_level}) is below the threshold for automatic payout. Current conditions in ${claimForm.city} do not meet parametric trigger criteria.` });
       }
-    } catch (e) {
+    } catch {
       const isHighRisk = ['Heavy Rain', 'Air Pollution', 'Extreme Heat'].includes(claimForm.reason);
       const riskLevel = isHighRisk ? 'High' : 'Medium';
       if (isHighRisk) {
@@ -249,6 +249,7 @@ export default function App() {
     const protectedRoutes = ['dashboard', 'claims', 'map', 'admin', 'chat'];
     if (!isLoggedIn && protectedRoutes.includes(currentView)) {
       window.location.hash = 'auth';
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setCurrentView('auth');
     }
   }, [currentView, isLoggedIn]);
