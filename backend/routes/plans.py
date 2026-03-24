@@ -7,9 +7,9 @@ from models.models import Subscription
 router = APIRouter()
 
 PLANS_DB = [
-    {"name": "Basic", "weekly_premium": 35.0, "coverage_amount": 1200.0, "features": ["Low risk zones"]},
-    {"name": "Standard", "weekly_premium": 60.0, "coverage_amount": 2500.0, "features": ["Medium risk zones"]},
-    {"name": "Premium", "weekly_premium": 90.0, "coverage_amount": 4000.0, "features": ["High risk zones"]},
+    {"name": "Basic", "weekly_premium": 40.0, "coverage_amount": 700.0, "features": ["Low risk zones"]},
+    {"name": "Standard", "weekly_premium": 70.0, "coverage_amount": 1200.0, "features": ["Medium risk zones"]},
+    {"name": "Premium", "weekly_premium": 100.0, "coverage_amount": 1700.0, "features": ["High risk zones"]},
 ]
 
 class PlanSelection(BaseModel):

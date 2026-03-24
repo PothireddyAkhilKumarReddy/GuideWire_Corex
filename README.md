@@ -105,9 +105,9 @@ Claims are triggered automatically when these conditions are met.
 
 | Risk Level | Premium | Coverage |
 |----------|--------|----------|
-| Low | ₹35 | ₹1200 |
-| Medium | ₹60 | ₹2500 |
-| High | ₹90 | ₹4000 |
+| Low | ₹40 | ₹700 |
+| Medium | ₹70 | ₹1200 |
+| High | ₹100 | ₹1700 |
 
 Premium is dynamically adjusted using AI risk prediction.
 
