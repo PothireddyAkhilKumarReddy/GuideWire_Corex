@@ -1,8 +1,34 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function App() {
-  const [currentView, setCurrentView] = useState('landing')
+  const [currentView, setCurrentView] = useState(() => {
+    const hash = window.location.hash.replace('#', '');
+    return hash || 'landing';
+  });
+
+  useEffect(() => {
+    if (currentView) window.location.hash = currentView;
+  }, [currentView]);
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) setCurrentView(hash);
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   const [role, setRole] = useState('worker')
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const protectedRoutes = ['dashboard', 'claims', 'map', 'admin'];
+    if (!isLoggedIn && protectedRoutes.includes(currentView)) {
+      window.location.hash = 'auth';
+      setCurrentView('auth');
+    }
+  }, [currentView, isLoggedIn]);
   
   // Legacy Demo Logic
   const [formData, setFormData] = useState({ name: '', city: '', zone: 'Zone A' })
@@ -20,7 +46,7 @@ export default function App() {
 
   const Sidebar = ({ active }) => (
     <div className="sidebar">
-      <div className="sidebar-logo" onClick={() => { setCurrentView('landing'); setRole('worker'); }} style={{cursor:'pointer'}}>
+      <div className="sidebar-logo" onClick={() => { setIsLoggedIn(false); setCurrentView('landing'); setRole('worker'); }} style={{cursor:'pointer'}}>
         InsurGig AI
       </div>
       <div className="worker-card">
@@ -130,9 +156,22 @@ export default function App() {
   )
 
   const renderPlans = () => (
-    <div className="app-layout">
-      <Sidebar active="plans" />
-      <div className="main-area">
+    <div className={isLoggedIn ? "app-layout" : ""} style={!isLoggedIn ? {background: 'var(--bg-dark)', minHeight: '100vh'} : {}}>
+      {isLoggedIn ? <Sidebar active="plans" /> : (
+        <nav className="top-nav">
+          <div className="nav-brand" style={{cursor:'pointer'}} onClick={() => { setCurrentView('landing'); setRole('worker'); }}>InsurGig AI</div>
+          <div className="nav-links">
+            <span onClick={() => { setCurrentView('landing'); setTimeout(()=>document.getElementById('demo')?.scrollIntoView({behavior:'smooth'}), 100); }} style={{cursor:'pointer'}}>Simulation</span>
+            <span onClick={() => setCurrentView('auth')} style={{cursor:'pointer'}}>Intelligence</span>
+            <span onClick={() => setCurrentView('plans')} style={{cursor:'pointer', color:'var(--accent-blue)'}}>Pricing</span>
+          </div>
+          <div className="nav-actions">
+            <button className="btn-nav-login" onClick={() => setCurrentView('auth')}>Login</button>
+            <button className="btn-primary" onClick={() => setCurrentView('auth')}>Get Started</button>
+          </div>
+        </nav>
+      )}
+      <div className={isLoggedIn ? "main-area" : "public-area"} style={!isLoggedIn ? {padding: '60px 20px', maxWidth: '1200px', margin: '0 auto'} : {}}>
         <div className="dash-header">
            <div>
              <h2>Predictive Protection <span style={{color:'var(--accent-blue)'}}>Pricing</span></h2>
@@ -228,7 +267,7 @@ export default function App() {
         <p>Predictive Identity Verification</p>
       </div>
       <div className="auth-box">
-        <button className="auth-google" onClick={() => setCurrentView('dashboard')}>G  Sign in with Google</button>
+        <button className="auth-google" onClick={() => { setIsLoggedIn(true); setCurrentView('dashboard'); }}>G  Sign in with Google</button>
         <div className="proto-label">SYSTEM PROTOCOL</div>
         <div className="auth-toggle">
           <button className={role === 'worker' ? 'active' : ''} onClick={()=>setRole('worker')}>👤 Worker Login</button>
@@ -242,7 +281,10 @@ export default function App() {
             <label style={{color:'var(--accent-blue)', cursor:'pointer'}}>REQUEST RESET</label>
           </div>
           <input type="password" placeholder="••••••••••••" />
-          <button className="btn-auth" onClick={() => setCurrentView(role === 'worker' ? 'verify' : 'admin')}>
+          <button className="btn-auth" onClick={() => {
+            if (role === 'admin') setIsLoggedIn(true);
+            setCurrentView(role === 'worker' ? 'verify' : 'admin');
+          }}>
             Initialize Session →
           </button>
         </div>
@@ -278,8 +320,8 @@ export default function App() {
                 <div style={{color:'var(--text-muted)', fontSize:'14px'}}>Center your platform ID within the markers for AI validation.</div>
              </div>
              <div style={{display:'flex', gap:'20px'}}>
-                <button className="btn-outline" style={{flex:1}} onClick={() => setCurrentView('dashboard')}>Upload Manual Copy</button>
-                <button className="btn-primary" style={{flex:1}} onClick={() => setCurrentView('dashboard')}>Begin Live Scan</button>
+                <button className="btn-outline" style={{flex:1}} onClick={() => { setIsLoggedIn(true); setCurrentView('dashboard'); }}>Upload Manual Copy</button>
+                <button className="btn-primary" style={{flex:1}} onClick={() => { setIsLoggedIn(true); setCurrentView('dashboard'); }}>Begin Live Scan</button>
              </div>
           </div>
           <div className="card" style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
