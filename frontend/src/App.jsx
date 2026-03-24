@@ -434,7 +434,7 @@ export default function App() {
          <h2 style={{fontSize:'clamp(28px, 4vw, 36px)', fontWeight:'900', color:'#0f172a', marginBottom:'15px'}}>Who We Serve</h2>
          <p style={{fontSize:'16px', color:'#64748b', maxWidth:'500px', margin:'0 auto 40px auto', lineHeight:'1.6'}}>Built for India's gig delivery workforce across all major platforms.</p>
          <div style={{display:'flex', flexWrap:'wrap', justifyContent:'center', gap:'20px'}}>
-            {['Swiggy', 'Zomato', 'Amazon', 'Zepto', 'Dunzo', 'BigBasket'].map(p => (
+            {['Swiggy', 'Zomato', 'Blinkit', 'Zepto', 'UberEats', 'BigBasket'].map(p => (
                <div key={p} style={{background:'white', border:'1px solid #e2e8f0', borderRadius:'16px', padding:'20px 35px', fontSize:'16px', fontWeight:'700', color:'#0f172a', boxShadow:'0 4px 15px rgba(0,0,0,0.03)'}}>{p}</div>
             ))}
          </div>
