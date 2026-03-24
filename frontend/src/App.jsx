@@ -320,10 +320,10 @@ export default function App() {
           <button className={role === 'admin' ? 'active' : ''} onClick={()=>setRole('admin')}>🛡️ Admin / Insurer</button>
         </div>
         <div className="auth-form">
-          <label>SYSTEM IDENTIFIER</label>
+          <label>EMAIL ADDRESS</label>
           <input type="email" value={authForm.email} onChange={(e) => setAuthForm({...authForm, email: e.target.value})} placeholder="node_id@insurgig.network" />
           <div style={{display:'flex', justifyContent:'space-between'}}>
-            <label>ACCESS KEY</label>
+            <label>PASSWORD</label>
             <label style={{color:'var(--accent-blue)', cursor:'pointer'}}>REQUEST RESET</label>
           </div>
           <input type="password" value={authForm.password} onChange={(e) => setAuthForm({...authForm, password: e.target.value})} placeholder="••••••••••••" />
