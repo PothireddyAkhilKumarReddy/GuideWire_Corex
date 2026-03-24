@@ -32,16 +32,19 @@ export default function App() {
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ email: authForm.email, password: authForm.password })
       });
-      if (!res.ok) throw new Error("Invalid Credentials");
+      
+      if (!res.ok) {
+        setAuthError("Access Denied: Invalid Email or Password.");
+        return;
+      }
       
       const data = await res.json();
       setRole(data.role); 
       setIsLoggedIn(true);
       setCurrentView(data.role === 'admin' ? 'admin' : 'verify');
     } catch (e) {
-      console.warn("Auth Offline. Engaging Bypass...", e);
-      if (role === 'admin') setIsLoggedIn(true);
-      setCurrentView(role === 'worker' ? 'verify' : 'admin');
+      console.error("Auth Offline:", e);
+      setAuthError("Network Error: InsurGig AI Server is currently offline.");
     }
   }
 
