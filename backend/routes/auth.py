@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from database.database import get_db
-from models.models import User
+from models.models import User, Subscription
 from services.auth_service import get_password_hash, verify_password, create_access_token
 from pydantic import BaseModel
+import datetime
 
 router = APIRouter()
 
@@ -43,5 +44,22 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
     if not db_user or not verify_password(user.password, db_user.password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
         
+    # Enforce precise expiration rules    # Check active subscription honoring the new single-use policy flag!
+    active_sub = db.query(Subscription).filter(
+        Subscription.user_id == db_user.id, 
+        Subscription.expiry_date > datetime.datetime.now(),
+        Subscription.active == True
+    ).order_by(Subscription.id.desc()).first()
+    
+    sub_data = None
+    if active_sub:
+        sub_data = {
+            "plan": active_sub.selected_plan,
+            "premium": active_sub.weekly_premium,
+            "coverage": active_sub.coverage_amount,
+            "expiry": active_sub.expiry_date.strftime('%d/%m/%Y'),
+            "activatedOn": active_sub.created_at.strftime('%d/%m/%Y') if active_sub.created_at else datetime.datetime.now().strftime('%d/%m/%Y')
+        }
+
     access_token = create_access_token(data={"sub": db_user.email, "role": db_user.role, "user_id": db_user.id})
-    return {"access_token": access_token, "token_type": "bearer", "role": db_user.role, "user_id": db_user.id}
+    return {"access_token": access_token, "token_type": "bearer", "name": db_user.name, "role": db_user.role, "user_id": db_user.id, "subscription": sub_data}

@@ -23,7 +23,7 @@ app.add_middleware(
 app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(risk.router, prefix="/api/risk", tags=["Risk Engine"])
 app.include_router(claims.router, prefix="/api/claims", tags=["Claims"])
-app.include_router(plans.router, prefix="/api/subscriptions", tags=["Plans"])
+app.include_router(plans.router, prefix="/api/plans", tags=["Plans"])
 app.include_router(admin.router, prefix="/api/dashboard", tags=["Admin"])
 
 @app.get("/")

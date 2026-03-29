@@ -16,7 +16,7 @@ export default function Landing({ setCurrentView }) {
         </div>
       </nav>
 
-      <section style={{maxWidth:'1200px', margin:'60px auto', padding:'40px 20px', position:'relative', zIndex:10, display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(400px, 1fr))', gap:'50px', alignItems:'center'}}>
+      <section className="flow-grid" style={{maxWidth:'1200px', margin:'60px auto', padding:'40px 20px', position:'relative', zIndex:10, display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'50px', alignItems:'center'}}>
         {/* Left Side: Hero Text */}
         <div style={{textAlign:'left'}}>
            <div style={{display:'inline-flex', alignItems:'center', gap:'8px', background:'rgba(59, 130, 246, 0.1)', color:'#3b82f6', padding:'8px 16px', borderRadius:'20px', fontSize:'11px', fontWeight:'800', letterSpacing:'1px', marginBottom:'30px', border:'1px solid rgba(59, 130, 246, 0.2)'}}>
@@ -55,7 +55,7 @@ export default function Landing({ setCurrentView }) {
         {/* Right Side: Hero Visual Cluster */}
         <div style={{position:'relative', height:'500px', display:'flex', alignItems:'center', justifyContent:'center'}}>
            {/* Card 1: Risk Coverage */}
-           <div style={{position:'absolute', top:'10%', left:'5%', width:'280px', background:'white', borderRadius:'24px', padding:'25px', boxShadow:'0 20px 50px rgba(0,0,0,0.08)', border:'1px solid #f1f5f9', transform:'rotate(-4deg)', zIndex:2, animation:'float 6s ease-in-out infinite'}}>
+           <div className="floating-card-1" style={{position:'absolute', top:'10%', left:'5%', width:'280px', background:'white', borderRadius:'24px', padding:'25px', boxShadow:'0 20px 50px rgba(0,0,0,0.08)', border:'1px solid #f1f5f9', transform:'rotate(-4deg)', zIndex:2, animation:'float 6s ease-in-out infinite'}}>
               <div style={{fontSize:'10px', color:'#64748b', fontWeight:'800', letterSpacing:'1px', marginBottom:'15px'}}>LIVE LOCATION RISK</div>
               <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
                  <div>
@@ -67,7 +67,7 @@ export default function Landing({ setCurrentView }) {
            </div>
 
            {/* Card 2: PAYOUT AMOUNT (Center Main) */}
-           <div style={{position:'absolute', top:'20%', right:'5%', width:'320px', background:'#021676', borderRadius:'32px', padding:'30px', boxShadow:'0 30px 60px rgba(2, 22, 118, 0.3)', border:'1px solid rgba(255,255,255,0.1)', zIndex:3, backgroundImage:'linear-gradient(145deg, rgba(255,255,255,0.1) 0%, transparent 100%)', transform:'rotate(2deg)'}}>
+           <div className="floating-card-2" style={{position:'absolute', top:'20%', right:'5%', width:'320px', background:'#021676', borderRadius:'32px', padding:'30px', boxShadow:'0 30px 60px rgba(2, 22, 118, 0.3)', border:'1px solid rgba(255,255,255,0.1)', zIndex:3, backgroundImage:'linear-gradient(145deg, rgba(255,255,255,0.1) 0%, transparent 100%)', transform:'rotate(2deg)'}}>
               <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'30px'}}>
                  <div style={{fontSize:'10px', color:'rgba(255,255,255,0.7)', fontWeight:'800', letterSpacing:'1px'}}>NETWORK PAYOUT AMOUNT</div>
                  <div style={{background:'rgba(34, 197, 94, 0.2)', color:'#4ade80', padding:'4px 10px', borderRadius:'10px', fontSize:'10px', fontWeight:'800'}}>+12.4%</div>
@@ -81,7 +81,7 @@ export default function Landing({ setCurrentView }) {
            </div>
 
            {/* Card 3: Payout */}
-           <div style={{position:'absolute', bottom:'10%', left:'15%', width:'300px', background:'rgba(255, 255, 255, 0.9)', backdropFilter:'blur(20px)', borderRadius:'24px', padding:'25px', boxShadow:'0 25px 50px rgba(0,0,0,0.06)', border:'1px solid white', zIndex:4, transform:'rotate(-1deg)'}}>
+           <div className="floating-card-3" style={{position:'absolute', bottom:'10%', left:'15%', width:'300px', background:'rgba(255, 255, 255, 0.9)', backdropFilter:'blur(20px)', borderRadius:'24px', padding:'25px', boxShadow:'0 25px 50px rgba(0,0,0,0.06)', border:'1px solid white', zIndex:4, transform:'rotate(-1deg)'}}>
               <div style={{display:'flex', alignItems:'center', gap:'15px'}}>
                  <div style={{width:'48px', height:'48px', background:'#dcfce7', borderRadius:'14px', display:'flex', alignItems:'center', justifyContent:'center', color:'#16a34a', fontSize:'20px'}}>💸</div>
                  <div>
@@ -114,6 +114,74 @@ export default function Landing({ setCurrentView }) {
                <h3 style={{fontSize:'22px', fontWeight:'900', color:'#0f172a', marginBottom:'15px'}}>AI-Parametric Truth</h3>
                <p style={{fontSize:'15px', color:'#64748b', lineHeight:'1.6', margin:0}}>Say goodbye to manual adjustors for gig disruptions. We use live API feeds for Weather and Traffic. When risk parameters hit the threshold, funding moves.</p>
             </div>
+         </div>
+      </section>
+
+      {/* 6 Events Trigger Grid Component */}
+      <section style={{background: '#f8fafc', padding: '100px 20px 0 20px'}}>
+         <div style={{maxWidth:'1200px', margin:'0 auto', textAlign:'center'}}>
+            <h2 style={{fontSize:'clamp(28px, 4vw, 36px)', fontWeight:'900', color:'#0f172a', marginBottom:'15px'}}>6 Events That Trigger Automatic Payouts</h2>
+            <p style={{fontSize:'16px', color:'#64748b', maxWidth:'600px', margin:'0 auto 50px auto', lineHeight:'1.6'}}>When any threshold is breached in your zone, a claim fires instantly</p>
+            
+            <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(320px, 1fr))', gap:'20px', textAlign:'left'}}>
+               {/* 1. Heavy Rain */}
+               <div style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+                  <div style={{fontSize:'28px', color:'#3b82f6'}}>🌧️</div>
+                  <div>
+                     <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Heavy Rain</h4>
+                     <p style={{fontSize:'13px', color:'#64748b', margin:0, lineHeight:'1.5'}}>Rainfall {">"} 35mm/hr or IMD Red Alert</p>
+                  </div>
+               </div>
+
+               {/* 2. Extreme Heat */}
+               <div style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+                  <div style={{fontSize:'28px', color:'#ef4444'}}>⚠️</div>
+                  <div>
+                     <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Extreme Heat</h4>
+                     <p style={{fontSize:'13px', color:'#64748b', margin:0, lineHeight:'1.5'}}>Temperature {">"} 44°C + heat index {">"} 54°C</p>
+                  </div>
+               </div>
+
+               {/* 3. Severe AQI */}
+               <div style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+                  <div style={{fontSize:'28px', color:'#8b5cf6'}}>💨</div>
+                  <div>
+                     <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Severe AQI</h4>
+                     <p style={{fontSize:'13px', color:'#64748b', margin:0, lineHeight:'1.5'}}>Air Quality Index {">"} 300 (Very Poor)</p>
+                  </div>
+               </div>
+
+               {/* 4. Compound Event */}
+               <div style={{background:'white', borderRadius:'16px', padding:'30px', border:'2px solid #3b82f6', boxShadow:'0 10px 25px rgba(59, 130, 246, 0.15)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+                  <div style={{fontSize:'28px', color:'#3b82f6'}}>⚡</div>
+                  <div>
+                     <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Compound Event ⭐</h4>
+                     <p style={{fontSize:'13px', color:'#64748b', margin:0, lineHeight:'1.5'}}>Rain {">"} 20mm/hr AND AQI {">"} 200 together</p>
+                  </div>
+               </div>
+
+               {/* 5. Flood Alert */}
+               <div style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+                  <div style={{fontSize:'28px', color:'#0ea5e9'}}>🌊</div>
+                  <div>
+                     <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Flood Alert</h4>
+                     <p style={{fontSize:'13px', color:'#64748b', margin:0, lineHeight:'1.5'}}>IMD flood bulletin active in pin-code zone</p>
+                  </div>
+               </div>
+
+               {/* 6. Strike / Curfew */}
+               <div style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+                  <div style={{fontSize:'28px', color:'#f59e0b'}}>👥</div>
+                  <div>
+                     <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Strike / Curfew</h4>
+                     <p style={{fontSize:'13px', color:'#64748b', margin:0, lineHeight:'1.5'}}>70%+ worker GPS inactivity confirmed</p>
+                  </div>
+               </div>
+            </div>
+            
+            <p style={{fontSize:'12px', color:'#ea580c', margin:'40px 0 0 0', fontWeight:'700', letterSpacing:'0.5px'}}>
+               ⭐ Compound triggers are unique to InsurGig AI — no other platform detects stacked disruptions.
+            </p>
          </div>
       </section>
 

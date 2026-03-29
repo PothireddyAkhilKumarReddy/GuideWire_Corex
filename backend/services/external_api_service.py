@@ -14,7 +14,8 @@ def get_weather_data(lat: float, lon: float):
     fallback_data = {
         "rain_1h": 0.0,
         "temperature": 32.0,
-        "condition": "Clear"
+        "condition": "Clear",
+        "actual_city": "Unknown"
     }
 
     if not API_KEY or API_KEY == "YOUR_API_KEY_HERE":
@@ -24,7 +25,7 @@ def get_weather_data(lat: float, lon: float):
     url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_KEY}&units=metric"
     
     try:
-        response = requests.get(url, timeout=2.0)
+        response = requests.get(url, timeout=5.0)
         response.raise_for_status()
         data = response.json()
         
@@ -36,7 +37,8 @@ def get_weather_data(lat: float, lon: float):
         return {
             "rain_1h": float(rain),
             "temperature": float(temp),
-            "condition": condition
+            "condition": condition,
+            "actual_city": data.get("name", "Unknown")
         }
     except Exception as e:
         print(f"Error fetching weather data: {e}. Falling back to simulated data.")
@@ -58,7 +60,7 @@ def get_aqi_data(lat: float, lon: float):
     url = f"https://api.openweathermap.org/data/2.5/air_pollution?lat={lat}&lon={lon}&appid={API_KEY}"
     
     try:
-        response = requests.get(url, timeout=2.0)
+        response = requests.get(url, timeout=5.0)
         response.raise_for_status()
         data = response.json()
         

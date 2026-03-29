@@ -5,7 +5,7 @@ export default function Auth({ role, setRole, authMode, setAuthMode, authForm, s
            <span style={{background:'#021676', color:'white', width:'36px', height:'36px', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'10px'}}>⊞</span> InsurGig AI
        </div>
        
-       <div style={{width:'100%', maxWidth:'480px', background:'white', borderRadius:'32px', padding:'50px 40px', boxShadow:'0 20px 60px rgba(0,0,0,0.03)', textAlign:'center', border:'1px solid #f1f5f9'}}>
+       <div className="auth-box w-full-mobile" style={{width:'100%', maxWidth:'480px', background:'white', borderRadius:'32px', padding:'50px 40px', boxShadow:'0 20px 60px rgba(0,0,0,0.03)', textAlign:'center', border:'1px solid #f1f5f9'}}>
           <h1 style={{fontSize:'36px', fontWeight:'900', color:'#021676', margin:'0 0 10px 0', lineHeight:'1.1'}}>{authMode === 'login' ? 'Welcome Back' : 'Create Account'}</h1>
           <p style={{color:'#64748b', fontSize:'15px', marginBottom:'40px', maxWidth:'280px', margin:'0 auto 40px auto', lineHeight:'1.5'}}>{authMode === 'login' ? 'Enter your credentials to access your account.' : 'Join the platform as a new worker.'}</p>
           

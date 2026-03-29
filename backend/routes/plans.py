@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from database.database import get_db
 from models.models import Subscription
+import datetime
 
 router = APIRouter()
 
@@ -30,7 +31,8 @@ def select_plan(selection: PlanSelection, db: Session = Depends(get_db)):
         user_id=selection.user_id,
         selected_plan=plan_meta["name"],
         weekly_premium=plan_meta["weekly_premium"],
-        coverage_amount=plan_meta["coverage_amount"]
+        coverage_amount=plan_meta["coverage_amount"],
+        expiry_date=datetime.datetime.now() + datetime.timedelta(days=7)
     )
     db.add(sub)
     db.commit()

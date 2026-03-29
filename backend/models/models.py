@@ -21,8 +21,11 @@ class Claim(Base):
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id"))
     risk_level = Column(String(50))
+    reason = Column(String(100), default="Environmental Issue")
+    city = Column(String(100), default="Unknown")
     claim_status = Column(String(50), default="Triggered") # Monitoring -> Eligible -> Triggered -> Processed
     payout_amount = Column(Float, default=0.0)
+    xai_reason = Column(String(500), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
 class Subscription(Base):
@@ -34,6 +37,8 @@ class Subscription(Base):
     weekly_premium = Column(Float)
     coverage_amount = Column(Float)
     active = Column(Boolean, default=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    expiry_date = Column(DateTime(timezone=True))
 
 class RiskLog(Base):
     __tablename__ = "risk_logs"

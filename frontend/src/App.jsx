@@ -9,6 +9,7 @@ import Plans from './pages/Plans'
 import Admin from './pages/Admin'
 import RiskMap from './pages/RiskMap'
 import Chat from './pages/Chat'
+import ClaimHistory from './pages/ClaimHistory'
 
 // Shared Components
 import PaymentModal from './components/PaymentModal'
@@ -36,7 +37,7 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [userId, setUserId] = useState(null)
   const [authMode, setAuthMode] = useState('login')
-  const [authForm, setAuthForm] = useState({ email: 'worker@insurgig.network', password: 'secure123' })
+  const [authForm, setAuthForm] = useState({ email: '', password: '' })
   const [regForm, setRegForm] = useState({ name: '', email: '', password: '', city: 'Hyderabad', role: 'worker' })
   const [authError, setAuthError] = useState('')
   const [authSuccess, setAuthSuccess] = useState('')
@@ -49,7 +50,27 @@ export default function App() {
   const [chatFilter, setChatFilter] = useState('all')
 
   // Subscription & Payment state
-  const [subscription, setSubscription] = useState(null)
+  const [subscription, setSubscription] = useState(() => {
+    try {
+      const saved = localStorage.getItem('insurgig_sub');
+      return saved ? JSON.parse(saved) : null;
+    } catch { return null; }
+  });
+
+  useEffect(() => {
+    if (subscription) localStorage.setItem('insurgig_sub', JSON.stringify(subscription));
+    else localStorage.removeItem('insurgig_sub');
+  }, [subscription]);
+
+  const [userName, setUserName] = useState(() => {
+    try {
+      return localStorage.getItem('insurgig_name') || 'Worker';
+    } catch { return 'Worker'; }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('insurgig_name', userName);
+  }, [userName]);
   const [showPaymentModal, setShowPaymentModal] = useState(false)
   const [selectedPlan, setSelectedPlan] = useState(null)
   const [paymentStep, setPaymentStep] = useState('select')
@@ -63,21 +84,21 @@ export default function App() {
 
   // Fetch Claim History
   useEffect(() => {
-    if (isLoggedIn && userId && currentView === 'claims') {
+    if (isLoggedIn && userId) {
       fetch(`http://127.0.0.1:8000/api/claims/${userId}`)
         .then(res => res.json())
         .then(data => {
           if (data.history) {
             const fetchedHistory = data.history.map(c => ({
               id: `CLM-${c.id}`, date: new Date(c.created_at).toLocaleDateString('en-IN'),
-              reason: 'Parametric Disruption', city: 'Registered City', zone: 'Active Zone',
-              payout: c.payout_amount, status: c.claim_status.includes('Fraud') ? 'investigating' : 'approved', riskScore: c.risk_level
+              reason: c.reason || 'Parametric Trigger', city: c.city || 'Unknown', zone: 'Active Zone',
+              payout: c.payout_amount, status: c.claim_status.toLowerCase(), riskScore: c.risk_level
             }));
             setClaimHistory(fetchedHistory);
           }
         }).catch(e => console.error("Failed to fetch claims:", e));
     }
-  }, [currentView, isLoggedIn, userId]);
+  }, [isLoggedIn, userId]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -127,6 +148,14 @@ export default function App() {
       const data = await res.json();
       setRole(data.role); 
       setUserId(data.user_id);
+      setUserName(data.name || 'Worker');
+      
+      if (data.subscription) {
+        setSubscription(data.subscription);
+      } else {
+        setSubscription(null);
+      }
+
       setIsLoggedIn(true);
       setCurrentView(data.role === 'admin' ? 'admin' : 'dashboard');
     } catch (e) {
@@ -232,43 +261,46 @@ export default function App() {
         user_id: userId || 8829,
         city: claimForm.city,
         latitude: coords.lat || 17.3850,
-        longitude: coords.lon || 78.4867
+        longitude: coords.lon || 78.4867,
+        claim_reason: claimForm.reason
       };
       const response = await fetch('http://127.0.0.1:8000/api/risk/calculate-risk', {
         method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)
       });
       const data = await response.json();
-      if (data.claim_eligible) {
-        const payout = subscription.coverage;
-        // CREATE DB RECORD
-        const claimRes = await fetch('http://127.0.0.1:8000/api/claims/trigger-claim', {
-          method: 'POST', headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ user_id: userId || 8829, risk_level: data.risk_level, payout_amount: payout })
-        });
-        const claimData = await claimRes.json();
-        
-        const newClaim = { id: `CLM-${claimData.claim_id || Date.now()}`, date: new Date().toLocaleDateString('en-IN'), reason: claimForm.reason, city: claimForm.city, location: claimForm.location, payout: claimData.payout, status: claimData.status.includes('Fraud') ? 'investigating' : 'approved', riskScore: data.risk_level };
-        setClaimHistory(prev => [newClaim, ...prev]);
-        
-        if (claimData.status.includes('Fraud')) {
-           setClaimResult({ status: 'rejected', riskScore: data.risk_level, message: `Claim halted for fraud review. Trust Score: ${claimData.trust_score}` });
-        } else {
-           setClaimResult({ status: 'approved', payout, riskScore: data.risk_level, message: `Claim approved! ₹${payout} will be credited within 24 hours.` });
-        }
-      } else {
-        setClaimResult({ status: 'rejected', riskScore: data.risk_level, message: `Claim not eligible. Risk level (${data.risk_level}) is below the threshold for automatic payout. Current conditions in ${claimForm.city} do not meet parametric trigger criteria.` });
+      const payout = subscription.coverage;
+      
+      const claimRes = await fetch('http://127.0.0.1:8000/api/claims/trigger-claim', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ user_id: userId || 8829, risk_level: data.risk_level, payout_amount: payout, reason: claimForm.reason, city: claimForm.city, xai_reason: data.xai_reason || null })
+      });
+      const claimData = await claimRes.json();
+      
+      const parsedStatus = claimData.status === 'Rejected' ? 'rejected' : (claimData.status.includes('Fraud') ? 'investigating' : 'approved');
+      
+      // Update memory with newly generated XAI Reason context!
+      const newClaim = { id: `CLM-${claimData.claim_id || Date.now()}`, date: new Date().toLocaleDateString('en-IN'), reason: claimForm.reason, city: claimForm.city, location: claimForm.location, payout: claimData.payout, status: parsedStatus, riskScore: data.risk_level, xaiReason: data.xai_reason || 'Standard Operating Conditions' };
+      setClaimHistory(prev => [newClaim, ...prev]);
+
+      // --- ONE CLAIM PER POLICY: Clear Subscription If Consumed! ---
+      if (claimData.subscription_consumed) {
+         setSubscription(null);
       }
-    } catch {
-      const isHighRisk = ['Heavy Rain', 'Air Pollution', 'Extreme Heat'].includes(claimForm.reason);
-      const riskLevel = isHighRisk ? 'High' : 'Medium';
-      if (isHighRisk) {
-        const payout = subscription.coverage;
-        const newClaim = { id: `CLM-${Date.now().toString(36).toUpperCase()}`, date: new Date().toLocaleDateString('en-IN'), reason: claimForm.reason, city: claimForm.city, zone: claimForm.zone, payout, status: 'approved', riskScore: riskLevel };
-        setClaimHistory(prev => [newClaim, ...prev]);
-        setClaimResult({ status: 'approved', payout, riskScore: riskLevel, message: `Claim approved! ₹${payout} will be credited within 24 hours.` });
+      
+      if (data.risk_level === 'Geofence Mismatch') {
+         setClaimResult({ status: 'rejected', riskScore: 'Geo-Spoof', message: `Fraud alert: Your submitted city "${claimForm.city}" does not match your active hardware GPS coordinates (detected near ${data.telemetry?.city || 'another zone'}). Claim immediately blocked.` });
+      } else if (!data.claim_eligible || parsedStatus === 'rejected') {
+         const reasonText = data.xai_reason ? ` AI Context: ${data.xai_reason}.` : '';
+         setClaimResult({ status: 'rejected', riskScore: data.risk_level, message: `Claim not eligible. Risk level (${data.risk_level}) is below the threshold.${reasonText}` });
+      } else if (parsedStatus === 'investigating') {
+         setClaimResult({ status: 'rejected', riskScore: data.risk_level, message: `Claim halted for fraud review. Trust Score: ${claimData.trust_score}` });
       } else {
-        setClaimResult({ status: 'rejected', riskScore: riskLevel, message: `Claim not eligible. Risk level (${riskLevel}) is below the threshold. Conditions in ${claimForm.city} are within safe limits.` });
+         const reasonText = data.xai_reason ? ` Verification Match: ${data.xai_reason}.` : '';
+         setClaimResult({ status: 'approved', payout: claimData.payout, riskScore: data.risk_level, message: `Claim approved! ₹${claimData.payout} will be credited within 24 hours.${reasonText}` });
       }
+    } catch (e) {
+      console.error(e);
+      setClaimResult({ status: 'error', message: 'API Offline or Internal Server Error. Our infrastructure failed to process your payload. Please try again.' });
     }
     setClaimLoading(false);
   }
@@ -290,8 +322,9 @@ export default function App() {
       const data = await response.json();
       setResults({ 
         riskScore: data.risk_level, 
-        weeklyPremium: `₹${data.recommended_premium}`, 
-        claimStatus: data.claim_eligible ? "Triggered" : "Active" 
+        weeklyPremium: `₹${data.recommended_premium.toFixed(0)}`, 
+        claimStatus: data.claim_eligible ? "Triggered" : "Active",
+        telemetry: data.telemetry
       });
     } catch (e) {
       console.error("API Integration Offline:", e);
@@ -327,6 +360,7 @@ export default function App() {
       
       {currentView === 'dashboard' && (
         <Dashboard
+          coords={coords} userName={userName} claimHistory={claimHistory}
           subscription={subscription} setCurrentView={setCurrentView}
           setIsLoggedIn={setIsLoggedIn} setRole={setRole}
           results={results} loadingRisk={loadingRisk} handleCheckRisk={handleCheckRisk}
@@ -335,12 +369,22 @@ export default function App() {
       
       {currentView === 'claims' && (
         <Claims
+          coords={coords} results={results}
           subscription={subscription} setCurrentView={setCurrentView}
           setIsLoggedIn={setIsLoggedIn} setRole={setRole}
           claimForm={claimForm} setClaimForm={setClaimForm}
           claimResult={claimResult} setClaimResult={setClaimResult}
           claimHistory={claimHistory} claimLoading={claimLoading}
           handleSubmitClaim={handleSubmitClaim}
+        />
+      )}
+      
+      {currentView === 'history' && (
+        <ClaimHistory 
+          claimHistory={claimHistory} 
+          setCurrentView={setCurrentView} 
+          setIsLoggedIn={setIsLoggedIn} 
+          setRole={setRole} 
         />
       )}
       

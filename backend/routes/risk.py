@@ -12,6 +12,7 @@ class RiskRequest(BaseModel):
     city: str
     latitude: float
     longitude: float
+    claim_reason: str = None
 
 @router.post("/calculate-risk")
 def check_risk(request: RiskRequest, db: Session = Depends(get_db)):
@@ -19,7 +20,8 @@ def check_risk(request: RiskRequest, db: Session = Depends(get_db)):
     results = calculate_risk(
         city=request.city,
         lat=request.latitude,
-        lon=request.longitude
+        lon=request.longitude,
+        claim_reason=request.claim_reason
     )
     
     # Store the telemetry event into the database

@@ -1,6 +1,14 @@
+import React, { useEffect } from 'react'
 import BottomNav from '../components/BottomNav'
 
-export default function Claims({ subscription, setCurrentView, setIsLoggedIn, setRole, claimForm, setClaimForm, claimResult, claimHistory, claimLoading, handleSubmitClaim }) {
+export default function Claims({ coords, results, subscription, setCurrentView, setIsLoggedIn, setRole, claimForm, setClaimForm, claimResult, claimHistory, claimLoading, handleSubmitClaim }) {
+  useEffect(() => {
+    setClaimForm(prev => ({
+      ...prev,
+      city: (prev.city === 'Hyderabad' || prev.city === '') && results?.telemetry?.city ? results.telemetry.city : prev.city,
+      location: !prev.location && coords && coords.lat ? `${coords.lat.toFixed(4)}, ${coords.lon.toFixed(4)}` : prev.location
+    }));
+  }, [coords, results, setClaimForm]);
   return (
     <div style={{background: '#f8fafc', minHeight:'100vh', padding:'30px 20px 120px 20px', fontFamily:'"Inter", sans-serif'}}>
       <div style={{maxWidth:'600px', margin:'0 auto'}}>
@@ -35,13 +43,13 @@ export default function Claims({ subscription, setCurrentView, setIsLoggedIn, se
                <div style={{display:'grid', gap:'18px'}}>
                  <div>
                    <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px'}}>FULL NAME</label>
-                   <input type="text" value={claimForm.name} onChange={(e) => setClaimForm({...claimForm, name: e.target.value})} placeholder="Ravi Kumar" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
+                   <input type="text" value={claimForm.name} onChange={(e) => setClaimForm({...claimForm, name: e.target.value})} placeholder="Enter your full name" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
                  </div>
                  <div>
                    <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px'}}>MOBILE NUMBER</label>
-                   <input type="tel" value={claimForm.mobile} onChange={(e) => setClaimForm({...claimForm, mobile: e.target.value.replace(/\D/g, '').slice(0, 10)})} placeholder="9876543210" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
+                   <input type="tel" value={claimForm.mobile} onChange={(e) => setClaimForm({...claimForm, mobile: e.target.value.replace(/\D/g, '').slice(0, 10)})} placeholder="Enter 10-digit mobile number" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
                  </div>
-                 <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'15px'}}>
+                  <div className="flex-col-mobile" style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'15px'}}>
                    <div>
                      <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px'}}>CITY</label>
                      <input type="text" value={claimForm.city} onChange={(e) => setClaimForm({...claimForm, city: e.target.value})} placeholder="Hyderabad" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
@@ -75,6 +83,11 @@ export default function Claims({ subscription, setCurrentView, setIsLoggedIn, se
                <button onClick={handleSubmitClaim} disabled={claimLoading} style={{width:'100%', marginTop:'25px', padding:'18px', background: claimLoading ? '#94a3b8' : '#021676', color:'white', border:'none', borderRadius:'16px', fontSize:'15px', fontWeight:'800', cursor: claimLoading ? 'not-allowed' : 'pointer', boxShadow:'0 15px 30px rgba(2, 22, 118, 0.2)', display:'flex', alignItems:'center', justifyContent:'center', gap:'10px', letterSpacing:'1px'}}>
                  {claimLoading ? '⏳ PROCESSING CLAIM...' : '🛡️ SUBMIT CLAIM'}
                </button>
+               
+               <div style={{marginTop:'25px', padding:'15px', background:'#f8fafc', borderRadius:'16px', border:'1px solid #e2e8f0'}}>
+                  <h4 style={{margin:'0 0 8px 0', fontSize:'11px', fontWeight:'800', display:'flex', alignItems:'center', gap:'6px', color:'#64748b'}}><span style={{color:'#ef4444'}}>⚠️</span> POLICY CONDITIONS & EXCLUSIONS</h4>
+                  <p style={{margin:'0', fontSize:'11px', lineHeight:'1.6', color:'#64748b'}}>Parametric payouts are algorithmically verified bounds and implicitly EXCLUDE: <strong style={{color:'#0f172a'}}>Self-inflicted disruptions</strong> (voluntary work cessation), <strong style={{color:'#0f172a'}}>Anticipated seasonal baselines</strong>, <strong style={{color:'#0f172a'}}>Pre-existing economic gaps</strong>, and <strong style={{color:'#0f172a'}}>Geofencing manipulation</strong>. All telemetry is adversarial-checked against cell tower validation & device-trust fingerprints.</p>
+               </div>
              </div>
 
              {/* Claim Result */}
@@ -88,25 +101,6 @@ export default function Claims({ subscription, setCurrentView, setIsLoggedIn, se
                </div>
              )}
 
-             {/* Claim History */}
-             {claimHistory.length > 0 && (
-               <div style={{background:'white', borderRadius:'32px', padding:'30px', border:'1px solid #f1f5f9', boxShadow:'0 10px 30px rgba(0,0,0,0.02)'}}>
-                 <h3 style={{margin:'0 0 20px 0', fontSize:'16px', fontWeight:'800', color:'#0f172a'}}>Claim History</h3>
-                 {claimHistory.map((claim, i) => (
-                   <div key={claim.id} style={{background:'#f8fafc', borderRadius:'20px', padding:'20px', border:'1px solid #e2e8f0', marginBottom: i < claimHistory.length - 1 ? '12px' : '0'}}>
-                     <div style={{display:'flex', justifyContent:'space-between', marginBottom:'10px'}}>
-                       <span style={{fontSize:'10px', color:'#64748b', fontWeight:'800', letterSpacing:'1px'}}>{claim.date}</span>
-                       <span style={{background: claim.status === 'approved' ? '#dcfce7' : '#fee2e2', color: claim.status === 'approved' ? '#166534' : '#dc2626', padding:'4px 10px', borderRadius:'12px', fontSize:'10px', fontWeight:'800', textTransform:'uppercase'}}>{claim.status}</span>
-                     </div>
-                     <div style={{fontWeight:'800', fontSize:'14px', color:'#0f172a', marginBottom:'5px'}}>{claim.reason} — {claim.city}</div>
-                     <div style={{display:'flex', justifyContent:'space-between', paddingTop:'10px', borderTop:'1px dashed #cbd5e1'}}>
-                       <div style={{fontSize:'11px', color:'#94a3b8', fontWeight:'700'}}>{claim.id}</div>
-                       <div style={{fontWeight:'900', fontSize:'16px', color:'#021676'}}>₹{claim.payout}</div>
-                     </div>
-                   </div>
-                 ))}
-               </div>
-             )}
            </>
          )}
       </div>
