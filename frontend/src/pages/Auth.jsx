@@ -19,7 +19,7 @@ export default function Auth({ role, setRole, authMode, setAuthMode, authForm, s
           </div>
 
           {authMode === 'login' ? (
-             <>
+             <form onSubmit={(e) => { e.preventDefault(); handleAuthSubmit(); }}>
                <div style={{textAlign:'left', marginBottom:'25px'}}>
                   <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px', marginLeft:'5px'}}>EMAIL ADDRESS</label>
                   <input type="email" value={authForm.email} onChange={(e) => setAuthForm({...authForm, email: e.target.value})} placeholder="Enter your email address" style={{width:'100%', padding:'18px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'15px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
@@ -39,12 +39,12 @@ export default function Auth({ role, setRole, authMode, setAuthMode, authForm, s
                   <div style={{color:'#021676', cursor:'pointer', fontWeight:'700'}} onClick={() => setAuthMode('register')}>Don't have an account? Sign up</div>
                </div>
 
-               <button style={{width:'100%', background:'#0e24b4', color:'white', border:'none', padding:'20px', borderRadius:'16px', fontSize:'15px', fontWeight:'800', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'10px', boxShadow:'0 15px 30px rgba(14, 36, 180, 0.2)', letterSpacing:'1px'}} onClick={handleAuthSubmit}>
+               <button type="submit" style={{width:'100%', background:'#0e24b4', color:'white', border:'none', padding:'20px', borderRadius:'16px', fontSize:'15px', fontWeight:'800', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'10px', boxShadow:'0 15px 30px rgba(14, 36, 180, 0.2)', letterSpacing:'1px'}}>
                   LOGIN ⚡
                </button>
-             </>
+             </form>
           ) : (
-             <>
+             <form onSubmit={(e) => { e.preventDefault(); handleRegSubmit(); }}>
                <div style={{textAlign:'left', marginBottom:'15px'}}>
                   <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px', marginLeft:'5px'}}>FULL NAME</label>
                   <input type="text" value={regForm.name} onChange={(e) => setRegForm({...regForm, name: e.target.value})} placeholder="Enter your full name" style={{width:'100%', padding:'15px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
@@ -71,10 +71,10 @@ export default function Auth({ role, setRole, authMode, setAuthMode, authForm, s
                   <div style={{color:'#64748b', cursor:'pointer'}} onClick={() => setAuthMode('login')}>← Back to Login</div>
                </div>
 
-               <button style={{width:'100%', background:'#0e24b4', color:'white', border:'none', padding:'20px', borderRadius:'16px', fontSize:'15px', fontWeight:'800', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'10px', boxShadow:'0 15px 30px rgba(14, 36, 180, 0.2)', letterSpacing:'1px'}} onClick={handleRegSubmit}>
+               <button type="submit" style={{width:'100%', background:'#0e24b4', color:'white', border:'none', padding:'20px', borderRadius:'16px', fontSize:'15px', fontWeight:'800', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'10px', boxShadow:'0 15px 30px rgba(14, 36, 180, 0.2)', letterSpacing:'1px'}}>
                   SIGN UP ⚡
                </button>
-             </>
+             </form>
           )}
 
           <div style={{display:'flex', alignItems:'center', margin:'30px 0', gap:'15px'}}>
