@@ -11,4 +11,4 @@ python-multipart==0.0.9
 cryptography>=42.0.0
 scikit-learn
 joblib
-gunicorn
+gunicornrequests
