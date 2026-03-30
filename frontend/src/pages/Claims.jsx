@@ -1,7 +1,73 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import BottomNav from '../components/BottomNav'
 
-export default function Claims({ coords, results, subscription, setCurrentView, setIsLoggedIn, setRole, claimForm, setClaimForm, claimResult, claimHistory, claimLoading, handleSubmitClaim }) {
+const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
+export default function Claims({ coords, results, userId, subscription, setSubscription, setCurrentView, setIsLoggedIn, setRole, setClaimHistory, setHonorScore }) {
+  const [claimForm, setClaimForm] = useState({ name: '', mobile: '', city: 'Hyderabad', location: '', reason: '', description: '' })
+  const [claimResult, setClaimResult] = useState(null)
+  const [claimLoading, setClaimLoading] = useState(false)
+
+  const handleSubmitClaim = async () => {
+    if (!subscription) return;
+    if (!claimForm.name || claimForm.name.trim().length < 2) { setClaimResult({ status: 'error', message: 'Please enter your full name.' }); return; }
+    if (!claimForm.mobile || !/^[6-9]\d{9}$/.test(claimForm.mobile)) { setClaimResult({ status: 'error', message: 'Please enter a valid 10-digit mobile number.' }); return; }
+    if (!claimForm.city || claimForm.city.trim().length < 2) { setClaimResult({ status: 'error', message: 'Please enter your city.' }); return; }
+    if (!claimForm.reason) { setClaimResult({ status: 'error', message: 'Please select a reason for your claim.' }); return; }
+
+    setClaimLoading(true);
+    setClaimResult(null);
+    try {
+      const payload = {
+        user_id: userId || 8829,
+        city: claimForm.city,
+        latitude: coords.lat || 17.3850,
+        longitude: coords.lon || 78.4867,
+        claim_reason: claimForm.reason
+      };
+      const response = await fetch(`${API_BASE}/api/risk/calculate-risk`, {
+        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)
+      });
+      const data = await response.json();
+      const payout = subscription.coverage;
+      
+      const claimRes = await fetch(`${API_BASE}/api/claims/trigger-claim`, {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ user_id: userId || 8829, risk_level: data.risk_level, payout_amount: payout, reason: claimForm.reason, city: claimForm.city, xai_reason: data.xai_reason || null })
+      });
+      const claimData = await claimRes.json();
+      
+      const parsedStatus = claimData.status === 'Rejected' ? 'rejected' : (claimData.status.includes('Fraud') ? 'investigating' : 'approved');
+      
+      if (claimData.honor_score !== undefined) {
+        setHonorScore(claimData.honor_score);
+      }
+      
+      const newClaim = { id: `CLM-${claimData.claim_id || Date.now()}`, date: new Date().toLocaleDateString('en-IN'), reason: claimForm.reason, city: claimForm.city, location: claimForm.location, payout: claimData.payout, status: parsedStatus, riskScore: data.risk_level, xaiReason: data.xai_reason || 'Standard Operating Conditions' };
+      setClaimHistory(prev => [newClaim, ...prev]);
+
+      if (claimData.subscription_consumed) {
+         setSubscription(null);
+      }
+      
+      if (data.risk_level === 'Geofence Mismatch') {
+         setClaimResult({ status: 'rejected', riskScore: 'Geo-Spoof', message: `Fraud alert: Your submitted city "${claimForm.city}" does not match your active hardware GPS coordinates (detected near ${data.telemetry?.city || 'another zone'}). Claim immediately blocked.` });
+      } else if (!data.claim_eligible || parsedStatus === 'rejected') {
+         const reasonText = data.xai_reason ? ` AI Context: ${data.xai_reason}.` : '';
+         setClaimResult({ status: 'rejected', riskScore: data.risk_level, message: `Claim not eligible. Risk level (${data.risk_level}) is below the threshold.${reasonText}` });
+      } else if (parsedStatus === 'investigating') {
+         setClaimResult({ status: 'rejected', riskScore: data.risk_level, message: `Claim halted for fraud review. Trust Score: ${claimData.trust_score}` });
+      } else {
+         const reasonText = data.xai_reason ? ` Verification Match: ${data.xai_reason}.` : '';
+         setClaimResult({ status: 'approved', payout: claimData.payout, riskScore: data.risk_level, message: `Claim approved! ₹${claimData.payout} will be credited within 24 hours.${reasonText}` });
+      }
+    } catch (e) {
+      console.error(e);
+      setClaimResult({ status: 'error', message: 'API Offline or Internal Server Error. Our infrastructure failed to process your payload. Please try again.' });
+    }
+    setClaimLoading(false);
+  }
+
   useEffect(() => {
     setClaimForm(prev => ({
       ...prev,

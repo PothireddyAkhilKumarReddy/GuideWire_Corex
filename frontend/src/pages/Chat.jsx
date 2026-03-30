@@ -1,6 +1,40 @@
+import { useState } from 'react'
 import BottomNav from '../components/BottomNav'
 
-export default function Chat({ role, isLoggedIn, setCurrentView, setIsLoggedIn, setRole, chatMessages, chatInput, setChatInput, chatFilter, setChatFilter, handleSendChat }) {
+export default function Chat({ role, isLoggedIn, setCurrentView, setIsLoggedIn, setRole }) {
+  const [chatMessages, setChatMessages] = useState([
+    { id: 1, sender: 'admin', name: 'Support Team', text: 'Welcome to InsurGig AI Support! How can we help you today?', time: '10:00 AM', date: 'Today' },
+  ])
+  const [chatInput, setChatInput] = useState('')
+  const [chatFilter, setChatFilter] = useState('all')
+
+  const handleSendChat = () => {
+    if (!chatInput.trim()) return;
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+    const newMsg = {
+      id: Date.now(),
+      sender: role === 'admin' ? 'admin' : 'user',
+      name: role === 'admin' ? 'Admin' : 'You',
+      text: chatInput.trim(),
+      time: timeStr,
+      date: 'Today'
+    };
+    setChatMessages(prev => [...prev, newMsg]);
+    setChatInput('');
+    if (role !== 'admin') {
+      setTimeout(() => {
+        setChatMessages(prev => [...prev, {
+          id: Date.now() + 1,
+          sender: 'admin',
+          name: 'Support Team',
+          text: 'Thank you for reaching out! Our team will review your message and get back to you within 24 hours.',
+          time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
+          date: 'Today'
+        }]);
+      }, 1500);
+    }
+  }
   return (
     <div style={{background:'#f8fafc', minHeight:'100vh', padding:'30px 20px 120px 20px', fontFamily:'"Inter", sans-serif'}}>
       <div style={{maxWidth:'700px', margin:'0 auto'}}>

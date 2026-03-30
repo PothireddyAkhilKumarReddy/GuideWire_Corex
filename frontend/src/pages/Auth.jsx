@@ -1,4 +1,74 @@
-export default function Auth({ role, setRole, authMode, setAuthMode, authForm, setAuthForm, regForm, setRegForm, authError, authSuccess, handleAuthSubmit, handleRegSubmit }) {
+import { useState } from 'react';
+
+const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
+export default function Auth({ role, setRole, setUserId, setUserName, setSubscription, setHonorScore, setIsLoggedIn, setCurrentView }) {
+  const [authMode, setAuthMode] = useState('login')
+  const [authForm, setAuthForm] = useState({ email: '', password: '' })
+  const [regForm, setRegForm] = useState({ name: '', email: '', password: '', city: '', role: 'worker' })
+  const [authError, setAuthError] = useState('')
+  const [authSuccess, setAuthSuccess] = useState('')
+
+  const handleAuthSubmit = async () => {
+    setAuthError('');
+    setAuthSuccess('');
+    if (!authForm.email || !authForm.email.trim()) { setAuthError('Please enter your email address.'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(authForm.email)) { setAuthError('Please enter a valid email address.'); return; }
+    if (!authForm.password || authForm.password.length < 6) { setAuthError('Password must be at least 6 characters.'); return; }
+    try {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ email: authForm.email, password: authForm.password })
+      });
+      if (!res.ok) { setAuthError("Access Denied: Invalid Email or Password."); return; }
+      const data = await res.json();
+      setRole(data.role); 
+      setUserId(data.user_id);
+      setUserName(data.name || 'Worker');
+      
+      if (data.subscription) {
+        setSubscription(data.subscription);
+      } else {
+        setSubscription(null);
+      }
+
+      if (data.honor_score !== undefined) {
+        setHonorScore(data.honor_score);
+      }
+
+      setIsLoggedIn(true);
+      setCurrentView(data.role === 'admin' ? 'admin' : 'dashboard');
+    } catch (e) {
+      console.error("Auth Offline:", e);
+      setAuthError("Network Error: InsurGig AI Server is currently offline.");
+    }
+  }
+
+  const handleRegSubmit = async () => {
+    setAuthError('');
+    setAuthSuccess('');
+    if (!regForm.name || regForm.name.trim().length < 2) { setAuthError('Please enter your full name (at least 2 characters).'); return; }
+    if (!regForm.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(regForm.email)) { setAuthError('Please enter a valid email address.'); return; }
+    if (!regForm.password || regForm.password.length < 6) { setAuthError('Password must be at least 6 characters.'); return; }
+    if (!regForm.city || regForm.city.trim().length < 2) { setAuthError('Please enter your city.'); return; }
+    try {
+      const payload = { ...regForm, role: role };
+      const res = await fetch(`${API_BASE}/api/auth/signup`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) { setAuthError("Registration Failed: Email might be in use."); return; }
+      setAuthSuccess("Account created! Please login.");
+      setAuthMode('login');
+      setAuthForm({...authForm, email: regForm.email, password: regForm.password});
+    } catch (e) {
+      console.error("Auth Offline:", e);
+      setAuthError("Network Error: InsurGig AI Server is currently offline.");
+    }
+  }
+
   return (
     <div style={{background: '#f8fafc', color:'#0f172a', minHeight:'100vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'40px 20px', fontFamily:'"Inter", sans-serif'}}>
        <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'20px', fontWeight:'800', marginBottom:'40px', color:'#021676'}}>

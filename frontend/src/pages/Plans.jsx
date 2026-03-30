@@ -1,13 +1,50 @@
 import BottomNav from '../components/BottomNav'
 import { useState, useEffect } from 'react'
+import PaymentModal from '../components/PaymentModal'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
-export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRole, handleBuyPlan, PLANS }) {
+export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRole, userId, setSubscription, PLANS }) {
   const [priceMultiplier, setPriceMultiplier] = useState(1.0);
   const [discountReason, setDiscountReason] = useState("Loading Risk Profile...");
   const [coords, setCoords] = useState({ lat: null, lon: null });
   const [isLoading, setIsLoading] = useState(true);
+
+  const [showPaymentModal, setShowPaymentModal] = useState(false)
+  const [selectedPlan, setSelectedPlan] = useState(null)
+  const [paymentStep, setPaymentStep] = useState('select')
+  const [paymentMethod, setPaymentMethod] = useState('card')
+
+  const handleBuyPlan = (plan) => {
+    setSelectedPlan(plan);
+    setPaymentStep('select');
+    setPaymentMethod('card');
+    setShowPaymentModal(true);
+  }
+
+  const handlePaymentSubmit = async () => {
+    setPaymentStep('processing');
+    try {
+      if (!userId) throw new Error("Not logged in");
+      const res = await fetch(`${API_BASE}/api/plans/select-plan`, {
+        method: "POST", headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({ user_id: userId, plan_name: selectedPlan.name })
+      });
+      if (!res.ok) throw new Error("Payment API failed");
+      
+      setPaymentStep('success');
+      const expiry = new Date();
+      expiry.setDate(expiry.getDate() + 7);
+      setSubscription({ plan: selectedPlan.name, premium: selectedPlan.premium, coverage: selectedPlan.coverage, expiry: expiry.toLocaleDateString('en-IN'), activatedOn: new Date().toLocaleDateString('en-IN') });
+      setTimeout(() => {
+        setShowPaymentModal(false);
+        setCurrentView('dashboard');
+      }, 2000);
+    } catch {
+      setPaymentStep('select');
+      alert("Payment API connection failed. Please ensure backend is running.");
+    }
+  }
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -159,6 +196,18 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
         </div>
       </div>
       {isLoggedIn && <BottomNav active="plans" setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole} />}
+
+      {/* Payment Modal Overlay */}
+      {showPaymentModal && selectedPlan && (
+        <PaymentModal
+          selectedPlan={selectedPlan}
+          paymentStep={paymentStep}
+          paymentMethod={paymentMethod}
+          setPaymentMethod={setPaymentMethod}
+          setShowPaymentModal={setShowPaymentModal}
+          handlePaymentSubmit={handlePaymentSubmit}
+        />
+      )}
     </div>
   )
 }
