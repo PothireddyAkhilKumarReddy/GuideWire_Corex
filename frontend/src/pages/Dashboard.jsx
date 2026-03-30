@@ -1,6 +1,13 @@
+import { useEffect } from 'react'
 import BottomNav from '../components/BottomNav'
 
 export default function Dashboard({ coords, userName, claimHistory, subscription, setCurrentView, setIsLoggedIn, setRole, results, loadingRisk, handleCheckRisk, handleZeroTouchOracle, oracleStatus, setOracleStatus, honorScore = 100 }) {
+  useEffect(() => {
+    if (coords && coords.lat && !results?.riskScore && !loadingRisk) {
+      handleCheckRisk();
+    }
+  }, [coords?.lat, coords?.lon, results?.riskScore, loadingRisk]);
+
   const scoreColor = honorScore >= 75 ? '#22c55e' : honorScore >= 50 ? '#f59e0b' : '#ef4444';
   const scoreLabel = honorScore >= 75 ? 'Excellent' : honorScore >= 50 ? 'Fair' : 'At Risk';
   const circumference = 2 * Math.PI * 54;
@@ -52,7 +59,7 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                     <div style={{marginTop:'20px', display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'12px'}}>
                        <div style={{background:'#f8fafc', padding:'12px', borderRadius:'14px', border:'1px solid #e2e8f0', textAlign:'center'}}>
                           <div style={{fontSize:'10px', fontWeight:'700', color:'#64748b', marginBottom:'4px'}}>AI Risk</div>
-                          <div style={{fontSize:'16px', fontWeight:'900', color:'#ef4444'}}>{results.riskScore}</div>
+                          <div style={{fontSize:'16px', fontWeight:'900', color: results.riskScore === 'High' ? '#ef4444' : results.riskScore === 'Medium' ? '#f59e0b' : '#22c55e'}}>{results.riskScore}</div>
                        </div>
                        <div style={{background:'#f8fafc', padding:'12px', borderRadius:'14px', border:'1px solid #e2e8f0', textAlign:'center'}}>
                           <div style={{fontSize:'10px', fontWeight:'700', color:'#64748b', marginBottom:'4px'}}>Premium</div>
@@ -60,7 +67,7 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                        </div>
                        <div style={{background:'#f8fafc', padding:'12px', borderRadius:'14px', border:'1px solid #e2e8f0', textAlign:'center'}}>
                           <div style={{fontSize:'10px', fontWeight:'700', color:'#64748b', marginBottom:'4px'}}>Status</div>
-                          <div style={{fontSize:'16px', fontWeight:'900', color:'#22c55e'}}>{results.claimStatus}</div>
+                          <div style={{fontSize:'16px', fontWeight:'900', color: results.claimStatus === 'Active' ? '#22c55e' : '#f59e0b'}}>{results.claimStatus || (subscription ? 'Active' : 'No Plan')}</div>
                        </div>
                     </div>
                   )}
