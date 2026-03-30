@@ -7,7 +7,7 @@ export default function Admin({ role, setIsLoggedIn, setCurrentView, setRole }) 
       <div className="main-area" style={{background:'#f8fafc', color:'#0f172a', overflowY:'auto'}}>
         <div className="dash-content" style={{gap:'20px', maxWidth:'600px', margin:'0 auto', padding:'20px', display:'flex', flexDirection:'column'}}>
            
-           <div style={{background:'white', borderRadius:'24px', padding:'30px', boxShadow:'0 10px 40px rgba(0,0,0,0.05)'}}>
+           <div className="hover-card" style={{background:'white', borderRadius:'24px', padding:'30px', boxShadow:'0 10px 40px rgba(0,0,0,0.05)'}}>
               <div style={{fontSize:'10px', fontWeight:'700', letterSpacing:'1px', color:'#3b82f6', marginBottom:'10px'}}>TOTAL ECOSYSTEM PAYOUT AMOUNT</div>
               <div style={{display:'flex', alignItems:'center', gap:'15px', marginBottom:'15px'}}>
                  <h1 style={{fontSize:'48px', margin:0, color:'#0f172a'}}>₹1300</h1>
@@ -35,7 +35,7 @@ export default function Admin({ role, setIsLoggedIn, setCurrentView, setRole }) 
               </div>
            </div>
 
-           <div style={{background:'#021676', borderRadius:'24px', padding:'30px', color:'white', position:'relative', overflow:'hidden'}}>
+           <div className="hover-card" style={{background:'#021676', borderRadius:'24px', padding:'30px', color:'white', position:'relative', overflow:'hidden'}}>
               <div style={{position:'absolute', inset:0, backgroundImage:'radial-gradient(circle at center, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize:'20px 20px', opacity:0.3}}></div>
               <div style={{fontSize:'10px', fontWeight:'700', letterSpacing:'1px', color:'rgba(255,255,255,0.6)', marginBottom:'5px', position:'relative'}}>NETWORK HEALTH</div>
               <h2 style={{fontSize:'28px', margin:'0 0 40px 0', position:'relative'}}>Optimal</h2>
@@ -51,7 +51,7 @@ export default function Admin({ role, setIsLoggedIn, setCurrentView, setRole }) 
               <button style={{width:'100%', padding:'15px', background:'white', color:'#021676', border:'none', borderRadius:'12px', fontWeight:'700', cursor:'pointer', position:'relative'}}>Generate Report</button>
            </div>
 
-           <div style={{background:'white', borderRadius:'24px', padding:'30px', boxShadow:'0 10px 40px rgba(0,0,0,0.05)'}}>
+           <div className="hover-card" style={{background:'white', borderRadius:'24px', padding:'30px', boxShadow:'0 10px 40px rgba(0,0,0,0.05)'}}>
               <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px'}}>
                  <div>
                     <h3 style={{margin:'0 0 5px 0', color:'#0f172a', fontSize:'18px'}}>Fraud Detection Radar</h3>
@@ -76,7 +76,7 @@ export default function Admin({ role, setIsLoggedIn, setCurrentView, setRole }) 
               </div>
            </div>
 
-           <div style={{background:'white', borderRadius:'24px', padding:'30px', boxShadow:'0 10px 40px rgba(0,0,0,0.05)'}}>
+           <div className="hover-card" style={{background:'white', borderRadius:'24px', padding:'30px', boxShadow:'0 10px 40px rgba(0,0,0,0.05)'}}>
                <div style={{display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'20px'}}>
                  <div>
                     <h3 style={{margin:'0 0 5px 0', color:'#0f172a', fontSize:'18px'}}>Regional Claims<br/>Density</h3>
@@ -94,7 +94,7 @@ export default function Admin({ role, setIsLoggedIn, setCurrentView, setRole }) 
               </div>
            </div>
 
-           <div style={{background:'white', borderRadius:'24px', padding:'30px', boxShadow:'0 10px 40px rgba(0,0,0,0.05)'}}>
+           <div className="hover-card" style={{background:'white', borderRadius:'24px', padding:'30px', boxShadow:'0 10px 40px rgba(0,0,0,0.05)'}}>
                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'30px'}}>
                   <h3 style={{margin:0, color:'#0f172a', fontSize:'18px'}}>Command<br/>Live Stream</h3>
                   <div style={{display:'flex', gap:'5px'}}>
@@ -124,7 +124,7 @@ export default function Admin({ role, setIsLoggedIn, setCurrentView, setRole }) 
                </div>
            </div>
 
-           <div style={{background:'white', borderRadius:'24px', padding:'30px', boxShadow:'0 10px 40px rgba(0,0,0,0.05)', marginTop:'20px'}}>
+           <div className="hover-card" style={{background:'white', borderRadius:'24px', padding:'30px', boxShadow:'0 10px 40px rgba(0,0,0,0.05)', marginTop:'20px'}}>
                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px'}}>
                   <h3 style={{margin:0, color:'#0f172a', fontSize:'18px'}}>Anti-Spoofing & Fraud Review Queue</h3>
                   <div style={{background:'#fef2f2', color:'#ef4444', padding:'6px 12px', borderRadius:'20px', fontSize:'10px', fontWeight:'800', letterSpacing:'1px'}}>2 PENDING REVIEW</div>

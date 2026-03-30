@@ -55,7 +55,7 @@ export default function Landing({ setCurrentView }) {
         {/* Right Side: Hero Visual Cluster */}
         <div style={{position:'relative', height:'500px', display:'flex', alignItems:'center', justifyContent:'center'}}>
            {/* Card 1: Risk Coverage */}
-           <div className="floating-card-1" style={{position:'absolute', top:'10%', left:'5%', width:'280px', background:'white', borderRadius:'24px', padding:'25px', boxShadow:'0 20px 50px rgba(0,0,0,0.08)', border:'1px solid #f1f5f9', transform:'rotate(-4deg)', zIndex:2, animation:'float 6s ease-in-out infinite'}}>
+           <div className="floating-card-1 hover-card" style={{position:'absolute', top:'10%', left:'5%', width:'280px', background:'white', borderRadius:'24px', padding:'25px', boxShadow:'0 20px 50px rgba(0,0,0,0.08)', border:'1px solid #f1f5f9', transform:'rotate(-4deg)', zIndex:2, animation:'float 6s ease-in-out infinite'}}>
               <div style={{fontSize:'10px', color:'#64748b', fontWeight:'800', letterSpacing:'1px', marginBottom:'15px'}}>LIVE LOCATION RISK</div>
               <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
                  <div>
@@ -67,7 +67,7 @@ export default function Landing({ setCurrentView }) {
            </div>
 
            {/* Card 2: PAYOUT AMOUNT (Center Main) */}
-           <div className="floating-card-2" style={{position:'absolute', top:'20%', right:'5%', width:'320px', background:'#021676', borderRadius:'32px', padding:'30px', boxShadow:'0 30px 60px rgba(2, 22, 118, 0.3)', border:'1px solid rgba(255,255,255,0.1)', zIndex:3, backgroundImage:'linear-gradient(145deg, rgba(255,255,255,0.1) 0%, transparent 100%)', transform:'rotate(2deg)'}}>
+           <div className="floating-card-2 hover-card" style={{position:'absolute', top:'20%', right:'5%', width:'320px', background:'#021676', borderRadius:'32px', padding:'30px', boxShadow:'0 30px 60px rgba(2, 22, 118, 0.3)', border:'1px solid rgba(255,255,255,0.1)', zIndex:3, backgroundImage:'linear-gradient(145deg, rgba(255,255,255,0.1) 0%, transparent 100%)', transform:'rotate(2deg)'}}>
               <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'30px'}}>
                  <div style={{fontSize:'10px', color:'rgba(255,255,255,0.7)', fontWeight:'800', letterSpacing:'1px'}}>NETWORK PAYOUT AMOUNT</div>
                  <div style={{background:'rgba(34, 197, 94, 0.2)', color:'#4ade80', padding:'4px 10px', borderRadius:'10px', fontSize:'10px', fontWeight:'800'}}>+12.4%</div>
@@ -81,7 +81,7 @@ export default function Landing({ setCurrentView }) {
            </div>
 
            {/* Card 3: Payout */}
-           <div className="floating-card-3" style={{position:'absolute', bottom:'10%', left:'15%', width:'300px', background:'rgba(255, 255, 255, 0.9)', backdropFilter:'blur(20px)', borderRadius:'24px', padding:'25px', boxShadow:'0 25px 50px rgba(0,0,0,0.06)', border:'1px solid white', zIndex:4, transform:'rotate(-1deg)'}}>
+           <div className="floating-card-3 hover-card" style={{position:'absolute', bottom:'10%', left:'15%', width:'300px', background:'rgba(255, 255, 255, 0.9)', backdropFilter:'blur(20px)', borderRadius:'24px', padding:'25px', boxShadow:'0 25px 50px rgba(0,0,0,0.06)', border:'1px solid white', zIndex:4, transform:'rotate(-1deg)'}}>
               <div style={{display:'flex', alignItems:'center', gap:'15px'}}>
                  <div style={{width:'48px', height:'48px', background:'#dcfce7', borderRadius:'14px', display:'flex', alignItems:'center', justifyContent:'center', color:'#16a34a', fontSize:'20px'}}>💸</div>
                  <div>
@@ -97,19 +97,19 @@ export default function Landing({ setCurrentView }) {
       {/* Trust & Features Section */}
       <section id="features" style={{maxWidth:'1200px', margin:'100px auto 0 auto', padding:'0 20px', position:'relative', zIndex:10}}>
          <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'30px'}}>
-            <div style={{background:'white', borderRadius:'32px', padding:'40px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.02)'}}>
+            <div className="hover-card" style={{background:'white', borderRadius:'32px', padding:'40px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.02)'}}>
                <div style={{width:'50px', height:'50px', background:'#eff6ff', borderRadius:'16px', display:'flex', alignItems:'center', justifyContent:'center', color:'#3b82f6', fontSize:'24px', marginBottom:'25px'}}>🛡️</div>
                <h3 style={{fontSize:'22px', fontWeight:'900', color:'#0f172a', marginBottom:'15px'}}>Affordable Coverage</h3>
                <p style={{fontSize:'15px', color:'#64748b', lineHeight:'1.6', margin:0}}>Starts at ₹40/week. Access Personal Accident cover, medical expense reimbursement, and hospital cash benefits alongside parametric payouts.</p>
             </div>
             
-            <div style={{background:'white', borderRadius:'32px', padding:'40px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.02)'}}>
+            <div className="hover-card" style={{background:'white', borderRadius:'32px', padding:'40px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.02)'}}>
                <div style={{width:'50px', height:'50px', background:'#f0fdf4', borderRadius:'16px', display:'flex', alignItems:'center', justifyContent:'center', color:'#22c55e', fontSize:'24px', marginBottom:'25px'}}>📞</div>
                <h3 style={{fontSize:'22px', fontWeight:'900', color:'#0f172a', marginBottom:'15px'}}>WhatsApp Claims</h3>
                <p style={{fontSize:'15px', color:'#64748b', lineHeight:'1.6', margin:0}}>Submit accident or medical claims instantly via WhatsApp. Zero paperwork. Get AI-accelerated settlements processed in record time.</p>
             </div>
             
-            <div style={{background:'white', borderRadius:'32px', padding:'40px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.02)'}}>
+            <div className="hover-card" style={{background:'white', borderRadius:'32px', padding:'40px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.02)'}}>
                <div style={{width:'50px', height:'50px', background:'#fef2f2', borderRadius:'16px', display:'flex', alignItems:'center', justifyContent:'center', color:'#ef4444', fontSize:'24px', marginBottom:'25px'}}>⚡</div>
                <h3 style={{fontSize:'22px', fontWeight:'900', color:'#0f172a', marginBottom:'15px'}}>AI-Parametric Truth</h3>
                <p style={{fontSize:'15px', color:'#64748b', lineHeight:'1.6', margin:0}}>Say goodbye to manual adjustors for gig disruptions. We use live API feeds for Weather and Traffic. When risk parameters hit the threshold, funding moves.</p>
@@ -125,7 +125,7 @@ export default function Landing({ setCurrentView }) {
             
             <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(320px, 1fr))', gap:'20px', textAlign:'left'}}>
                {/* 1. Heavy Rain */}
-               <div style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+               <div className="hover-card" style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
                   <div style={{fontSize:'28px', color:'#3b82f6'}}>🌧️</div>
                   <div>
                      <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Heavy Rain</h4>
@@ -134,7 +134,7 @@ export default function Landing({ setCurrentView }) {
                </div>
 
                {/* 2. Extreme Heat */}
-               <div style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+               <div className="hover-card" style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
                   <div style={{fontSize:'28px', color:'#ef4444'}}>⚠️</div>
                   <div>
                      <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Extreme Heat</h4>
@@ -143,7 +143,7 @@ export default function Landing({ setCurrentView }) {
                </div>
 
                {/* 3. Severe AQI */}
-               <div style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+               <div className="hover-card" style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
                   <div style={{fontSize:'28px', color:'#8b5cf6'}}>💨</div>
                   <div>
                      <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Severe AQI</h4>
@@ -152,7 +152,7 @@ export default function Landing({ setCurrentView }) {
                </div>
 
                {/* 4. Compound Event */}
-               <div style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+               <div className="hover-card" style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
                   <div style={{fontSize:'28px', color:'#3b82f6'}}>⚡</div>
                   <div>
                      <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Compound Event</h4>
@@ -161,7 +161,7 @@ export default function Landing({ setCurrentView }) {
                </div>
 
                {/* 5. Flood Alert */}
-               <div style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+               <div className="hover-card" style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
                   <div style={{fontSize:'28px', color:'#0ea5e9'}}>🌊</div>
                   <div>
                      <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Flood Alert</h4>
@@ -170,7 +170,7 @@ export default function Landing({ setCurrentView }) {
                </div>
 
                {/* 6. Strike / Curfew */}
-               <div style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+               <div className="hover-card" style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
                   <div style={{fontSize:'28px', color:'#f59e0b'}}>👥</div>
                   <div>
                      <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Strike / Curfew</h4>
@@ -217,7 +217,7 @@ export default function Landing({ setCurrentView }) {
          <p style={{fontSize:'16px', color:'#64748b', maxWidth:'500px', margin:'0 auto 40px auto', lineHeight:'1.6'}}>Built for India's gig delivery workforce across all major platforms.</p>
          <div style={{display:'flex', flexWrap:'wrap', justifyContent:'center', gap:'20px'}}>
             {['Swiggy', 'Zomato', 'Blinkit', 'Zepto', 'UberEats', 'BigBasket'].map(p => (
-               <div key={p} style={{background:'white', border:'1px solid #e2e8f0', borderRadius:'16px', padding:'20px 35px', fontSize:'16px', fontWeight:'700', color:'#0f172a', boxShadow:'0 4px 15px rgba(0,0,0,0.03)'}}>{p}</div>
+               <div key={p} className="hover-card" style={{background:'white', border:'1px solid #e2e8f0', borderRadius:'16px', padding:'20px 35px', fontSize:'16px', fontWeight:'700', color:'#0f172a', boxShadow:'0 4px 15px rgba(0,0,0,0.03)'}}>{p}</div>
             ))}
          </div>
       </section>

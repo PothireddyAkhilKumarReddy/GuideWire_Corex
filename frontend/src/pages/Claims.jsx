@@ -25,7 +25,7 @@ export default function Claims({ coords, results, subscription, setCurrentView, 
          </header>
 
          {!subscription ? (
-           <div style={{background:'white', borderRadius:'32px', padding:'50px 30px', textAlign:'center', border:'1px solid #e2e8f0', boxShadow:'0 20px 40px rgba(0,0,0,0.04)'}}>
+           <div className="hover-card" style={{background:'white', borderRadius:'32px', padding:'50px 30px', textAlign:'center', border:'1px solid #e2e8f0', boxShadow:'0 20px 40px rgba(0,0,0,0.04)'}}>
              <div style={{fontSize:'60px', marginBottom:'20px'}}>🔒</div>
              <h2 style={{fontSize:'22px', fontWeight:'900', color:'#0f172a', margin:'0 0 10px 0'}}>No Active Subscription</h2>
              <p style={{color:'#64748b', fontSize:'14px', lineHeight:'1.6', margin:'0 0 30px 0'}}>You need an active insurance plan to file claims. Choose a plan that suits your needs.</p>
@@ -34,7 +34,7 @@ export default function Claims({ coords, results, subscription, setCurrentView, 
          ) : (
            <>
              {/* Claim Form */}
-             <div style={{background:'white', borderRadius:'32px', padding:'30px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.04)', marginBottom:'20px'}}>
+             <div className="hover-card" style={{background:'white', borderRadius:'32px', padding:'30px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.04)', marginBottom:'20px'}}>
                
                <div style={{background:'#fffbeb', borderLeft:'4px solid #f59e0b', padding:'15px', borderRadius:'12px', marginBottom:'25px'}}>
                  <div style={{fontSize:'12px', fontWeight:'800', color:'#b45309', marginBottom:'5px'}}>MANUAL OVERRIDE SYSTEM</div>
@@ -98,7 +98,7 @@ export default function Claims({ coords, results, subscription, setCurrentView, 
 
              {/* Claim Result */}
              {claimResult && claimResult.status !== 'error' && (
-               <div style={{background: claimResult.status === 'approved' ? '#f0fdf4' : '#fef2f2', borderRadius:'32px', padding:'30px', border: `1px solid ${claimResult.status === 'approved' ? '#bbf7d0' : '#fecaca'}`, boxShadow:'0 20px 40px rgba(0,0,0,0.04)', marginBottom:'20px', textAlign:'center'}}>
+               <div className="hover-card" style={{background: claimResult.status === 'approved' ? '#f0fdf4' : '#fef2f2', borderRadius:'32px', padding:'30px', border: `1px solid ${claimResult.status === 'approved' ? '#bbf7d0' : '#fecaca'}`, boxShadow:'0 20px 40px rgba(0,0,0,0.04)', marginBottom:'20px', textAlign:'center'}}>
                  <div style={{fontSize:'48px', marginBottom:'15px'}}>{claimResult.status === 'approved' ? '✅' : '❌'}</div>
                  <h3 style={{fontSize:'24px', fontWeight:'900', color: claimResult.status === 'approved' ? '#166534' : '#dc2626', margin:'0 0 10px 0'}}>{claimResult.status === 'approved' ? 'Claim Approved!' : 'Claim Rejected'}</h3>
                  {claimResult.payout && <div style={{fontSize:'36px', fontWeight:'900', color:'#166534', margin:'10px 0'}}>₹{claimResult.payout}</div>}

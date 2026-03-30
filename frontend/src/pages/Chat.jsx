@@ -22,7 +22,7 @@ export default function Chat({ role, isLoggedIn, setCurrentView, setIsLoggedIn, 
         </header>
 
         {/* Messages */}
-        <div style={{background:'white', borderRadius:'24px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', overflow:'hidden'}}>
+        <div className="hover-card" style={{background:'white', borderRadius:'24px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', overflow:'hidden'}}>
           <div style={{padding:'20px', borderBottom:'1px solid #f1f5f9', display:'flex', alignItems:'center', gap:'12px'}}>
             <div style={{width:'40px', height:'40px', background:'#021676', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', color:'white', fontSize:'18px'}}>💬</div>
             <div>
@@ -63,7 +63,7 @@ export default function Chat({ role, isLoggedIn, setCurrentView, setIsLoggedIn, 
             {icon:'⚠️', label:'Report Bug', msg:'I found a bug in the app that needs attention.'},
             {icon:'💰', label:'Payment Help', msg:'I have a question about my premium payment.'},
           ].map((action, i) => (
-            <button key={i} onClick={() => { setChatInput(action.msg); }} style={{background:'white', border:'1px solid #e2e8f0', borderRadius:'16px', padding:'16px', cursor:'pointer', textAlign:'center', transition:'all 0.2s ease', boxShadow:'0 2px 8px rgba(0,0,0,0.02)'}}>
+            <button key={i} className="hover-card" onClick={() => { setChatInput(action.msg); }} style={{background:'white', border:'1px solid #e2e8f0', borderRadius:'16px', padding:'16px', cursor:'pointer', textAlign:'center', transition:'all 0.2s ease', boxShadow:'0 2px 8px rgba(0,0,0,0.02)'}}>
               <div style={{fontSize:'24px', marginBottom:'8px'}}>{action.icon}</div>
               <div style={{fontSize:'12px', fontWeight:'700', color:'#0f172a'}}>{action.label}</div>
             </button>

@@ -18,13 +18,13 @@ export default function ClaimHistory({ claimHistory, setCurrentView, setIsLogged
          </header>
 
          {(!claimHistory || claimHistory.length === 0) ? (
-           <div style={{background:'white', borderRadius:'32px', padding:'50px 30px', textAlign:'center', border:'1px solid #e2e8f0', boxShadow:'0 20px 40px rgba(0,0,0,0.04)'}}>
+           <div className="hover-card" style={{background:'white', borderRadius:'32px', padding:'50px 30px', textAlign:'center', border:'1px solid #e2e8f0', boxShadow:'0 20px 40px rgba(0,0,0,0.04)'}}>
              <div style={{fontSize:'60px', marginBottom:'20px'}}>📭</div>
              <h2 style={{fontSize:'22px', fontWeight:'900', color:'#0f172a', margin:'0 0 10px 0'}}>No Claims Found</h2>
              <p style={{color:'#64748b', fontSize:'14px', lineHeight:'1.6', margin:'0 0 30px 0'}}>You haven't filed any parametric claim requests yet.</p>
            </div>
          ) : (
-           <div style={{background:'white', borderRadius:'32px', padding:'30px', border:'1px solid #f1f5f9', boxShadow:'0 10px 30px rgba(0,0,0,0.02)'}}>
+           <div className="hover-card" style={{background:'white', borderRadius:'32px', padding:'30px', border:'1px solid #f1f5f9', boxShadow:'0 10px 30px rgba(0,0,0,0.02)'}}>
              {claimHistory.map((claim, i) => (
                <div key={claim.id} style={{background:'#f8fafc', borderRadius:'20px', padding:'20px', border:'1px solid #e2e8f0', marginBottom: i < claimHistory.length - 1 ? '15px' : '0'}}>
                  <div style={{display:'flex', justifyContent:'space-between', marginBottom:'10px'}}>

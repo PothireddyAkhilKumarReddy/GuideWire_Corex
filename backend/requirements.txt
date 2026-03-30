@@ -12,3 +12,6 @@ cryptography>=42.0.0
 
 scikit-learn
 joblib
+
+pymysql
+sqlalchemy

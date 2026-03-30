@@ -82,7 +82,7 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
 
         <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))', gap:'20px', marginBottom:'50px', opacity: isLoading ? 0.5 : 1, transition: 'opacity 0.3s'}}>
           {/* Basic */}
-          <div style={{background:'white', borderRadius:'24px', padding:'35px 30px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', position:'relative'}}>
+          <div className="hover-card" style={{background:'white', borderRadius:'24px', padding:'35px 30px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', position:'relative'}}>
             <h3 style={{fontSize:'20px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Basic</h3>
             <div style={{fontSize:'42px', fontWeight:'900', color:'#0f172a', margin:'0 0 5px 0'}}>
               {priceMultiplier !== 1.0 && <span style={{fontSize:'22px', textDecoration:'line-through', color:'#cbd5e1', marginRight:'8px'}}>₹40</span>}
@@ -98,7 +98,7 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
           </div>
 
           {/* Standard */}
-          <div style={{background:'#021676', borderRadius:'24px', padding:'35px 30px', color:'white', position:'relative', boxShadow:'0 20px 40px rgba(2, 22, 118, 0.2)', transform:'scale(1.02)'}}>
+          <div className="hover-card" style={{background:'#021676', borderRadius:'24px', padding:'35px 30px', color:'white', position:'relative', boxShadow:'0 20px 40px rgba(2, 22, 118, 0.2)', transform:'scale(1.02)'}}>
             <div style={{position:'absolute', top:'-12px', left:'50%', transform:'translateX(-50%)', background:'#3b82f6', color:'white', padding:'6px 16px', borderRadius:'20px', fontSize:'10px', fontWeight:'800', letterSpacing:'1px'}}>MOST PROTECTIVE</div>
             <h3 style={{fontSize:'20px', fontWeight:'800', margin:'0 0 8px 0'}}>Standard</h3>
             <div style={{fontSize:'48px', fontWeight:'900', margin:'0 0 5px 0'}}>
@@ -116,7 +116,7 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
           </div>
 
           {/* Premium */}
-          <div style={{background:'white', borderRadius:'24px', padding:'35px 30px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', position:'relative'}}>
+          <div className="hover-card" style={{background:'white', borderRadius:'24px', padding:'35px 30px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', position:'relative'}}>
             <h3 style={{fontSize:'20px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Premium</h3>
             <div style={{fontSize:'42px', fontWeight:'900', color:'#0f172a', margin:'0 0 5px 0'}}>
               {priceMultiplier !== 1.0 && <span style={{fontSize:'22px', textDecoration:'line-through', color:'#cbd5e1', marginRight:'8px'}}>₹100</span>}
@@ -133,7 +133,7 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
         </div>
 
         {/* Feature Breakdown Table */}
-        <div style={{background:'white', borderRadius:'24px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', overflow:'hidden'}}>
+        <div className="hover-card" style={{background:'white', borderRadius:'24px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', overflow:'hidden'}}>
           <h3 style={{fontSize:'20px', fontWeight:'800', color:'#0f172a', margin:'0 0 25px 0'}}>Feature Breakdown</h3>
           <div style={{overflowX:'auto'}}>
             <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'15px 20px', background:'#f8fafc', borderRadius:'12px', marginBottom:'10px', fontSize:'10px', fontWeight:'800', letterSpacing:'1px', color:'#64748b'}}>
