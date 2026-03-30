@@ -29,7 +29,7 @@ export default function Landing({ setCurrentView }) {
               <span style={{background:'linear-gradient(90deg, #3b82f6, #021676)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>Gig Workers.</span>
            </h1>
            
-           <p style={{fontSize:'18px', lineHeight:'1.8', color:'#cbd5e1', marginBottom:'40px', maxWidth:'600px', margin:'0 auto', paddingBottom:'20px'}}>
+           <p style={{fontSize:'18px', lineHeight:'1.8', color:'#64748b', marginBottom:'40px', maxWidth:'600px', margin:'0 auto', paddingBottom:'20px'}}>
              Convert unpredictability into guaranteed income. InsurGig detects rainfall, pollution, and severe traffic in real-time, instantly triggering compensation directly to your original payment mode — with zero paperwork.
            </p>
            

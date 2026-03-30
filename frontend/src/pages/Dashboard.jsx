@@ -1,12 +1,16 @@
 import BottomNav from '../components/BottomNav'
 
-export default function Dashboard({ coords, userName, claimHistory, subscription, setCurrentView, setIsLoggedIn, setRole, results, loadingRisk, handleCheckRisk, handleZeroTouchOracle, oracleStatus, setOracleStatus }) {
+export default function Dashboard({ coords, userName, claimHistory, subscription, setCurrentView, setIsLoggedIn, setRole, results, loadingRisk, handleCheckRisk, handleZeroTouchOracle, oracleStatus, setOracleStatus, honorScore = 100 }) {
+  const scoreColor = honorScore >= 75 ? '#22c55e' : honorScore >= 50 ? '#f59e0b' : '#ef4444';
+  const scoreLabel = honorScore >= 75 ? 'Excellent' : honorScore >= 50 ? 'Fair' : 'At Risk';
+  const circumference = 2 * Math.PI * 54;
+  const strokeDashoffset = circumference - (honorScore / 100) * circumference;
   return (
     <div style={{background: '#f8fafc', minHeight:'100vh', padding:'30px 20px 120px 20px', fontFamily:'"Inter", sans-serif'}}>
       <div style={{maxWidth:'600px', margin:'0 auto'}}>
          <header style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'30px'}}>
             <div style={{display:'flex', alignItems:'center', gap:'12px'}}>
-               <div style={{width:'44px', height:'44px', background:'#white', borderRadius:'14px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.03)'}}>
+               <div style={{width:'44px', height:'44px', background:'white', borderRadius:'14px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.03)'}}>
                   <span style={{background:'#021676', color:'white', width:'24px', height:'24px', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'6px', fontSize:'12px'}}>⊞</span>
                </div>
                <div>
@@ -41,6 +45,30 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                   {subscription ? 'ACTIVE' : 'INACTIVE'} <div style={{width:'10px', height:'10px', background: subscription ? '#22c55e' : '#ef4444', borderRadius:'50%', boxShadow: subscription ? '0 0 10px rgba(34, 197, 94, 0.5)' : '0 0 10px rgba(239, 68, 68, 0.5)'}}></div>
                </div>
                {subscription && <div style={{fontSize:'11px', color:'#64748b', marginTop:'8px'}}>Expires: {subscription.expiry}</div>}
+            </div>
+         </div>
+
+         {/* Honor Score Widget */}
+         <div style={{background:'white', borderRadius:'32px', padding:'25px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.04)', marginBottom:'20px', display:'flex', alignItems:'center', gap:'25px'}}>
+            <div style={{position:'relative', width:'120px', height:'120px', flexShrink:0}}>
+               <svg width="120" height="120" viewBox="0 0 120 120" style={{transform:'rotate(-90deg)'}}>
+                  <circle cx="60" cy="60" r="54" fill="none" stroke="#f1f5f9" strokeWidth="8" />
+                  <circle cx="60" cy="60" r="54" fill="none" stroke={scoreColor} strokeWidth="8" strokeLinecap="round"
+                     strokeDasharray={circumference} strokeDashoffset={strokeDashoffset}
+                     style={{transition:'stroke-dashoffset 1s ease, stroke 0.5s ease'}} />
+               </svg>
+               <div style={{position:'absolute', top:'50%', left:'50%', transform:'translate(-50%, -50%)', textAlign:'center'}}>
+                  <div style={{fontSize:'28px', fontWeight:'900', color:'#0f172a', lineHeight:1}}>{honorScore}</div>
+                  <div style={{fontSize:'9px', fontWeight:'800', color:scoreColor, letterSpacing:'1px', marginTop:'4px'}}>{scoreLabel.toUpperCase()}</div>
+               </div>
+            </div>
+            <div style={{flex:1}}>
+               <div style={{fontSize:'10px', fontWeight:'800', letterSpacing:'1px', color:'#64748b', marginBottom:'8px'}}>HONOR SCORE</div>
+               <div style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', marginBottom:'6px'}}>Worker Reputation</div>
+               <p style={{fontSize:'12px', color:'#94a3b8', lineHeight:'1.5', margin:0}}>Your score reflects claim integrity. Honest behavior raises it over time. False claims or geo-spoofing lower it.</p>
+               {honorScore < 50 && (
+                  <div style={{marginTop:'10px', padding:'8px 12px', background:'#fef2f2', border:'1px solid #fecaca', borderRadius:'10px', fontSize:'11px', fontWeight:'700', color:'#dc2626'}}>⚠️ Low score may restrict claim access</div>
+               )}
             </div>
          </div>
 

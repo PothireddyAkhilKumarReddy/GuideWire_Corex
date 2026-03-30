@@ -3,7 +3,7 @@ from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from database.database import get_db
 from models.models import Claim, User, Subscription
-from services.fraud_service import evaluate_fraud_and_update_trust
+from services.fraud_service import evaluate_fraud_and_update_trust, update_honor_score
 from datetime import datetime, timedelta
 
 router = APIRouter()
@@ -44,17 +44,12 @@ def trigger_claim(req: ClaimRequest, db: Session = Depends(get_db)):
         if fraud_flag:
              status = "Investigating (Fraud Alert)"
     
-    # --- BUG FIX: Removed unconditional override of status ---
-        
     subscription_consumed = False
     
     # --- CONTINUOUS POLICY FEATURE ---
-    # The subscription remains active even after an automated trigger
-    # This acts as a continuous safety net for the gig worker during multiple weather events
     if status == "Triggered":
         active_sub = db.query(Subscription).filter(Subscription.user_id == req.user_id, Subscription.active == True).first()
         if active_sub:
-            # We no longer deactivate the subscription (active_sub.active = False)
             subscription_consumed = False
             
     new_claim = Claim(
@@ -70,6 +65,17 @@ def trigger_claim(req: ClaimRequest, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_claim)
     
+    # --- HONOR SCORE ADJUSTMENT ---
+    honor_score = trust_score
+    if status == "Triggered" and not fraud_flag:
+        honor_score = update_honor_score(db, req.user_id, "approved")
+    elif req.risk_level == "Geofence Mismatch":
+        honor_score = update_honor_score(db, req.user_id, "geofence_spoof")
+    elif status == "Rejected" and req.xai_reason and "False Claim" in (req.xai_reason or ""):
+        honor_score = update_honor_score(db, req.user_id, "rejected_false")
+    elif fraud_flag:
+        honor_score = update_honor_score(db, req.user_id, "fraud_spike")
+    
     if status == "Rejected":
         message = f"Claim not eligible. {req.xai_reason}" if req.xai_reason else "Claim not eligible. Risk level is below threshold."
     else:
@@ -79,6 +85,7 @@ def trigger_claim(req: ClaimRequest, db: Session = Depends(get_db)):
         "message": message,
         "claim_id": new_claim.id,
         "trust_score": trust_score,
+        "honor_score": honor_score,
         "fraud_score": fraud_score,
         "payout": new_claim.payout_amount,
         "status": status,
@@ -89,3 +96,4 @@ def trigger_claim(req: ClaimRequest, db: Session = Depends(get_db)):
 def get_user_claims(user_id: int, db: Session = Depends(get_db)):
     claims = db.query(Claim).filter(Claim.user_id == user_id).order_by(Claim.created_at.desc()).all()
     return {"history": claims}
+

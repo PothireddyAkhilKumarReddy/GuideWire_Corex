@@ -36,6 +36,7 @@ export default function App() {
   const [role, setRole] = useState('worker')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [userId, setUserId] = useState(null)
+  const [honorScore, setHonorScore] = useState(100.0)
   const [authMode, setAuthMode] = useState('login')
   const [authForm, setAuthForm] = useState({ email: '', password: '' })
   const [regForm, setRegForm] = useState({ name: '', email: '', password: '', city: '', role: 'worker' })
@@ -180,6 +181,11 @@ export default function App() {
         setSubscription(null);
       }
 
+      // Populate Honor Score from login response
+      if (data.honor_score !== undefined) {
+        setHonorScore(data.honor_score);
+      }
+
       setIsLoggedIn(true);
       setCurrentView(data.role === 'admin' ? 'admin' : 'dashboard');
     } catch (e) {
@@ -302,6 +308,11 @@ export default function App() {
       
       const parsedStatus = claimData.status === 'Rejected' ? 'rejected' : (claimData.status.includes('Fraud') ? 'investigating' : 'approved');
       
+      // Update Honor Score from claim response
+      if (claimData.honor_score !== undefined) {
+        setHonorScore(claimData.honor_score);
+      }
+      
       // Update memory with newly generated XAI Reason context!
       const newClaim = { id: `CLM-${claimData.claim_id || Date.now()}`, date: new Date().toLocaleDateString('en-IN'), reason: claimForm.reason, city: claimForm.city, location: claimForm.location, payout: claimData.payout, status: parsedStatus, riskScore: data.risk_level, xaiReason: data.xai_reason || 'Standard Operating Conditions' };
       setClaimHistory(prev => [newClaim, ...prev]);
@@ -361,6 +372,11 @@ export default function App() {
       });
       const claimData = await claimRes.json();
       const parsedStatus = claimData.status === 'Rejected' ? 'rejected' : (claimData.status.includes('Fraud') ? 'investigating' : 'approved');
+      
+      // Update Honor Score from auto-claim response
+      if (claimData.honor_score !== undefined) {
+        setHonorScore(claimData.honor_score);
+      }
       
       const newClaim = { id: `CLM-${claimData.claim_id || Date.now()}`, date: new Date().toLocaleDateString('en-IN'), reason: "Automated System Trigger", city: data.telemetry?.city || "Auto", location: "Live Geo", payout: claimData.payout, status: parsedStatus, riskScore: data.risk_level, xaiReason: data.xai_reason || 'Smart Contract Triggered' };
       setClaimHistory(prev => [newClaim, ...prev]);
@@ -434,6 +450,7 @@ export default function App() {
           setIsLoggedIn={setIsLoggedIn} setRole={setRole}
           results={results} loadingRisk={loadingRisk} handleCheckRisk={handleCheckRisk}
           handleZeroTouchOracle={handleZeroTouchOracle} oracleStatus={oracleStatus} setOracleStatus={setOracleStatus}
+          honorScore={honorScore}
         />
       )}
       

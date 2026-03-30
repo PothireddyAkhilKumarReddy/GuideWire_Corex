@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from database.database import get_db
 from models.models import User, Subscription
 from services.auth_service import get_password_hash, verify_password, create_access_token
+from services.fraud_service import calculate_passive_recovery
 from pydantic import BaseModel
 import datetime
 
@@ -61,5 +62,8 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
             "activatedOn": active_sub.created_at.strftime('%d/%m/%Y') if active_sub.created_at else datetime.datetime.now().strftime('%d/%m/%Y')
         }
 
+    # Calculate passive Honor Score recovery
+    honor_score = calculate_passive_recovery(db, db_user.id)
+
     access_token = create_access_token(data={"sub": db_user.email, "role": db_user.role, "user_id": db_user.id})
-    return {"access_token": access_token, "token_type": "bearer", "name": db_user.name, "role": db_user.role, "user_id": db_user.id, "subscription": sub_data}
+    return {"access_token": access_token, "token_type": "bearer", "name": db_user.name, "role": db_user.role, "user_id": db_user.id, "subscription": sub_data, "honor_score": honor_score}
