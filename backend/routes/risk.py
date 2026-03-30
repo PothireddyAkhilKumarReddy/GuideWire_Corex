@@ -24,15 +24,16 @@ def check_risk(request: RiskRequest, db: Session = Depends(get_db)):
         claim_reason=request.claim_reason
     )
     
-    # Store the telemetry event into the database
-    log = RiskLog(
-        user_id=request.user_id,
-        city=request.city,
-        location=f"{request.latitude}, {request.longitude}",
-        risk_score=results["risk_score"],
-        risk_level=results["risk_level"]
-    )
-    db.add(log)
-    db.commit()
+    # Store the telemetry event into the database only if it's a registered user
+    if request.user_id != 0:
+        log = RiskLog(
+            user_id=request.user_id,
+            city=request.city,
+            location=f"{request.latitude}, {request.longitude}",
+            risk_score=results["risk_score"],
+            risk_level=results["risk_level"]
+        )
+        db.add(log)
+        db.commit()
     
     return results

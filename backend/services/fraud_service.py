@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from models.models import Claim, User
 from datetime import datetime, timedelta
-import random
+import datetime
 
 def evaluate_fraud_and_update_trust(db: Session, user_id: int, request_ip: str = "127.0.0.1"):
     # Section 15: Adversarial Defense & Anti-Spoofing Strategy
@@ -21,16 +21,8 @@ def evaluate_fraud_and_update_trust(db: Session, user_id: int, request_ip: str =
     if recent_claims_24h > 2: fraud_score += 40
     if recent_claims_1h > 1: fraud_score += 50
     
-    # 2. IP / Device Spoofing Mock
-    if request_ip.startswith("10.") or request_ip.startswith("192.") or request_ip == "127.0.0.1": 
-        pass 
-    else: 
-        fraud_score += random.randint(10, 25) # Suspicious geolocation origin
-    
-    # 3. Location-Level Circuit Breaker (Hypothetical density check)
-    location_anomaly = random.choice([True, False, False, False]) # 25% mock chance of location attack
-    if location_anomaly:
-        fraud_score += 30
+    # Advanced geolocation IP checks and density circuit breakers omitted since live traffic APIs are disconnected.
+    # Fraud evaluation strictly enforces deterministic behavioral frequency anomalies.
     
     # Evaluate Hard Circuit Breakers
     circuit_breaker_active = fraud_score >= 80

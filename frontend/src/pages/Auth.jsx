@@ -22,12 +22,12 @@ export default function Auth({ role, setRole, authMode, setAuthMode, authForm, s
              <>
                <div style={{textAlign:'left', marginBottom:'25px'}}>
                   <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px', marginLeft:'5px'}}>EMAIL ADDRESS</label>
-                  <input type="email" value={authForm.email} onChange={(e) => setAuthForm({...authForm, email: e.target.value})} placeholder="worker@insurgig.network" style={{width:'100%', padding:'18px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'15px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
+                  <input type="email" value={authForm.email} onChange={(e) => setAuthForm({...authForm, email: e.target.value})} placeholder="Enter your email address" style={{width:'100%', padding:'18px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'15px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
                </div>
 
                <div style={{textAlign:'left', marginBottom:'25px'}}>
                   <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px', marginLeft:'5px'}}>PASSWORD</label>
-                  <input type="password" value={authForm.password} onChange={(e) => setAuthForm({...authForm, password: e.target.value})} placeholder="••••••••••••" style={{width:'100%', padding:'18px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'15px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
+                  <input type="password" value={authForm.password} onChange={(e) => setAuthForm({...authForm, password: e.target.value})} placeholder="Enter your password" style={{width:'100%', padding:'18px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'15px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
                   {authError && <div style={{color:'var(--accent-red)', fontSize:'12px', marginTop:'10px'}}>{authError}</div>}
                   {authSuccess && <div style={{color:'#22c55e', fontSize:'12px', marginTop:'10px'}}>{authSuccess}</div>}
                </div>
@@ -47,22 +47,22 @@ export default function Auth({ role, setRole, authMode, setAuthMode, authForm, s
              <>
                <div style={{textAlign:'left', marginBottom:'15px'}}>
                   <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px', marginLeft:'5px'}}>FULL NAME</label>
-                  <input type="text" value={regForm.name} onChange={(e) => setRegForm({...regForm, name: e.target.value})} placeholder="Ravi Kumar" style={{width:'100%', padding:'15px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
+                  <input type="text" value={regForm.name} onChange={(e) => setRegForm({...regForm, name: e.target.value})} placeholder="Enter your full name" style={{width:'100%', padding:'15px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
                </div>
                
                <div style={{textAlign:'left', marginBottom:'15px'}}>
                   <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px', marginLeft:'5px'}}>EMAIL ADDRESS</label>
-                  <input type="email" value={regForm.email} onChange={(e) => setRegForm({...regForm, email: e.target.value})} placeholder="ravi@insurgig.network" style={{width:'100%', padding:'15px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
+                  <input type="email" value={regForm.email} onChange={(e) => setRegForm({...regForm, email: e.target.value})} placeholder="Enter your email address" style={{width:'100%', padding:'15px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
                </div>
 
                <div style={{textAlign:'left', marginBottom:'15px'}}>
                   <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px', marginLeft:'5px'}}>PASSWORD</label>
-                  <input type="password" value={regForm.password} onChange={(e) => setRegForm({...regForm, password: e.target.value})} placeholder="••••••••••••" style={{width:'100%', padding:'15px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
+                  <input type="password" value={regForm.password} onChange={(e) => setRegForm({...regForm, password: e.target.value})} placeholder="Create a password" style={{width:'100%', padding:'15px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
                </div>
                
                <div style={{textAlign:'left', marginBottom:'25px'}}>
                   <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px', marginLeft:'5px'}}>CITY</label>
-                  <input type="text" value={regForm.city} onChange={(e) => setRegForm({...regForm, city: e.target.value})} placeholder="Hyderabad" style={{width:'100%', padding:'15px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
+                  <input type="text" value={regForm.city} onChange={(e) => setRegForm({...regForm, city: e.target.value})} placeholder="Enter your regular operating city" style={{width:'100%', padding:'15px 20px', borderRadius:'16px', border:'1px solid #cbd5e1', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box'}} />
                </div>
 
                {authError && <div style={{color:'var(--accent-red)', fontSize:'12px', marginBottom:'15px'}}>{authError}</div>}

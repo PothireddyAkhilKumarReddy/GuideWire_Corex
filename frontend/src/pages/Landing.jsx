@@ -29,8 +29,8 @@ export default function Landing({ setCurrentView }) {
               <span style={{background:'linear-gradient(90deg, #3b82f6, #021676)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent'}}>Gig Workers.</span>
            </h1>
            
-           <p style={{fontSize:'18px', color:'#64748b', maxWidth:'480px', margin:'0 0 40px 0', lineHeight:'1.6'}}>
-             Convert unpredictability into guaranteed income. InsurGig detects rainfall, pollution, and severe traffic in real-time, instantly triggering compensation directly to your wallet — with zero paperwork.
+           <p style={{fontSize:'18px', lineHeight:'1.8', color:'#cbd5e1', marginBottom:'40px', maxWidth:'600px', margin:'0 auto', paddingBottom:'20px'}}>
+             Convert unpredictability into guaranteed income. InsurGig detects rainfall, pollution, and severe traffic in real-time, instantly triggering compensation directly to your original payment mode — with zero paperwork.
            </p>
            
            <div style={{display:'flex', gap:'15px', flexWrap:'wrap'}}>
@@ -152,10 +152,10 @@ export default function Landing({ setCurrentView }) {
                </div>
 
                {/* 4. Compound Event */}
-               <div style={{background:'white', borderRadius:'16px', padding:'30px', border:'2px solid #3b82f6', boxShadow:'0 10px 25px rgba(59, 130, 246, 0.15)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+               <div style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
                   <div style={{fontSize:'28px', color:'#3b82f6'}}>⚡</div>
                   <div>
-                     <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Compound Event ⭐</h4>
+                     <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Compound Event</h4>
                      <p style={{fontSize:'13px', color:'#64748b', margin:0, lineHeight:'1.5'}}>Rain {">"} 20mm/hr AND AQI {">"} 200 together</p>
                   </div>
                </div>
@@ -207,7 +207,7 @@ export default function Landing({ setCurrentView }) {
             <div style={{padding:'30px'}}>
                <div style={{width:'60px', height:'60px', background:'#f5f3ff', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 20px auto', fontSize:'24px', fontWeight:'900', color:'#7c3aed'}}>4</div>
                <h4 style={{fontSize:'18px', fontWeight:'800', color:'#0f172a', marginBottom:'10px'}}>Instant Payout</h4>
-               <p style={{fontSize:'14px', color:'#64748b', lineHeight:'1.6', margin:0}}>Compensation is processed and sent directly to your wallet — zero paperwork required.</p>
+               <p style={{fontSize:'14px', color:'#64748b', lineHeight:'1.6', margin:0}}>Compensation is processed and sent directly to your original payment mode — zero paperwork required.</p>
             </div>
          </div>
       </section>

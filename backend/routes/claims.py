@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from database.database import get_db
 from models.models import Claim, User, Subscription
 from services.fraud_service import evaluate_fraud_and_update_trust
+from datetime import datetime, timedelta
 
 router = APIRouter()
 
@@ -17,7 +18,21 @@ class ClaimRequest(BaseModel):
 
 @router.post("/trigger-claim")
 def trigger_claim(req: ClaimRequest, db: Session = Depends(get_db)):
-    if req.risk_level not in ["High", "Severe", "Extreme"] and req.risk_level != "High":
+    # --- 24-Hour Cooldown Enforcer ---
+    time_24h_ago = datetime.utcnow() - timedelta(hours=24)
+    recent_payout = db.query(Claim).filter(
+        Claim.user_id == req.user_id,
+        Claim.claim_status.in_(["Triggered", "Investigating (Fraud Alert)", "approved"]),
+        Claim.created_at >= time_24h_ago
+    ).first()
+
+    if recent_payout:
+        status = "Rejected"
+        fraud_flag = False
+        trust_score = 100
+        fraud_score = 0
+        req.xai_reason = "Policy Cooldown: Maximum 1 automated payout allowed per 24 hours to prevent wallet drain."
+    elif req.risk_level not in ["High", "Severe", "Extreme"] and req.risk_level != "High":
         status = "Rejected"
         fraud_flag = False
         trust_score = 100
@@ -33,12 +48,14 @@ def trigger_claim(req: ClaimRequest, db: Session = Depends(get_db)):
         
     subscription_consumed = False
     
-    # --- ONE CLAIM PER SUBSCRIPTION FEATURE ---
+    # --- CONTINUOUS POLICY FEATURE ---
+    # The subscription remains active even after an automated trigger
+    # This acts as a continuous safety net for the gig worker during multiple weather events
     if status == "Triggered":
         active_sub = db.query(Subscription).filter(Subscription.user_id == req.user_id, Subscription.active == True).first()
         if active_sub:
-            active_sub.active = False
-            subscription_consumed = True
+            # We no longer deactivate the subscription (active_sub.active = False)
+            subscription_consumed = False
             
     new_claim = Claim(
         user_id=req.user_id,

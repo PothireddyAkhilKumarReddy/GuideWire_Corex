@@ -1,7 +1,6 @@
 import datetime
 import os
 import pickle
-import random
 import unicodedata
 from services.external_api_service import get_weather_data, get_aqi_data
 
@@ -30,15 +29,17 @@ def calculate_risk(city: str, lat: float, lon: float, claim_reason: str = None):
     def norm_str(s):
         return "".join(c for c in unicodedata.normalize('NFKD', s) if not unicodedata.combining(c)).lower().strip()
 
-    if actual_city != "Unknown" and norm_str(city) not in norm_str(actual_city) and norm_str(actual_city) not in norm_str(city):
+    if city != "Auto" and actual_city != "Unknown" and norm_str(city) not in norm_str(actual_city) and norm_str(actual_city) not in norm_str(city):
         return {
             "risk_score": 0.0,
             "risk_level": "Geofence Mismatch", 
             "recommended_premium": 0.0,
+            "price_multiplier": 1.0,
+            "discount_reason": "Location Spoofed",
             "claim_eligible": False,
             "xai_reason": f"Fraud Alert: Hardware coordinates located near {actual_city}.",
             "telemetry": {
-                "traffic": "Idx 0.0",
+                "traffic": "0.0 / 10",
                 "rain": "0.0 mm",
                 "city": actual_city,
                 "location": f"{lat:.4f}, {lon:.4f}"
@@ -48,11 +49,10 @@ def calculate_risk(city: str, lat: float, lon: float, claim_reason: str = None):
     # Generate ML Features
     # The Model expects: ['rainfall_mm', 'temperature_c', 'aqi', 'traffic_index', 'demand_drop_pct']
     
-    # Simulate dynamic features (Traffic 1-10, Demand Drop 0-100)
-    hour = datetime.datetime.now().hour
-    is_rush_hour = (8 <= hour <= 10) or (17 <= hour <= 20)
-    traffic_index = random.uniform(7.0, 10.0) if is_rush_hour else random.uniform(1.0, 5.0)
-    demand_drop_pct = random.uniform(30.0, 80.0) if is_rush_hour else random.uniform(0.0, 20.0)
+    # We no longer mock traffic datasets. In absence of a live live-traffic API (e.g. Google Maps), 
+    # we initialize baseline static parameters so the ML Engine evaluates purely on real weather + real AQI.
+    traffic_index = 2.0
+    demand_drop_pct = 5.0
     
     # 🧠 Run Machine Learning Prediction!
     final_score = 15.0 # fallback
@@ -110,17 +110,28 @@ def calculate_risk(city: str, lat: float, lon: float, claim_reason: str = None):
         else:
             xai_reason = "Standard Operating Conditions"
 
-    # Calculate actual dynamic premium structurally via AI scoring
+    # Dynamic Pricing Engine: Calculate structural premium coefficient
+    price_multiplier = 1.0
+    discount_reason = "Standard Baseline"
+    if final_score <= 45.0:
+        price_multiplier = 0.85 # 15% Safe Zone ML Discount
+        discount_reason = "Low Risk History (15% Off)"
+    elif final_score > 65.0:
+        price_multiplier = 1.15 # 15% Algorithmic Inflation
+        discount_reason = "High Risk Zone (15% Surge)"
+        
     recommended_premium = float(30.0 + (final_score * 0.75))
     
     return {
         "risk_score": round(final_score, 1),
         "risk_level": risk_level,
         "recommended_premium": round(recommended_premium, 2),
+        "price_multiplier": price_multiplier,
+        "discount_reason": discount_reason,
         "claim_eligible": claim_eligible,
         "xai_reason": xai_reason,
         "telemetry": {
-            "traffic": f"Idx {traffic_index:.1f}",
+            "traffic": f"{traffic_index:.1f} / 10",
             "rain": f"{rain} mm",
             "location": f"{lat:.4f}, {lon:.4f}",
             "city": actual_city if actual_city != "Unknown" else city

@@ -35,6 +35,12 @@ export default function Claims({ coords, results, subscription, setCurrentView, 
            <>
              {/* Claim Form */}
              <div style={{background:'white', borderRadius:'32px', padding:'30px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.04)', marginBottom:'20px'}}>
+               
+               <div style={{background:'#fffbeb', borderLeft:'4px solid #f59e0b', padding:'15px', borderRadius:'12px', marginBottom:'25px'}}>
+                 <div style={{fontSize:'12px', fontWeight:'800', color:'#b45309', marginBottom:'5px'}}>MANUAL OVERRIDE SYSTEM</div>
+                 <div style={{fontSize:'11px', color:'#92400e'}}>Did the Zero-Touch Dashboard scanner miss your micro-climate disruption? You can file a manual fallback claim here for ML evaluation.</div>
+               </div>
+
                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'25px'}}>
                  <h3 style={{margin:0, fontSize:'18px', fontWeight:'800', color:'#0f172a'}}>Claim Details</h3>
                  <span style={{background:'#dcfce7', color:'#166534', padding:'6px 12px', borderRadius:'20px', fontSize:'10px', fontWeight:'800', letterSpacing:'1px'}}>{subscription.plan} PLAN</span>

@@ -1,6 +1,6 @@
 import BottomNav from '../components/BottomNav'
 
-export default function Dashboard({ coords, userName, claimHistory, subscription, setCurrentView, setIsLoggedIn, setRole, results, loadingRisk, handleCheckRisk }) {
+export default function Dashboard({ coords, userName, claimHistory, subscription, setCurrentView, setIsLoggedIn, setRole, results, loadingRisk, handleCheckRisk, handleZeroTouchOracle, oracleStatus, setOracleStatus }) {
   return (
     <div style={{background: '#f8fafc', minHeight:'100vh', padding:'30px 20px 120px 20px', fontFamily:'"Inter", sans-serif'}}>
       <div style={{maxWidth:'600px', margin:'0 auto'}}>
@@ -118,6 +118,54 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                </div>
             </div>
          </div>
+         
+         <div style={{background:'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', borderRadius:'32px', padding:'30px', border:'1px solid #334155', boxShadow:'0 20px 40px rgba(0,0,0,0.2)', marginBottom: '20px'}}>
+            <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'15px'}}>
+               <h3 style={{fontSize:'18px', fontWeight:'800', color:'white', margin:0}}>Zero-Touch Auto-Claim</h3>
+               <div style={{fontSize:'10px', background:'rgba(59,130,246,0.2)', color:'#60a5fa', padding:'4px 8px', borderRadius:'10px', fontWeight:'800', letterSpacing:'1px'}}>LIVE SENSORS: 5</div>
+            </div>
+            <p style={{fontSize:'13px', color:'#94a3b8', margin:'0 0 20px 0', lineHeight:'1.5'}}>
+               Smart Contracts are monitoring 5 distinct public APIs natively. If any parameter breaches the critical threshold, funds are auto-transferred.
+            </p>
+            
+            <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'10px', marginBottom:'25px'}}>
+               <div style={{background:'rgba(255,255,255,0.05)', padding:'10px', borderRadius:'12px', fontSize:'11px', color:'#cbd5e1', fontWeight:'600', border:'1px solid rgba(255,255,255,0.1)'}}>🌧️ Torrential Rain <span style={{color:'#60a5fa', float:'right'}}>ON</span></div>
+               <div style={{background:'rgba(255,255,255,0.05)', padding:'10px', borderRadius:'12px', fontSize:'11px', color:'#cbd5e1', fontWeight:'600', border:'1px solid rgba(255,255,255,0.1)'}}>🔥 Extreme Heat <span style={{color:'#60a5fa', float:'right'}}>ON</span></div>
+               <div style={{background:'rgba(255,255,255,0.05)', padding:'10px', borderRadius:'12px', fontSize:'11px', color:'#cbd5e1', fontWeight:'600', border:'1px solid rgba(255,255,255,0.1)'}}>🏭 AQI Hazards <span style={{color:'#60a5fa', float:'right'}}>ON</span></div>
+               <div style={{background:'rgba(255,255,255,0.05)', padding:'10px', borderRadius:'12px', fontSize:'11px', color:'#cbd5e1', fontWeight:'600', border:'1px solid rgba(255,255,255,0.1)'}}>🚦 Gridlock <span style={{color:'#60a5fa', float:'right'}}>ON</span></div>
+               <div style={{background:'rgba(255,255,255,0.05)', padding:'10px', borderRadius:'12px', fontSize:'11px', color:'#cbd5e1', fontWeight:'600', border:'1px solid rgba(255,255,255,0.1)'}}>📉 Demand Drop <span style={{color:'#60a5fa', float:'right'}}>ON</span></div>
+            </div>
+            
+            {oracleStatus === 'scanning' ? (
+                <button style={{width:'100%', padding:'16px', background:'#3b82f6', color:'white', border:'none', borderRadius:'16px', fontSize:'14px', fontWeight:'800', opacity: 0.7}}>📡 Scanning APIs...</button>
+            ) : oracleStatus === 'triggered' ? (
+                <div style={{background:'rgba(34,197,94,0.1)', border:'1px solid rgba(34,197,94,0.3)', padding:'15px', borderRadius:'16px', textAlign:'center'}}>
+                   <div style={{color:'#10b981', fontWeight:'800', fontSize:'14px', marginBottom:'4px'}}>⚡ Smart Contract Triggered!</div>
+                   <div style={{fontSize:'12px', color:'#a7f3d0'}}>Disruption detected natively. Payout routed directly to original payment method.</div>
+                   <button onClick={() => setOracleStatus(null)} style={{marginTop:'10px', background:'transparent', color:'white', border:'1px solid rgba(255,255,255,0.2)', padding:'6px 12px', borderRadius:'8px', fontSize:'10px', cursor:'pointer'}}>Reset Scanner</button>
+                </div>
+            ) : oracleStatus === 'safe' ? (
+                <div style={{background:'rgba(59,130,246,0.1)', border:'1px solid rgba(59,130,246,0.3)', padding:'15px', borderRadius:'16px', textAlign:'center'}}>
+                   <div style={{fontSize:'14px', fontWeight:'800', color:'#60a5fa', marginBottom:'5px'}}>✅ System Status: Green</div>
+                   <div style={{fontSize:'12px', color:'#93c5fd'}}>No critical disruptions detected across 5 active arrays.</div>
+                   <button onClick={() => setOracleStatus(null)} style={{marginTop:'10px', background:'transparent', color:'white', border:'1px solid rgba(255,255,255,0.2)', padding:'6px 12px', borderRadius:'8px', fontSize:'10px', cursor:'pointer'}}>Reset Scanner</button>
+                </div>
+            ) : oracleStatus === 'error' ? (
+                <div style={{background:'rgba(239,68,68,0.1)', border:'1px solid rgba(239,68,68,0.3)', padding:'15px', borderRadius:'16px', textAlign:'center'}}>
+                   <div style={{fontSize:'14px', fontWeight:'800', color:'#f87171'}}>Connection Refused</div>
+                   <button onClick={() => setOracleStatus(null)} style={{marginTop:'10px', background:'transparent', color:'white', border:'1px solid rgba(255,255,255,0.2)', padding:'6px 12px', borderRadius:'8px', fontSize:'10px', cursor:'pointer'}}>Reset Scanner</button>
+                </div>
+            ) : (
+                <button 
+                  onClick={handleZeroTouchOracle} 
+                  disabled={!subscription}
+                  style={{width:'100%', padding:'16px', background: subscription ? '#3b82f6' : '#cbd5e1', color:'white', border:'none', borderRadius:'16px', fontSize:'14px', fontWeight:'800', cursor: subscription ? 'pointer' : 'not-allowed', boxShadow: subscription ? '0 10px 20px rgba(59,130,246,0.3)' : 'none'}}
+                >
+                  {subscription ? '📡 Force Automated Scan' : 'Purchase Policy First'}
+                </button>
+            )}
+         </div>
+         
          
       </div>
       <BottomNav active="dashboard" setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole} />

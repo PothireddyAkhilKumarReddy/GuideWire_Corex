@@ -38,7 +38,7 @@ export default function App() {
   const [userId, setUserId] = useState(null)
   const [authMode, setAuthMode] = useState('login')
   const [authForm, setAuthForm] = useState({ email: '', password: '' })
-  const [regForm, setRegForm] = useState({ name: '', email: '', password: '', city: 'Hyderabad', role: 'worker' })
+  const [regForm, setRegForm] = useState({ name: '', email: '', password: '', city: '', role: 'worker' })
   const [authError, setAuthError] = useState('')
   const [authSuccess, setAuthSuccess] = useState('')
 
@@ -123,6 +123,30 @@ export default function App() {
       );
     }
   }, []);
+
+  // Auto-fill City on Registration (Uses Backend OpenWeatherMap for Consistency)
+  useEffect(() => {
+    if (coords.lat && coords.lon && !regForm.city) {
+      fetch('http://127.0.0.1:8000/api/risk/calculate-risk', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: 0,
+          city: "Auto",
+          latitude: coords.lat,
+          longitude: coords.lon,
+          claim_reason: "Initial Geocode"
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.telemetry && data.telemetry.city) {
+          setRegForm(prev => ({ ...prev, city: data.telemetry.city.replace(' District', '') }));
+        }
+      })
+      .catch(e => console.log("Auto-fill backend geocode error:", e));
+    }
+  }, [coords.lat, coords.lon]);
 
   const PLANS = [
     { id: 'basic', name: 'Basic', premium: 40, coverage: 700, period: 'week', features: ['Personal Accident Cover', 'WhatsApp Claim Support', 'Hospital Cash Benefit'] },
@@ -305,12 +329,57 @@ export default function App() {
     setClaimLoading(false);
   }
 
+  const [oracleStatus, setOracleStatus] = useState(null);
+
+  const handleZeroTouchOracle = async () => {
+    if (!subscription) return;
+    setOracleStatus('scanning');
+    
+    try {
+      const payload = {
+        user_id: userId || 8829,
+        city: "Auto",
+        latitude: coords.lat || 17.3850,
+        longitude: coords.lon || 78.4867,
+        claim_reason: "Automated System Trigger"
+      };
+      
+      const response = await fetch('http://127.0.0.1:8000/api/risk/calculate-risk', {
+        method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)
+      });
+      const data = await response.json();
+      const payout = subscription.coverage;
+      
+      if (data.risk_level === 'Low' || data.risk_level === 'Medium') {
+          setOracleStatus('safe');
+          return;
+      }
+      
+      const claimRes = await fetch('http://127.0.0.1:8000/api/claims/trigger-claim', {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ user_id: userId || 8829, risk_level: data.risk_level, payout_amount: payout, reason: "Automated System Payload", city: "Auto", xai_reason: data.xai_reason })
+      });
+      const claimData = await claimRes.json();
+      const parsedStatus = claimData.status === 'Rejected' ? 'rejected' : (claimData.status.includes('Fraud') ? 'investigating' : 'approved');
+      
+      const newClaim = { id: `CLM-${claimData.claim_id || Date.now()}`, date: new Date().toLocaleDateString('en-IN'), reason: "Automated System Trigger", city: data.telemetry?.city || "Auto", location: "Live Geo", payout: claimData.payout, status: parsedStatus, riskScore: data.risk_level, xaiReason: data.xai_reason || 'Smart Contract Triggered' };
+      setClaimHistory(prev => [newClaim, ...prev]);
+      
+      // Update global Dashboard AI Risk status
+      setResults(prev => prev ? { ...prev, riskScore: data.risk_level, claimStatus: "Triggered" } : null);
+      setOracleStatus('triggered');
+    } catch (e) {
+      console.error(e);
+      setOracleStatus('error');
+    }
+  }
+
   const handleCheckRisk = async () => {
     setLoadingRisk(true)
     try {
       const payload = {
         user_id: userId || 8829,
-        city: formData.city || "Hyderabad",
+        city: "Auto",
         latitude: coords.lat || 17.3850,
         longitude: coords.lon || 78.4867
       };
@@ -364,6 +433,7 @@ export default function App() {
           subscription={subscription} setCurrentView={setCurrentView}
           setIsLoggedIn={setIsLoggedIn} setRole={setRole}
           results={results} loadingRisk={loadingRisk} handleCheckRisk={handleCheckRisk}
+          handleZeroTouchOracle={handleZeroTouchOracle} oracleStatus={oracleStatus} setOracleStatus={setOracleStatus}
         />
       )}
       
