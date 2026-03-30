@@ -13,7 +13,7 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
   const circumference = 2 * Math.PI * 54;
   const strokeDashoffset = circumference - (honorScore / 100) * circumference;
   return (
-    <div style={{background:'linear-gradient(180deg, #f0f4f8 0%, #f8fafc 100%)', minHeight:'100vh', padding:'30px 40px 120px 40px', fontFamily:'"Inter", sans-serif'}}>
+    <div className="dash-wrapper">
       <div style={{maxWidth:'1100px', margin:'0 auto'}}>
          <header style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'30px'}}>
             <div style={{display:'flex', alignItems:'center', gap:'12px'}}>

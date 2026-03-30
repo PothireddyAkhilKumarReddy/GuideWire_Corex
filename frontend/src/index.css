@@ -224,6 +224,15 @@ a { color: var(--text-main); text-decoration: none; }
   100% { opacity: 1; transform: translateY(0); }
 }
 
+.dash-wrapper {
+  background: linear-gradient(180deg, #f0f4f8 0%, #f8fafc 100%);
+  min-height: 100vh;
+  padding: 30px 40px 120px 40px;
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
 /* ==========================================
    RESPONSIVE BREAKPOINT (800px)
    ========================================== */
@@ -247,6 +256,13 @@ a { color: var(--text-main); text-decoration: none; }
   
   /* Grid overrides */
   .flow-grid, .pricing-grid, .admin-metrics, .ops-canvas-grid, .dash-content > div, .dash-desktop-grid { grid-template-columns: 1fr !important; }
+  
+  .dash-wrapper { padding: 15px 15px 120px 15px !important; width: 100vw !important; overflow-x: hidden; }
+  .hover-card { padding: 20px !important; box-sizing: border-box; width: 100%; border-radius: 20px !important; }
+  
+  /* dashboard internal grids */
+  .dash-desktop-grid > div > div > div[style*="grid-template-columns: 1fr 1fr 1fr"] { grid-template-columns: 1fr !important; gap: 8px !important; }
+  .dash-desktop-grid > div > div > div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; gap: 8px !important; }
   
   /* Component overrides */
   .auth-box { width: 90%; margin: 0 auto; padding: 25px; box-sizing: border-box; }
