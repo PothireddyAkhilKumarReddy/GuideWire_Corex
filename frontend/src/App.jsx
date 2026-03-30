@@ -1,5 +1,8 @@
 import { useState, useEffect } from 'react'
 
+// Dynamic API base — reads from Vite env var on production (Vercel), falls back to localhost for dev
+const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
 // Page Components
 import Landing from './pages/Landing'
 import Auth from './pages/Auth'
@@ -86,7 +89,7 @@ export default function App() {
   // Fetch Claim History
   useEffect(() => {
     if (isLoggedIn && userId) {
-      fetch(`http://127.0.0.1:8000/api/claims/${userId}`)
+      fetch(`${API_BASE}/api/claims/${userId}`)
         .then(res => res.json())
         .then(data => {
           if (data.history) {
@@ -128,7 +131,7 @@ export default function App() {
   // Auto-fill City on Registration (Uses Backend OpenWeatherMap for Consistency)
   useEffect(() => {
     if (coords.lat && coords.lon && !regForm.city) {
-      fetch('http://127.0.0.1:8000/api/risk/calculate-risk', {
+      fetch(`${API_BASE}/api/risk/calculate-risk`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -164,7 +167,7 @@ export default function App() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(authForm.email)) { setAuthError('Please enter a valid email address.'); return; }
     if (!authForm.password || authForm.password.length < 6) { setAuthError('Password must be at least 6 characters.'); return; }
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/auth/login", {
+      const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ email: authForm.email, password: authForm.password })
@@ -203,7 +206,7 @@ export default function App() {
     if (!regForm.city || regForm.city.trim().length < 2) { setAuthError('Please enter your city.'); return; }
     try {
       const payload = { ...regForm, role: role };
-      const res = await fetch("http://127.0.0.1:8000/api/auth/signup", {
+      const res = await fetch(`${API_BASE}/api/auth/signup`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(payload)
@@ -257,7 +260,7 @@ export default function App() {
     setPaymentStep('processing');
     try {
       if (!userId) throw new Error("Not logged in");
-      const res = await fetch("http://127.0.0.1:8000/api/plans/select-plan", {
+      const res = await fetch(`${API_BASE}/api/plans/select-plan`, {
         method: "POST", headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ user_id: userId, plan_name: selectedPlan.name })
       });
@@ -294,13 +297,13 @@ export default function App() {
         longitude: coords.lon || 78.4867,
         claim_reason: claimForm.reason
       };
-      const response = await fetch('http://127.0.0.1:8000/api/risk/calculate-risk', {
+      const response = await fetch(`${API_BASE}/api/risk/calculate-risk`, {
         method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)
       });
       const data = await response.json();
       const payout = subscription.coverage;
       
-      const claimRes = await fetch('http://127.0.0.1:8000/api/claims/trigger-claim', {
+      const claimRes = await fetch(`${API_BASE}/api/claims/trigger-claim`, {
         method: 'POST', headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ user_id: userId || 8829, risk_level: data.risk_level, payout_amount: payout, reason: claimForm.reason, city: claimForm.city, xai_reason: data.xai_reason || null })
       });
@@ -355,7 +358,7 @@ export default function App() {
         claim_reason: "Automated System Trigger"
       };
       
-      const response = await fetch('http://127.0.0.1:8000/api/risk/calculate-risk', {
+      const response = await fetch(`${API_BASE}/api/risk/calculate-risk`, {
         method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)
       });
       const data = await response.json();
@@ -366,7 +369,7 @@ export default function App() {
           return;
       }
       
-      const claimRes = await fetch('http://127.0.0.1:8000/api/claims/trigger-claim', {
+      const claimRes = await fetch(`${API_BASE}/api/claims/trigger-claim`, {
         method: 'POST', headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ user_id: userId || 8829, risk_level: data.risk_level, payout_amount: payout, reason: "Automated System Payload", city: "Auto", xai_reason: data.xai_reason })
       });
@@ -399,7 +402,7 @@ export default function App() {
         latitude: coords.lat || 17.3850,
         longitude: coords.lon || 78.4867
       };
-      const response = await fetch("http://127.0.0.1:8000/api/risk/calculate-risk", {
+      const response = await fetch(`${API_BASE}/api/risk/calculate-risk`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(payload)

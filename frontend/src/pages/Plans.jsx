@@ -1,6 +1,8 @@
 import BottomNav from '../components/BottomNav'
 import { useState, useEffect } from 'react'
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
+
 export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRole, handleBuyPlan, PLANS }) {
   const [priceMultiplier, setPriceMultiplier] = useState(1.0);
   const [discountReason, setDiscountReason] = useState("Loading Risk Profile...");
@@ -31,7 +33,7 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
         longitude: coords.lon
       };
       
-      fetch('http://127.0.0.1:8000/api/risk/calculate-risk', {
+      fetch(`${API_BASE}/api/risk/calculate-risk`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
