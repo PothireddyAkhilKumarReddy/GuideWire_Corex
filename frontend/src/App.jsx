@@ -16,7 +16,26 @@ import ClaimHistory from './pages/ClaimHistory'
 
 // App Boot
 export default function App() {
-  const [currentView, setCurrentView] = useState('landing');
+  const [currentView, setCurrentView] = useState(() => {
+    const path = window.location.pathname.replace('/', '');
+    return path || 'landing';
+  });
+
+  useEffect(() => {
+    const targetPath = currentView === 'landing' ? '/' : `/${currentView}`;
+    if (window.location.pathname !== targetPath) {
+      window.history.pushState(null, '', targetPath);
+    }
+  }, [currentView]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const path = window.location.pathname.replace('/', '');
+      setCurrentView(path || 'landing');
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const [role, setRole] = useState('worker')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
