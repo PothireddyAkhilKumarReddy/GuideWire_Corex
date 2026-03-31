@@ -26,6 +26,6 @@ app.include_router(claims.router, prefix="/api/claims", tags=["Claims"])
 app.include_router(plans.router, prefix="/api/plans", tags=["Plans"])
 app.include_router(admin.router, prefix="/api/dashboard", tags=["Admin"])
 
-@app.get("/")
+@app.api_route("/", methods=["GET", "HEAD"])
 def root():
     return {"message": "InsurGig Sentinel API is Active. All Node Health normal."}
