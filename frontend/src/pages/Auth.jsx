@@ -8,6 +8,7 @@ export default function Auth({ role, setRole, setUserId, setUserName, setSubscri
   const [regForm, setRegForm] = useState({ name: '', email: '', password: '', city: '', role: 'worker' })
   const [authError, setAuthError] = useState('')
   const [authSuccess, setAuthSuccess] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const handleAuthSubmit = async () => {
     setAuthError('');
@@ -15,6 +16,7 @@ export default function Auth({ role, setRole, setUserId, setUserName, setSubscri
     if (!authForm.email || !authForm.email.trim()) { setAuthError('Please enter your email address.'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(authForm.email)) { setAuthError('Please enter a valid email address.'); return; }
     if (!authForm.password || authForm.password.length < 6) { setAuthError('Password must be at least 6 characters.'); return; }
+    setLoading(true);
     try {
       const res = await fetch(`${API_BASE}/api/auth/login`, {
         method: "POST",
@@ -43,6 +45,7 @@ export default function Auth({ role, setRole, setUserId, setUserName, setSubscri
       console.error("Auth Offline:", e);
       setAuthError("Network Error: InsurGig AI Server is currently offline.");
     }
+    setLoading(false);
   }
 
   const handleRegSubmit = async () => {
@@ -52,6 +55,7 @@ export default function Auth({ role, setRole, setUserId, setUserName, setSubscri
     if (!regForm.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(regForm.email)) { setAuthError('Please enter a valid email address.'); return; }
     if (!regForm.password || regForm.password.length < 6) { setAuthError('Password must be at least 6 characters.'); return; }
     if (!regForm.city || regForm.city.trim().length < 2) { setAuthError('Please enter your city.'); return; }
+    setLoading(true);
     try {
       const payload = { ...regForm, role: role };
       const res = await fetch(`${API_BASE}/api/auth/signup`, {
@@ -67,6 +71,7 @@ export default function Auth({ role, setRole, setUserId, setUserName, setSubscri
       console.error("Auth Offline:", e);
       setAuthError("Network Error: InsurGig AI Server is currently offline.");
     }
+    setLoading(false);
   }
 
   return (
@@ -109,9 +114,9 @@ export default function Auth({ role, setRole, setUserId, setUserName, setSubscri
                   <div style={{color:'#021676', cursor:'pointer', fontWeight:'700'}} onClick={() => setAuthMode('register')}>Don't have an account? Sign up</div>
                </div>
 
-               <button type="submit" style={{width:'100%', background:'#0e24b4', color:'white', border:'none', padding:'20px', borderRadius:'16px', fontSize:'15px', fontWeight:'800', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'10px', boxShadow:'0 15px 30px rgba(14, 36, 180, 0.2)', letterSpacing:'1px'}}>
-                  LOGIN ⚡
-               </button>
+               <button type="submit" disabled={loading} style={{width:'100%', background: loading ? '#4a5adc' : '#0e24b4', color:'white', border:'none', padding:'20px', borderRadius:'16px', fontSize:'15px', fontWeight:'800', cursor: loading ? 'wait' : 'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'10px', boxShadow:'0 15px 30px rgba(14, 36, 180, 0.2)', letterSpacing:'1px', opacity: loading ? 0.85 : 1, transition:'all 0.3s ease'}}>
+                   {loading ? (<><span style={{width:'18px', height:'18px', border:'3px solid rgba(255,255,255,0.3)', borderTopColor:'white', borderRadius:'50%', display:'inline-block', animation:'spin 0.8s linear infinite'}}></span> Authenticating...</>) : (<>LOGIN ⚡</>)}
+                </button>
              </form>
           ) : (
              <form onSubmit={(e) => { e.preventDefault(); handleRegSubmit(); }}>
@@ -141,9 +146,9 @@ export default function Auth({ role, setRole, setUserId, setUserName, setSubscri
                   <div style={{color:'#64748b', cursor:'pointer'}} onClick={() => setAuthMode('login')}>← Back to Login</div>
                </div>
 
-               <button type="submit" style={{width:'100%', background:'#0e24b4', color:'white', border:'none', padding:'20px', borderRadius:'16px', fontSize:'15px', fontWeight:'800', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'10px', boxShadow:'0 15px 30px rgba(14, 36, 180, 0.2)', letterSpacing:'1px'}}>
-                  SIGN UP ⚡
-               </button>
+               <button type="submit" disabled={loading} style={{width:'100%', background: loading ? '#4a5adc' : '#0e24b4', color:'white', border:'none', padding:'20px', borderRadius:'16px', fontSize:'15px', fontWeight:'800', cursor: loading ? 'wait' : 'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'10px', boxShadow:'0 15px 30px rgba(14, 36, 180, 0.2)', letterSpacing:'1px', opacity: loading ? 0.85 : 1, transition:'all 0.3s ease'}}>
+                   {loading ? (<><span style={{width:'18px', height:'18px', border:'3px solid rgba(255,255,255,0.3)', borderTopColor:'white', borderRadius:'50%', display:'inline-block', animation:'spin 0.8s linear infinite'}}></span> Creating Account...</>) : (<>SIGN UP ⚡</>)}
+                </button>
              </form>
           )}
 

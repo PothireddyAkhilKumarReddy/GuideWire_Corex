@@ -288,3 +288,8 @@ a { color: var(--text-main); text-decoration: none; }
   /* Nav Pill Override */
   .glass-nav-pill { bottom: 0; width: 100% !important; max-width: 100% !important; border-radius: 20px 20px 0 0; padding: 15px 10px; justify-content: space-around; border: none; border-top: 1px solid #e2e8f0; box-sizing: border-box; transform: none; left: 0; }
 }
+
+/* Loading Spinner Animation */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
