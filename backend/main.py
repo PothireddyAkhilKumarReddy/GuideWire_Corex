@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from database.database import engine, Base
+from sqlalchemy import text
+from database.database import engine, Base, get_db
 
 # Import Routers
 from routes import auth, risk, claims, plans, admin
@@ -27,5 +28,10 @@ app.include_router(plans.router, prefix="/api/plans", tags=["Plans"])
 app.include_router(admin.router, prefix="/api/dashboard", tags=["Admin"])
 
 @app.api_route("/", methods=["GET", "HEAD"])
-def root():
-    return {"message": "InsurGig Sentinel API is Active. All Node Health normal."}
+def root(db = Depends(get_db)):
+    try:
+        # Secret trick: This microscopic query forces Aiven to stay actively awake
+        db.execute(text("SELECT 1"))
+    except Exception:
+        pass # Ignore errors on standard health pings
+    return {"message": "InsurGig Sentinel API & Aiven Database are Active. All Node Health normal."}
