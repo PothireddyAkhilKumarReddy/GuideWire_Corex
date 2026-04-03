@@ -94,14 +94,14 @@ export default function Analytics({ userId, setCurrentView, setIsLoggedIn, setRo
           <div style={{fontSize:'12px', fontWeight:'800', color:'#64748b', letterSpacing:'1px', marginBottom:'20px'}}>📈 RISK SCORE HISTORY</div>
           {data.risk_history && data.risk_history.length > 0 ? (
             <div>
-              <div style={{display:'flex', alignItems:'flex-end', gap:'4px', height:'120px', marginBottom:'15px'}}>
+              <div style={{display:'flex', alignItems:'flex-end', gap:'4px', height:'140px', marginBottom:'15px', paddingTop:'20px'}}>
                 {data.risk_history.map((entry, i) => {
-                  const height = Math.max(8, (entry.score / maxScore) * 100);
+                  const barHeight = Math.max(10, Math.round((entry.score / 100) * 120));
                   const color = entry.score > 75 ? '#ef4444' : entry.score > 45 ? '#f59e0b' : '#10b981';
                   return (
-                    <div key={i} style={{flex: 1, display:'flex', flexDirection:'column', alignItems:'center', gap:'4px'}}>
-                      <div style={{fontSize:'8px', fontWeight:'700', color:'#64748b'}}>{entry.score}</div>
-                      <div style={{width:'100%', height:`${height}%`, background:color, borderRadius:'4px 4px 0 0', minHeight:'8px', transition:'height 0.3s ease'}}></div>
+                    <div key={i} style={{flex: 1, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'flex-end', height:'100%'}}>
+                      <div style={{fontSize:'8px', fontWeight:'700', color:'#64748b', marginBottom:'4px'}}>{entry.score}</div>
+                      <div style={{width:'100%', height:`${barHeight}px`, background:color, borderRadius:'4px 4px 0 0', transition:'height 0.3s ease'}}></div>
                     </div>
                   );
                 })}
