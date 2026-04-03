@@ -13,6 +13,7 @@ import Admin from './pages/Admin'
 import RiskMap from './pages/RiskMap'
 import Chat from './pages/Chat'
 import ClaimHistory from './pages/ClaimHistory'
+import Analytics from './pages/Analytics'
 
 // App Boot
 export default function App() {
@@ -196,7 +197,7 @@ export default function App() {
   }
 
   useEffect(() => {
-    const protectedRoutes = ['dashboard', 'claims', 'map', 'admin', 'chat'];
+    const protectedRoutes = ['dashboard', 'claims', 'map', 'admin', 'chat', 'analytics'];
     if (!isLoggedIn && protectedRoutes.includes(currentView)) {
       setCurrentView('auth');
     }
@@ -263,6 +264,13 @@ export default function App() {
       {currentView === 'chat' && (
         <Chat
           role={role} isLoggedIn={isLoggedIn}
+          setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole}
+        />
+      )}
+      
+      {currentView === 'analytics' && (
+        <Analytics
+          userId={userId}
           setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole}
         />
       )}

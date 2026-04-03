@@ -26,7 +26,23 @@ def trigger_claim(req: ClaimRequest, db: Session = Depends(get_db)):
         Claim.created_at >= time_24h_ago
     ).first()
 
-    if recent_payout:
+    # --- 7-Day Claim Velocity Enforcer (14 claims/week max) ---
+    time_7d_ago = datetime.utcnow() - timedelta(days=7)
+    weekly_claim_count = db.query(Claim).filter(
+        Claim.user_id == req.user_id,
+        Claim.created_at >= time_7d_ago
+    ).count()
+    velocity_blocked = weekly_claim_count >= 14
+
+    if velocity_blocked:
+        status = "Rejected"
+        fraud_flag = False
+        trust_score = 100
+        fraud_score = 0
+        req.xai_reason = f"Velocity Breach: {weekly_claim_count} claims filed in 7 days. Maximum 14 per week allowed. Honor Score penalized."
+        # Penalize honor score for velocity abuse
+        update_honor_score(db, req.user_id, "fraud_spike")
+    elif recent_payout:
         status = "Rejected"
         fraud_flag = False
         trust_score = 100
@@ -37,6 +53,10 @@ def trigger_claim(req: ClaimRequest, db: Session = Depends(get_db)):
         fraud_flag = False
         trust_score = 100
         fraud_score = 0
+        # Penalize honor score for filing claims during safe conditions
+        if req.risk_level == "Low":
+            update_honor_score(db, req.user_id, "rejected_false")
+            req.xai_reason = f"False Claim Detected: Risk level is '{req.risk_level}'. Honor Score reduced by 5 points."
     else:
         # Check fraud engine BEFORE issuing payout
         fraud_flag, trust_score, fraud_score = evaluate_fraud_and_update_trust(db, req.user_id)
