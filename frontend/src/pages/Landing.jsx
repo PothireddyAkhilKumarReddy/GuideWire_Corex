@@ -26,7 +26,7 @@ export default function Landing({ setCurrentView }) {
       const res = await fetch(`${API_BASE}/api/risk/calculate-risk`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: 0, city: city.name, latitude: city.lat, longitude: city.lon })
+        body: JSON.stringify({ user_id: 0, city: 'Auto', latitude: city.lat, longitude: city.lon })
       });
       const data = await res.json();
       setDemoResult(data);
