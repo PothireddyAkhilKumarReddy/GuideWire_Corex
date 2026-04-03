@@ -13,16 +13,9 @@ if raw_url.startswith("postgres://"):
 else:
     SQLALCHEMY_DATABASE_URL = raw_url
 
-# Neon/Cloud DBs require SSL, while local SQLite does not
+# Neon/Cloud DBs require SSL natively defined in the URL, while local SQLite does not
 if "sqlite" not in SQLALCHEMY_DATABASE_URL:
-    ssl_context = ssl.create_default_context()
-    ssl_context.check_hostname = False
-    ssl_context.verify_mode = ssl.CERT_NONE
-    engine = create_engine(
-        SQLALCHEMY_DATABASE_URL,
-        pool_pre_ping=True,
-        connect_args={"ssl": ssl_context}
-    )
+    engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True)
 else:
     engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True, connect_args={"check_same_thread": False})
 
