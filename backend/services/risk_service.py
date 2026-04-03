@@ -2,7 +2,7 @@ import datetime
 import os
 import pickle
 import unicodedata
-from services.external_api_service import get_weather_data, get_aqi_data
+from services.external_api_service import get_weather_data, get_aqi_data, get_traffic_data
 
 # 🚀 Load the pre-trained Random Forest ML Model into memory via Joblib/Pickle
 MODEL_PATH = os.path.join(os.path.dirname(__file__), "risk_model.pkl")
@@ -49,9 +49,8 @@ def calculate_risk(city: str, lat: float, lon: float, claim_reason: str = None):
     # Generate ML Features
     # The Model expects: ['rainfall_mm', 'temperature_c', 'aqi', 'traffic_index', 'demand_drop_pct']
     
-    # We no longer mock traffic datasets. In absence of a live live-traffic API (e.g. Google Maps), 
-    # we initialize baseline static parameters so the ML Engine evaluates purely on real weather + real AQI.
-    traffic_index = 2.0
+    # Dynamically pull real-time TomTom traffic congestion (returns 0.0 to 10.0)
+    traffic_index = get_traffic_data(lat, lon)
     demand_drop_pct = 5.0
     
     # 🧠 Run Machine Learning Prediction!

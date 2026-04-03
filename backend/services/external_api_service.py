@@ -5,6 +5,51 @@ from dotenv import load_dotenv
 load_dotenv()
 
 API_KEY = os.getenv("OPENWEATHER_API_KEY", "")
+TOMTOM_API_KEY = os.getenv("TOMTOM_API_KEY", "")
+
+def get_traffic_data(lat: float, lon: float):
+    """
+    Fetches real-time traffic congestion data from TomTom Traffic Flow API.
+    Calculates a 0.0 to 10.0 'Traffic Index' based on the difference between 
+    current speed and free flow speed.
+    """
+    fallback_traffic = 2.0
+    
+    if not TOMTOM_API_KEY or TOMTOM_API_KEY == "YOUR_API_KEY_HERE":
+        print("Notice: Missing valid TOMTOM_API_KEY. Using simulated traffic data.")
+        return fallback_traffic
+
+    # TomTom Traffic Flow Segment Data API (Zoom Level 10 for city-level data)
+    url = f"https://api.tomtom.com/traffic/services/4/flowSegmentData/absolute/10/json?key={TOMTOM_API_KEY}&point={lat},{lon}"
+    
+    try:
+        response = requests.get(url, timeout=5.0)
+        response.raise_for_status()
+        data = response.json()
+        
+        flow_data = data.get("flowSegmentData", {})
+        current_speed = flow_data.get("currentSpeed")
+        free_flow_speed = flow_data.get("freeFlowSpeed")
+        
+        if current_speed is None or free_flow_speed is None or free_flow_speed == 0:
+            return fallback_traffic
+            
+        # Calculate congestion ratio: If current is 30mph and free flow is 60mph, ratio is 0.5 (50% slowdown)
+        speed_ratio = (free_flow_speed - current_speed) / free_flow_speed
+        
+        # Convert to a 0-10 index. Ensure it stays between 0.0 and 10.0
+        # A 100% crawl (0 mph) equals 10.0 index. Flowing freely equals 0.0 index.
+        traffic_idx = speed_ratio * 10.0
+        
+        # Round and clamp the results
+        final_idx = max(0.0, min(10.0, round(traffic_idx, 1)))
+        
+        # If absolutely no traffic (0.0), return a baseline of 1.0 just to be safe for ML
+        return final_idx if final_idx > 0.0 else 1.0
+        
+    except Exception as e:
+        print(f"Error fetching TomTom Traffic data: {e}. Falling back to baseline.")
+        return fallback_traffic
 
 def get_weather_data(lat: float, lon: float):
     """
