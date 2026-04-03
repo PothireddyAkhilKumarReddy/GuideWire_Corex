@@ -4,15 +4,17 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 # Read DATABASE_URL from environment variable (set on Render for production)
-# Falls back to local MySQL for development
-SQLALCHEMY_DATABASE_URL = os.getenv(
-    "DATABASE_URL",
-    "mysql+pymysql://root:root@localhost:3306/insurgig_db"
-)
+# Falls back to local SQLite for development if no URL provided
+raw_url = os.getenv("DATABASE_URL", "sqlite:///./insurgig_dev.db")
 
-# Aiven and other cloud MySQL providers require SSL
-# Detect if we're using a cloud DB (not localhost)
-if "localhost" not in SQLALCHEMY_DATABASE_URL and "127.0.0.1" not in SQLALCHEMY_DATABASE_URL:
+# SQLAlchemy 1.4+ requires 'postgresql://' instead of 'postgres://'
+if raw_url.startswith("postgres://"):
+    SQLALCHEMY_DATABASE_URL = raw_url.replace("postgres://", "postgresql://", 1)
+else:
+    SQLALCHEMY_DATABASE_URL = raw_url
+
+# Neon/Cloud DBs require SSL, while local SQLite does not
+if "sqlite" not in SQLALCHEMY_DATABASE_URL:
     ssl_context = ssl.create_default_context()
     ssl_context.check_hostname = False
     ssl_context.verify_mode = ssl.CERT_NONE
@@ -22,7 +24,7 @@ if "localhost" not in SQLALCHEMY_DATABASE_URL and "127.0.0.1" not in SQLALCHEMY_
         connect_args={"ssl": ssl_context}
     )
 else:
-    engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True)
+    engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True, connect_args={"check_same_thread": False})
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
