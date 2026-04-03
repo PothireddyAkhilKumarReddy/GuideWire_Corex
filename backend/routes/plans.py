@@ -9,8 +9,8 @@ router = APIRouter()
 
 PLANS_DB = [
     {"name": "Basic", "weekly_premium": 40.0, "coverage_amount": 700.0, "features": ["Low risk locations"]},
-    {"name": "Standard", "weekly_premium": 70.0, "coverage_amount": 1200.0, "features": ["Medium risk locations"]},
-    {"name": "Premium", "weekly_premium": 100.0, "coverage_amount": 1700.0, "features": ["High risk locations"]},
+    {"name": "Standard", "weekly_premium": 70.0, "coverage_amount": 1000.0, "features": ["Medium risk locations"]},
+    {"name": "Premium", "weekly_premium": 100.0, "coverage_amount": 1300.0, "features": ["High risk locations"]},
 ]
 
 class PlanSelection(BaseModel):

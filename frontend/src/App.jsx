@@ -111,8 +111,8 @@ export default function App() {
 
   const PLANS = [
     { id: 'basic', name: 'Basic', premium: 40, coverage: 700, period: 'week', features: ['Personal Accident Cover', 'WhatsApp Claim Support', 'Hospital Cash Benefit'] },
-    { id: 'standard', name: 'Standard', premium: 70, coverage: 1200, period: 'week', features: ['Medical Expense Reimbursement', 'Disability Benefit Included', 'Instant Parametric Approval', 'Priority WhatsApp Support'], recommended: true },
-    { id: 'premium', name: 'Premium', premium: 100, coverage: 1700, period: 'week', features: ['Unlimited Dynamic Coverage', 'Dedicated WhatsApp Concierge', 'End-to-End Claim Support'] },
+    { id: 'standard', name: 'Standard', premium: 70, coverage: 1000, period: 'week', features: ['Medical Expense Reimbursement', 'Disability Benefit Included', 'Instant Parametric Approval', 'Priority WhatsApp Support'], recommended: true },
+    { id: 'premium', name: 'Premium', premium: 100, coverage: 1300, period: 'week', features: ['Unlimited Dynamic Coverage', 'Dedicated WhatsApp Concierge', 'End-to-End Claim Support'] },
   ]
 
 

@@ -106,8 +106,8 @@ Claims are triggered automatically when these conditions are met.
 | Risk Level | Premium | Coverage |
 |----------|--------|----------|
 | Low | ₹40 | ₹700 |
-| Medium | ₹70 | ₹1200 |
-| High | ₹100 | ₹1700 |
+| Medium | ₹70 | ₹1000 |
+| High | ₹100 | ₹1300 |
 
 Premium is dynamically adjusted using AI risk prediction.
 
@@ -153,48 +153,42 @@ Lower risk → lower premium
 
 # 9. External Data Sources
 
-### Weather API
-- Rainfall  
-- Temperature  
+### OpenWeather API
+- Real-time Rainfall Telemetry (mm)
+- Real-time Temperature (°C)
+- Live Air Quality Index (AQI Data)
 
-### AQI API
-- Air Quality Index  
-- Pollution levels  
+### TomTom Traffic Flow API
+- Measures hyper-local road congestion ratios (`currentSpeed` vs `freeFlowSpeed`).
 
-### Mock Data
-- Delivery demand  
-- Orders per hour  
+### Synthetic Transaction System
+- Dynamic ML variables simulate payment rails for conceptualized payouts without real banking APIs.
 
 ---
 
-# 10. System Architecture
+# 10. System Architecture & Deployment
 
-Worker App  
-↓  
-Frontend  
-↓  
-Backend API  
-↓  
-Database  
-↓  
-AI Risk Engine  
-↓  
-External APIs  
-↓  
-Claim Processing  
-↓  
-Payment Simulation  
+React.js (Vite) Frontend -> Deployed on Vercel
+↓
+Python FastAPI Backend -> Deployed on Render
+↓
+Serverless Postgres Database -> Hosted on Neon.tech
+↓
+SciKit-Learn Random Forest Model -> Calculates Live Risk
+↓
+External Telemetry (TomTom + OpenWeather) -> Injects live GPS variables
 
 ---
 
 # 11. Technology Stack
 
-- React.js  
-- Python (FastAPI)  
-- MongoDB  
-- Scikit-learn  
-- OpenWeather API  
-- AQI API  
+- React.js & Vite (SPA Frontend)  
+- Python FastAPI (Backend)  
+- PostgreSQL (Neon Serverless DB)  
+- SQLAlchemy (ORM)
+- Scikit-Learn RandomForest (ML Core)  
+- OpenWeather API (Weather & AQI)  
+- TomTom API (Live Traffic)
 
 ---
 
