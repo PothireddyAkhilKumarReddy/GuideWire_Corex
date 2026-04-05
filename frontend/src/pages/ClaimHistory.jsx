@@ -1,5 +1,4 @@
 import React from 'react'
-import BottomNav from '../components/BottomNav'
 
 export default function ClaimHistory({ claimHistory, setCurrentView, setIsLoggedIn, setRole }) {
   return (
@@ -49,7 +48,6 @@ export default function ClaimHistory({ claimHistory, setCurrentView, setIsLogged
            </div>
          )}
       </div>
-      <BottomNav active="history" setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole} />
     </div>
   )
 }

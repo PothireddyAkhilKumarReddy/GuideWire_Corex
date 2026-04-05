@@ -1,7 +1,5 @@
 import { useEffect } from 'react'
-import BottomNav from '../components/BottomNav'
-
-export default function Dashboard({ coords, userName, claimHistory, subscription, setCurrentView, setIsLoggedIn, setRole, results, loadingRisk, handleCheckRisk, handleZeroTouchOracle, oracleStatus, setOracleStatus, honorScore = 100 }) {
+export default function Dashboard({ coords, userName, claimHistory, subscription, setCurrentView, setIsLoggedIn, setRole, results, loadingRisk, handleCheckRisk, handleZeroTouchOracle, oracleStatus, setOracleStatus, honorScore = 100, walletBalance = 0, profileComplete }) {
   useEffect(() => {
     if (coords && coords.lat && !results?.riskScore && !loadingRisk) {
       handleCheckRisk();
@@ -25,10 +23,47 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                   <div style={{fontSize:'18px', fontWeight:'900', color:'#0f172a'}}>Welcome back, {userName || 'Worker'}</div>
                </div>
             </div>
-            <div onClick={() => { setIsLoggedIn(false); setCurrentView('landing'); setRole('worker'); }} style={{padding:'8px 16px', background:'white', borderRadius:'14px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer', fontSize:'14px', fontWeight:'700', color:'#ef4444', gap:'8px'}}>
-               Logout 🚪
-            </div>
          </header>
+
+         {!profileComplete && (
+            <div style={{background:'#fffbeb', border:'1px solid #fde68a', borderRadius:'16px', padding:'16px 20px', marginBottom:'30px', display:'flex', justifyContent:'space-between', alignItems:'center', boxShadow:'0 4px 6px -1px rgba(0, 0, 0, 0.05)'}}>
+               <div style={{display:'flex', alignItems:'center', gap:'15px'}}>
+                  <div style={{width:'40px', height:'40px', background:'#fef3c7', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'18px'}}>⚠️</div>
+                  <div>
+                     <div style={{fontSize:'15px', fontWeight:'800', color:'#b45309'}}>Complete your profile to unlock all features</div>
+                     <div style={{fontSize:'13px', color:'#d97706'}}>Personal info & payout details are required to buy plans or use the wallet.</div>
+                  </div>
+               </div>
+               <button onClick={() => setCurrentView('profile-setup')} style={{padding:'10px 18px', background:'#b45309', color:'white', borderRadius:'10px', fontSize:'13px', fontWeight:'700', border:'none', cursor:'pointer'}}>
+                  Complete Profile
+               </button>
+            </div>
+         )}
+
+         {/* Platform Logos section */}
+         <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'25px', padding: '12px 18px', background: 'white', borderRadius: '16px', border: '1px solid #bae6fd', width: 'fit-content', boxShadow: '0 2px 8px rgba(56, 189, 248, 0.06)'}}>
+            <div style={{fontSize:'11px', fontWeight:'700', color:'#64748b', letterSpacing:'1px', textTransform:'uppercase', whiteSpace:'nowrap'}}>Platforms Protected:</div>
+            <div style={{display:'flex', gap:'8px'}}>
+               <div style={{background:'white', padding:'6px 10px', borderRadius:'8px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center'}}>
+                  <span style={{fontSize:'12px', fontWeight:'800', color:'#fc8019'}}>swiggy</span>
+               </div>
+               <div style={{background:'white', padding:'6px 10px', borderRadius:'8px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center'}}>
+                  <span style={{fontSize:'12px', fontWeight:'900', color:'#cb202d'}}>zomato</span>
+               </div>
+               <div style={{background:'white', padding:'6px 10px', borderRadius:'8px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center'}}>
+                  <span style={{fontSize:'12px', fontWeight:'900', color:'black', letterSpacing:'-0.5px'}}>blink<span style={{color:'#16a34a'}}>it</span></span>
+               </div>
+               <div style={{background:'white', padding:'6px 10px', borderRadius:'8px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center'}}>
+                  <span style={{fontSize:'12px', fontWeight:'900', color:'#4b207f', letterSpacing:'-0.5px'}}>zepto</span>
+               </div>
+               <div style={{background:'white', padding:'6px 10px', borderRadius:'8px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center'}}>
+                  <span style={{fontSize:'11px', fontWeight:'700', color:'#142328'}}>Uber <span style={{color:'#06c167', fontWeight:'800'}}>Eats</span></span>
+               </div>
+               <div style={{background:'white', padding:'6px 10px', borderRadius:'8px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center'}}>
+                  <span style={{fontSize:'11px', fontWeight:'900', color:'#8dc63f'}}>big<span style={{color:'#333'}}>basket</span></span>
+               </div>
+            </div>
+         </div>
 
          {/* === TWO-COLUMN DESKTOP GRID === */}
          <div className="dash-desktop-grid" style={{display:'grid', gridTemplateColumns:'1fr 380px', gap:'25px', alignItems:'start'}}>
@@ -43,34 +78,24 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                      <div style={{fontSize:'12px', fontWeight:'800', color:'#021676', background:'#eff6ff', padding:'6px 12px', borderRadius:'10px'}}>{coords && coords.lat ? `${coords.lat.toFixed(4)}, ${coords.lon.toFixed(4)}` : 'Scanning...'}</div>
                   </div>
                   
-                  <div style={{height:'200px', background:'linear-gradient(145deg, #f8fafc, #f1f5f9)', borderRadius:'20px', border:'1px solid #e2e8f0', position:'relative', overflow:'hidden', backgroundImage:'url("data:image/svg+xml,%3Csvg width=\'100%25\' height=\'100%25\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cdefs%3E%3Cpattern id=\'grid\' width=\'40\' height=\'40\' patternUnits=\'userSpaceOnUse\'%3E%3Cpath d=\'M 40 0 L 0 0 0 40\' fill=\'none\' stroke=\'%23e2e8f0\' stroke-width=\'1\'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'url(%23grid)\'/%3E%3C/svg%3E")'}}>
-                     <div style={{position:'absolute', top:'50%', left:'50%', transform:'translate(-50%, -50%)', width:'120px', height:'120px', background:'rgba(59, 130, 246, 0.1)', borderRadius:'50%', animation:'pulse 2s infinite'}}></div>
-                     <div style={{position:'absolute', top:'50%', left:'50%', transform:'translate(-50%, -50%)', width:'16px', height:'16px', background:'#3b82f6', borderRadius:'50%', border:'4px solid white', boxShadow:'0 0 20px rgba(59, 130, 246, 0.8)'}}></div>
-                     <div style={{position:'absolute', bottom:'15px', right:'15px', background:'white', padding:'8px 12px', borderRadius:'12px', fontSize:'10px', fontWeight:'800', color:'#0f172a', border:'1px solid #e2e8f0', boxShadow:'0 5px 15px rgba(0,0,0,0.05)'}}>
+                  <div style={{height:'320px', background:'linear-gradient(145deg, #f8fafc, #f1f5f9)', borderRadius:'20px', border:'1px solid #e2e8f0', position:'relative', overflow:'hidden'}}>
+                     <iframe 
+                       title="Live Location Map"
+                       width="100%" 
+                       height="100%" 
+                       style={{border:0, position: 'absolute', top: 0, left: 0}} 
+                       loading="lazy" 
+                       allowFullScreen 
+                       src={`https://maps.google.com/maps?q=${coords?.lat || 17.3850},${coords?.lon || 78.4867}&z=14&output=embed`}>
+                     </iframe>
+                     <div style={{position:'absolute', bottom:'15px', right:'15px', background:'white', padding:'8px 12px', borderRadius:'12px', fontSize:'10px', fontWeight:'800', color:'#0f172a', border:'1px solid #e2e8f0', boxShadow:'0 5px 15px rgba(0,0,0,0.05)', zIndex: 10}}>
                         {results?.telemetry?.city || 'Locating User'}
                      </div>
-                     <div style={{position:'absolute', top:'15px', left:'15px', background:'white', padding:'10px 14px', borderRadius:'12px', border:'1px solid #e2e8f0', boxShadow:'0 5px 15px rgba(0,0,0,0.05)', display:'flex', flexDirection:'column', gap:'5px'}}>
+                     <div style={{position:'absolute', top:'15px', left:'15px', background:'white', padding:'10px 14px', borderRadius:'12px', border:'1px solid #e2e8f0', boxShadow:'0 5px 15px rgba(0,0,0,0.05)', display:'flex', flexDirection:'column', gap:'5px', zIndex: 10}}>
                         <span style={{fontSize:'9px', fontWeight:'700', color:'#64748b', textTransform:'uppercase'}}>Scans Live Weather & Traffic Data</span>
-                        <button className="btn-primary" style={{padding:'6px 12px', fontSize:'10px', width:'100%'}} onClick={handleCheckRisk}>{loadingRisk ? 'Scanning...' : 'Refresh Risk Score'}</button>
+                        <button className="btn-primary" style={{padding:'6px 12px', fontSize:'10px', width:'100%', borderRadius: '8px'}} onClick={handleCheckRisk}>{loadingRisk ? 'Scanning...' : 'Refresh Risk Score'}</button>
                      </div>
                   </div>
-                  
-                  {results.riskScore && (
-                    <div style={{marginTop:'20px', display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:'12px'}}>
-                       <div style={{background:'#f8fafc', padding:'12px', borderRadius:'14px', border:'1px solid #e2e8f0', textAlign:'center'}}>
-                          <div style={{fontSize:'10px', fontWeight:'700', color:'#64748b', marginBottom:'4px'}}>AI Risk</div>
-                          <div style={{fontSize:'16px', fontWeight:'900', color: results.riskScore === 'High' ? '#ef4444' : results.riskScore === 'Medium' ? '#f59e0b' : '#22c55e'}}>{results.riskScore}</div>
-                       </div>
-                       <div style={{background:'#f8fafc', padding:'12px', borderRadius:'14px', border:'1px solid #e2e8f0', textAlign:'center'}}>
-                          <div style={{fontSize:'10px', fontWeight:'700', color:'#64748b', marginBottom:'4px'}}>Premium</div>
-                          <div style={{fontSize:'16px', fontWeight:'900', color:'#021676'}}>{results.weeklyPremium}</div>
-                       </div>
-                       <div style={{background:'#f8fafc', padding:'12px', borderRadius:'14px', border:'1px solid #e2e8f0', textAlign:'center'}}>
-                          <div style={{fontSize:'10px', fontWeight:'700', color:'#64748b', marginBottom:'4px'}}>Status</div>
-                          <div style={{fontSize:'16px', fontWeight:'900', color: results.claimStatus === 'Active' ? '#22c55e' : '#f59e0b'}}>{results.claimStatus || (subscription ? 'Active' : 'No Plan')}</div>
-                       </div>
-                    </div>
-                  )}
                </div>
 
                {/* Live Weather & Traffic Data */}
@@ -187,6 +212,14 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                   )}
                </div>
 
+               {/* Wallet Balance Card */}
+               <div className="hover-card" onClick={() => setCurrentView('wallet')} style={{background:'linear-gradient(135deg, #0f766e, #14b8a6)', borderRadius:'24px', padding:'25px', color:'white', boxShadow:'0 15px 30px rgba(15, 118, 110, 0.2)', cursor:'pointer', position:'relative', overflow:'hidden'}}>
+                  <div style={{position:'absolute', top:0, right:0, width:'80px', height:'80px', background:'rgba(255,255,255,0.1)', borderRadius:'50%', transform:'translate(20%, -20%)'}}></div>
+                  <div style={{fontSize:'10px', fontWeight:'800', letterSpacing:'1px', color:'rgba(255,255,255,0.7)', marginBottom:'8px'}}>WALLET BALANCE</div>
+                  <div style={{fontSize:'28px', fontWeight:'900', letterSpacing:'-1px'}}>₹{(walletBalance || 0).toLocaleString('en-IN', {minimumFractionDigits: 2})}</div>
+                  <div style={{fontSize:'11px', color:'rgba(255,255,255,0.6)', marginTop:'5px', display:'flex', alignItems:'center', gap:'6px'}}>Tap to view wallet →</div>
+               </div>
+
                {/* Honor Score Widget */}
                <div className="hover-card" style={{background:'white', borderRadius:'28px', padding:'25px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.04)', textAlign:'center'}}>
                   <div style={{fontSize:'10px', fontWeight:'800', letterSpacing:'1px', color:'#64748b', marginBottom:'15px'}}>HONOR SCORE</div>
@@ -237,6 +270,14 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                         </div>
                         <div style={{marginLeft:'auto', fontSize:'14px', color:'#cbd5e1'}}>→</div>
                      </div>
+                     <div className="hover-card" onClick={() => setCurrentView('wallet')} style={{display:'flex', alignItems:'center', gap:'12px', padding:'12px 15px', background:'#f8fafc', borderRadius:'14px', cursor:'pointer', border:'1px solid #e2e8f0', transition:'all 0.2s'}}>
+                        <div style={{width:'32px', height:'32px', background:'#ecfdf5', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'16px'}}>💰</div>
+                        <div>
+                           <div style={{fontSize:'13px', fontWeight:'700', color:'#0f172a'}}>My Wallet</div>
+                           <div style={{fontSize:'10px', color:'#94a3b8'}}>₹{(walletBalance || 0).toFixed(0)} balance</div>
+                        </div>
+                        <div style={{marginLeft:'auto', fontSize:'14px', color:'#cbd5e1'}}>→</div>
+                     </div>
                   </div>
                </div>
 
@@ -244,7 +285,6 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
          </div>
           
       </div>
-      <BottomNav active="dashboard" setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole} />
     </div>
   )
 }

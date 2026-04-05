@@ -1,19 +1,21 @@
 import { useState, useEffect } from 'react'
 
-// Dynamic API base — reads from Vite env var on production (Vercel), falls back to localhost for dev
+// Dynamic API base
 const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
 // Page Components
 import Landing from './pages/Landing'
 import Auth from './pages/Auth'
+import ProfileSetup from './pages/ProfileSetup'
 import Dashboard from './pages/Dashboard'
 import Claims from './pages/Claims'
 import Plans from './pages/Plans'
-import Admin from './pages/Admin'
-import RiskMap from './pages/RiskMap'
 import Chat from './pages/Chat'
 import ClaimHistory from './pages/ClaimHistory'
 import Analytics from './pages/Analytics'
+import Wallet from './pages/Wallet'
+import PaymentSuccess from './pages/PaymentSuccess'
+import Sidebar from './components/Sidebar'
 
 // App Boot
 export default function App() {
@@ -38,11 +40,40 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    try { return localStorage.getItem('insurgig_logged_in') === 'true'; } catch { return false; }
+  });
+  const [userId, setUserId] = useState(() => {
+    try { const v = localStorage.getItem('insurgig_user_id'); return v ? parseInt(v) : null; } catch { return null; }
+  });
+  const [honorScore, setHonorScore] = useState(() => {
+    try { const v = localStorage.getItem('insurgig_honor'); return v ? parseFloat(v) : 100.0; } catch { return 100.0; }
+  });
+  const [profileComplete, setProfileComplete] = useState(() => {
+    try { return localStorage.getItem('insurgig_profile_complete') === 'true'; } catch { return false; }
+  });
+  const [walletBalance, setWalletBalance] = useState(() => {
+    try { const v = localStorage.getItem('insurgig_wallet'); return v ? parseFloat(v) : 0; } catch { return 0; }
+  });
   const [role, setRole] = useState('worker')
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [userId, setUserId] = useState(null)
-  const [honorScore, setHonorScore] = useState(100.0)
-  // Decentralized state hooks
+
+  // Persist critical session state to localStorage
+  useEffect(() => {
+    localStorage.setItem('insurgig_logged_in', isLoggedIn ? 'true' : 'false');
+  }, [isLoggedIn]);
+  useEffect(() => {
+    if (userId) localStorage.setItem('insurgig_user_id', userId.toString());
+    else localStorage.removeItem('insurgig_user_id');
+  }, [userId]);
+  useEffect(() => {
+    localStorage.setItem('insurgig_honor', honorScore.toString());
+  }, [honorScore]);
+  useEffect(() => {
+    localStorage.setItem('insurgig_profile_complete', profileComplete ? 'true' : 'false');
+  }, [profileComplete]);
+  useEffect(() => {
+    localStorage.setItem('insurgig_wallet', walletBalance.toString());
+  }, [walletBalance]);
 
   // Subscription & Payment state
   const [subscription, setSubscription] = useState(() => {
@@ -66,6 +97,27 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('insurgig_name', userName);
   }, [userName]);
+
+  // ─── Prefetch profile & wallet data once after login ───
+  const [cachedProfile, setCachedProfile] = useState(null);
+  const [cachedWallet, setCachedWallet] = useState(null);
+
+  useEffect(() => {
+    if (isLoggedIn && userId) {
+      fetch(`${API_BASE}/api/profile/${userId}`)
+        .then(r => r.json()).then(d => {
+          setCachedProfile(d);
+          if (d.honor_score !== undefined) setHonorScore(d.honor_score);
+          if (d.wallet_balance !== undefined) setWalletBalance(d.wallet_balance);
+        }).catch(() => {});
+      fetch(`${API_BASE}/api/wallet/${userId}`)
+        .then(r => r.json()).then(d => {
+          setCachedWallet(d);
+          if (d.balance !== undefined) setWalletBalance(d.balance);
+        }).catch(() => {});
+    }
+  }, [isLoggedIn, userId]);
+
   const [claimHistory, setClaimHistory] = useState([])
 
   // Fetch Claim History
@@ -78,7 +130,8 @@ export default function App() {
             const fetchedHistory = data.history.map(c => ({
               id: `CLM-${c.id}`, date: new Date(c.created_at).toLocaleDateString('en-IN'),
               reason: c.reason || 'Parametric Trigger', city: c.city || 'Unknown', zone: 'Active Zone',
-              payout: c.payout_amount, status: c.claim_status.toLowerCase(), riskScore: c.risk_level
+              payout: c.payout_amount, status: c.claim_status.toLowerCase(), riskScore: c.risk_level,
+              xaiReason: c.xai_reason
             }));
             setClaimHistory(fetchedHistory);
           }
@@ -86,13 +139,8 @@ export default function App() {
     }
   }, [isLoggedIn, userId]);
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      setUserId(null);
-      setSubscription(null);
-      setClaimHistory([]);
-    }
-  }, [isLoggedIn]);
+  // Cleanup is now handled by handleLogout instead of an effect,
+  // because persisted state would cause a loop on page reload.
 
   // Active Configuration
   const [results, setResults] = useState({ riskScore: null, weeklyPremium: null, claimStatus: null })
@@ -109,14 +157,11 @@ export default function App() {
     }
   }, []);
 
-
   const PLANS = [
-    { id: 'basic', name: 'Basic', premium: 40, coverage: 700, period: 'week', features: ['Personal Accident Cover', 'WhatsApp Claim Support', 'Hospital Cash Benefit'] },
-    { id: 'standard', name: 'Standard', premium: 70, coverage: 1000, period: 'week', features: ['Medical Expense Reimbursement', 'Disability Benefit Included', 'Instant Parametric Approval', 'Priority WhatsApp Support'], recommended: true },
-    { id: 'premium', name: 'Premium', premium: 100, coverage: 1300, period: 'week', features: ['Unlimited Dynamic Coverage', 'Dedicated WhatsApp Concierge', 'End-to-End Claim Support'] },
+    { id: 'basic', name: 'Basic', premium: 40, coverage: 700, period: 'week', features: ['Weather Risk Auto-Trigger', 'WhatsApp Claim Alerts', 'Basic Payout Protection'] },
+    { id: 'standard', name: 'Standard', premium: 70, coverage: 1000, period: 'week', features: ['Weather + Traffic + AQI Triggers', 'Instant Parametric Payouts', 'AI Risk Monitoring 24/7', 'Priority Claim Processing'], recommended: true },
+    { id: 'premium', name: 'Premium', premium: 100, coverage: 1300, period: 'week', features: ['All Environmental Triggers', 'Highest Coverage Limit', 'Dedicated Claim Support'] },
   ]
-
-
 
   const [oracleStatus, setOracleStatus] = useState(null);
 
@@ -151,15 +196,12 @@ export default function App() {
       const claimData = await claimRes.json();
       const parsedStatus = claimData.status === 'Rejected' ? 'rejected' : (claimData.status.includes('Fraud') ? 'investigating' : 'approved');
       
-      // Update Honor Score from auto-claim response
-      if (claimData.honor_score !== undefined) {
-        setHonorScore(claimData.honor_score);
-      }
+      if (claimData.honor_score !== undefined) setHonorScore(claimData.honor_score);
+      if (claimData.wallet_balance !== undefined) setWalletBalance(claimData.wallet_balance);
       
       const newClaim = { id: `CLM-${claimData.claim_id || Date.now()}`, date: new Date().toLocaleDateString('en-IN'), reason: "Automated System Trigger", city: data.telemetry?.city || "Auto", location: "Live Geo", payout: claimData.payout, status: parsedStatus, riskScore: data.risk_level, xaiReason: data.xai_reason || 'Smart Contract Triggered' };
       setClaimHistory(prev => [newClaim, ...prev]);
       
-      // Update global Dashboard AI Risk status
       setResults(prev => prev ? { ...prev, riskScore: data.risk_level, claimStatus: "Triggered" } : null);
       setOracleStatus('triggered');
     } catch (e) {
@@ -196,23 +238,65 @@ export default function App() {
     setLoadingRisk(false)
   }
 
+  // Redirect to profile setup if not complete, or to auth if not logged in
   useEffect(() => {
-    const protectedRoutes = ['dashboard', 'claims', 'map', 'admin', 'chat', 'analytics'];
+    const protectedRoutes = ['dashboard', 'claims', 'chat', 'analytics', 'wallet', 'plans', 'history', 'profile-setup'];
+    // payment-success is NOT protected — Stripe redirects here after a full page reload
     if (!isLoggedIn && protectedRoutes.includes(currentView)) {
       setCurrentView('auth');
     }
-  }, [currentView, isLoggedIn]);
+  }, [currentView, isLoggedIn, profileComplete]);
+
+  // Helper to determine if we should show portal layout
+  const isPortalActive = isLoggedIn && !['landing', 'auth'].includes(currentView);
+
+  const handleLogout = () => {
+    // Clear all persisted session state
+    setIsLoggedIn(false);
+    setUserId(null);
+    setSubscription(null);
+    setClaimHistory([]);
+    setProfileComplete(false);
+    setWalletBalance(0);
+    setHonorScore(100.0);
+    localStorage.removeItem('insurgig_logged_in');
+    localStorage.removeItem('insurgig_user_id');
+    localStorage.removeItem('insurgig_honor');
+    localStorage.removeItem('insurgig_profile_complete');
+    localStorage.removeItem('insurgig_wallet');
+    localStorage.removeItem('insurgig_sub');
+    localStorage.removeItem('insurgig_name');
+    setCurrentView('landing');
+  };
 
   return (
-    <div className="app-root">
-      {currentView === 'landing' && <Landing setCurrentView={setCurrentView} />}
+    <div style={{background: '#f8fafc', minHeight: '100vh', fontFamily: '"Inter", sans-serif', color: '#0f172a'}}>
+      {isPortalActive && (
+        <Sidebar 
+          currentView={currentView} 
+          setCurrentView={setCurrentView} 
+          userName={userName}
+          handleLogout={handleLogout}
+        />
+      )}
       
-      {currentView === 'auth' && (
-        <Auth
-          role={role} setRole={setRole}
+      <div style={isPortalActive ? {marginLeft: '256px', minHeight: '100vh'} : {}}>
+        {currentView === 'landing' && <Landing setCurrentView={setCurrentView} />}
+        
+        {currentView === 'auth' && (
+          <Auth
           setUserId={setUserId} setUserName={setUserName}
           setSubscription={setSubscription} setHonorScore={setHonorScore}
           setIsLoggedIn={setIsLoggedIn} setCurrentView={setCurrentView}
+          setProfileComplete={setProfileComplete} setWalletBalance={setWalletBalance}
+        />
+      )}
+      
+      {currentView === 'profile-setup' && (
+        <ProfileSetup
+          userId={userId} userName={userName}
+          setProfileComplete={setProfileComplete} setCurrentView={setCurrentView}
+          cachedProfile={cachedProfile} setCachedProfile={setCachedProfile}
         />
       )}
       
@@ -223,7 +307,7 @@ export default function App() {
           setIsLoggedIn={setIsLoggedIn} setRole={setRole}
           results={results} loadingRisk={loadingRisk} handleCheckRisk={handleCheckRisk}
           handleZeroTouchOracle={handleZeroTouchOracle} oracleStatus={oracleStatus} setOracleStatus={setOracleStatus}
-          honorScore={honorScore}
+          honorScore={honorScore} walletBalance={walletBalance} profileComplete={profileComplete}
         />
       )}
       
@@ -233,6 +317,7 @@ export default function App() {
           subscription={subscription} setSubscription={setSubscription}
           setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole}
           userId={userId} setClaimHistory={setClaimHistory} setHonorScore={setHonorScore}
+          setWalletBalance={setWalletBalance}
         />
       )}
       
@@ -245,25 +330,18 @@ export default function App() {
         />
       )}
       
-      {currentView === 'admin' && (
-        <Admin role={role} setIsLoggedIn={setIsLoggedIn} setCurrentView={setCurrentView} setRole={setRole} />
-      )}
-      
-      {currentView === 'map' && (
-        <RiskMap role={role} setIsLoggedIn={setIsLoggedIn} setCurrentView={setCurrentView} setRole={setRole} />
-      )}
-      
       {currentView === 'plans' && (
         <Plans
           isLoggedIn={isLoggedIn} setCurrentView={setCurrentView}
           setIsLoggedIn={setIsLoggedIn} setRole={setRole}
           userId={userId} setSubscription={setSubscription} PLANS={PLANS}
+          profileComplete={profileComplete}
         />
       )}
       
       {currentView === 'chat' && (
         <Chat
-          role={role} isLoggedIn={isLoggedIn}
+          isLoggedIn={isLoggedIn}
           setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole}
         />
       )}
@@ -274,6 +352,23 @@ export default function App() {
           setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole}
         />
       )}
+      
+      {currentView === 'wallet' && (
+        <Wallet
+          userId={userId}
+          setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole}
+          profileComplete={profileComplete}
+          cachedWallet={cachedWallet} setCachedWallet={setCachedWallet}
+        />
+      )}
+      
+      {currentView === 'payment-success' && (
+        <PaymentSuccess
+          setSubscription={setSubscription}
+          setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn}
+        />
+      )}
+      </div>
     </div>
   )
 }

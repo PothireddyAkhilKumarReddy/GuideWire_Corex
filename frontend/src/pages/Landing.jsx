@@ -47,6 +47,14 @@ export default function Landing({ setCurrentView }) {
         <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'18px', fontWeight:'900', cursor:'pointer', color:'#021676'}} onClick={() => { setCurrentView('landing'); }}>
            <span style={{background:'#021676', color:'white', width:'30px', height:'30px', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'8px'}}>⊞</span> InsurGig AI
         </div>
+        
+        {/* Desktop Anchor Links */}
+        <div style={{display:'flex', alignItems:'center', gap:'30px', fontSize:'14px', fontWeight:'700', color:'#64748b'}} className="hidden md:flex">
+           <span style={{cursor:'pointer'}} className="hover:text-blue-600 transition-colors" onClick={() => document.getElementById('features').scrollIntoView({behavior:'smooth'})}>Features</span>
+           <span style={{cursor:'pointer'}} className="hover:text-blue-600 transition-colors" onClick={() => document.getElementById('howitworks').scrollIntoView({behavior:'smooth'})}>How It Works</span>
+           <span style={{cursor:'pointer'}} className="hover:text-blue-600 transition-colors" onClick={() => document.getElementById('livedemo').scrollIntoView({behavior:'smooth'})}>Live Demo</span>
+        </div>
+
         <div style={{display:'flex', gap:'15px'}}>
            <button style={{background:'white', color:'#021676', border:'1px solid #e2e8f0', padding:'10px 20px', borderRadius:'12px', fontWeight:'800', cursor:'pointer', boxShadow:'0 4px 10px rgba(0,0,0,0.02)'}} onClick={() => setCurrentView('plans')}>Pricing</button>
            <button style={{background:'#021676', color:'white', border:'none', padding:'10px 20px', borderRadius:'12px', fontWeight:'800', cursor:'pointer', boxShadow:'0 10px 20px rgba(2, 22, 118, 0.2)'}} onClick={() => setCurrentView('auth')}>Login</button>
@@ -274,10 +282,27 @@ export default function Landing({ setCurrentView }) {
       <section style={{maxWidth:'1200px', margin:'80px auto 0 auto', padding:'0 20px', position:'relative', zIndex:10, textAlign:'center'}}>
          <h2 style={{fontSize:'clamp(28px, 4vw, 36px)', fontWeight:'900', color:'#0f172a', marginBottom:'15px'}}>Who We Serve</h2>
          <p style={{fontSize:'16px', color:'#64748b', maxWidth:'500px', margin:'0 auto 40px auto', lineHeight:'1.6'}}>Built for India's gig delivery workforce across all major platforms.</p>
-         <div style={{display:'flex', flexWrap:'wrap', justifyContent:'center', gap:'20px'}}>
-            {['Swiggy', 'Zomato', 'Blinkit', 'Zepto', 'UberEats', 'BigBasket'].map(p => (
-               <div key={p} className="hover-card" style={{background:'white', border:'1px solid #e2e8f0', borderRadius:'16px', padding:'20px 35px', fontSize:'16px', fontWeight:'700', color:'#0f172a', boxShadow:'0 4px 15px rgba(0,0,0,0.03)'}}>{p}</div>
-            ))}
+         <div style={{display:'flex', flexWrap:'nowrap', justifyContent: 'center', gap:'20px', alignItems:'center', overflowX:'auto', paddingTop:'20px', paddingBottom:'25px', paddingLeft: '10px', paddingRight: '10px', maxWidth:'100%', margin: '-20px -10px 0 -10px'}}>
+            <div className="hover-card" style={{background:'white', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
+               <span style={{fontSize:'22px', fontWeight:'800', color:'#fc8019'}}>swiggy</span>
+            </div>
+            <div className="hover-card" style={{background:'white', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
+               <img src="https://cdn.worldvectorlogo.com/logos/zomato-1.svg" alt="Zomato" style={{height:'30px', objectFit: 'contain'}} onError={(e) => {e.target.style.display='none'; e.target.nextSibling.style.display='block'}} />
+               <span style={{display: 'none', fontSize:'24px', fontWeight:'900', color:'#cb202d', fontStyle:'italic'}}>zomato</span>
+            </div>
+            <div className="hover-card" style={{background:'white', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
+               <span style={{fontSize:'26px', fontWeight:'900', color:'black', letterSpacing:'-1px'}}>blink<span style={{color:'#16a34a'}}>it</span></span>
+            </div>
+            <div className="hover-card" style={{background:'white', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
+               <span style={{fontSize:'24px', fontWeight:'900', color:'#4b207f', letterSpacing:'-1px'}}>zepto</span>
+            </div>
+            <div className="hover-card" style={{background:'white', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
+               <img src="https://upload.wikimedia.org/wikipedia/commons/b/b3/Uber_Eats_2020_logo.svg" alt="UberEats" style={{height:'24px', filter: 'auto', objectFit: 'contain'}} onError={(e) => {e.target.style.display='none'; e.target.nextSibling.style.display='block'}} />
+               <span style={{display: 'none', fontSize:'20px', fontWeight:'700', color:'black'}}>UberEats</span>
+            </div>
+            <div className="hover-card" style={{background:'white', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
+               <span style={{fontSize:'18px', fontWeight:'900', color:'#8dc63f'}}>big<span style={{color:'black'}}>basket</span></span>
+            </div>
          </div>
       </section>
 

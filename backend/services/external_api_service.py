@@ -1,4 +1,5 @@
 import os
+import datetime
 import requests
 from dotenv import load_dotenv
 
@@ -7,16 +8,106 @@ load_dotenv()
 API_KEY = os.getenv("OPENWEATHER_API_KEY", "")
 TOMTOM_API_KEY = os.getenv("TOMTOM_API_KEY", "")
 
-def get_traffic_data(lat: float, lon: float):
+# ── Metro Congestion Baselines ──────────────────────────────────────────
+# Tier-1 and Tier-2 Indian cities with realistic minimum traffic floors.
+# These are applied on top of (or as a floor for) the live TomTom reading
+# so that demo results match the reality of Indian urban density.
+TIER1_CITIES = [
+    "mumbai", "delhi", "new delhi", "bangalore", "bengaluru",
+    "chennai", "hyderabad", "kolkata", "pune"
+]
+TIER2_CITIES = [
+    "ahmedabad", "jaipur", "lucknow", "kanpur", "nagpur",
+    "indore", "bhopal", "visakhapatnam", "vijayawada",
+    "patna", "coimbatore", "kochi", "surat", "vadodara"
+]
+
+def _ist_hour_now() -> int:
+    """Return the current hour in IST (UTC+5:30)."""
+    utc_now = datetime.datetime.utcnow()
+    ist_now = utc_now + datetime.timedelta(hours=5, minutes=30)
+    return ist_now.hour
+# Known metro coordinates for proximity-based matching
+# (when OpenWeather returns names like "Konkan Division" instead of "Mumbai")
+METRO_COORDS = {
+    "mumbai":     (19.076, 72.878),
+    "delhi":      (28.614, 77.209),
+    "bangalore":  (12.972, 77.595),
+    "chennai":    (13.083, 80.271),
+    "hyderabad":  (17.385, 78.487),
+    "kolkata":    (22.573, 88.364),
+    "pune":       (18.520, 73.857),
+    "ahmedabad":  (23.023, 72.571),
+    "jaipur":     (26.912, 75.787),
+    "lucknow":    (26.847, 80.947),
+    "vijayawada": (16.506, 80.648),
+}
+
+def _resolve_metro(city: str, lat: float, lon: float) -> str:
+    """
+    Try to resolve the actual metro name.
+    1. First check if the city string contains a known metro name.
+    2. If not, check proximity to known metro coordinates (within ~50km).
+    """
+    city_lower = city.lower().strip() if city else ""
+    
+    # Direct name match
+    all_metros = TIER1_CITIES + TIER2_CITIES
+    for m in all_metros:
+        if m in city_lower:
+            return m
+    
+    # Proximity match (0.5 degree ≈ ~55 km)
+    for metro_name, (m_lat, m_lon) in METRO_COORDS.items():
+        if abs(lat - m_lat) < 0.5 and abs(lon - m_lon) < 0.5:
+            return metro_name
+    
+    return ""
+
+def _metro_baseline(city: str, lat: float = 0.0, lon: float = 0.0) -> float:
+    """
+    Returns a minimum congestion floor for known Indian metros,
+    scaled by time-of-day so night hours are calmer.
+    """
+    hour = _ist_hour_now()
+    metro = _resolve_metro(city, lat, lon)
+
+    # Determine tier
+    if metro in TIER1_CITIES:
+        # Peak hours (8-11 AM, 5-9 PM)
+        if 8 <= hour <= 11 or 17 <= hour <= 21:
+            return 5.5
+        # Daytime off-peak
+        elif 6 <= hour <= 22:
+            return 4.0
+        # Late night
+        else:
+            return 2.0
+    elif metro in TIER2_CITIES:
+        if 8 <= hour <= 11 or 17 <= hour <= 21:
+            return 4.0
+        elif 6 <= hour <= 22:
+            return 3.0
+        else:
+            return 1.5
+    # Unknown / small city – no floor
+    return 0.0
+
+def get_traffic_data(lat: float, lon: float, city: str = "Auto"):
     """
     Fetches real-time traffic congestion data from TomTom Traffic Flow API.
     Calculates a 0.0 to 10.0 'Traffic Index' based on the difference between 
     current speed and free flow speed.
+    
+    For known Indian metros, a congestion floor is applied so that
+    demo results reflect real-world urban density (TomTom's point-based
+    API can land on a quiet side-street and return near-zero).
     """
-    fallback_traffic = 2.0
+    baseline = _metro_baseline(city, lat, lon)
+    fallback_traffic = max(2.0, baseline)
     
     if not TOMTOM_API_KEY or TOMTOM_API_KEY == "YOUR_API_KEY_HERE":
-        print("Notice: Missing valid TOMTOM_API_KEY. Using simulated traffic data.")
+        print("Notice: Missing valid TOMTOM_API_KEY. Using metro-baseline traffic data.")
         return fallback_traffic
 
     # TomTom Traffic Flow Segment Data API (Zoom Level 10 for city-level data)
@@ -34,17 +125,15 @@ def get_traffic_data(lat: float, lon: float):
         if current_speed is None or free_flow_speed is None or free_flow_speed == 0:
             return fallback_traffic
             
-        # Calculate congestion ratio: If current is 30mph and free flow is 60mph, ratio is 0.5 (50% slowdown)
+        # Calculate congestion ratio
         speed_ratio = (free_flow_speed - current_speed) / free_flow_speed
-        
-        # Convert to a 0-10 index. Ensure it stays between 0.0 and 10.0
-        # A 100% crawl (0 mph) equals 10.0 index. Flowing freely equals 0.0 index.
         traffic_idx = speed_ratio * 10.0
+        raw_idx = max(0.0, min(10.0, round(traffic_idx, 1)))
         
-        # Round and clamp the results
-        final_idx = max(0.0, min(10.0, round(traffic_idx, 1)))
+        # Apply metro congestion floor: use whichever is higher
+        final_idx = max(raw_idx, baseline)
         
-        # If absolutely no traffic (0.0), return a baseline of 1.0 just to be safe for ML
+        # Ensure we never return exactly 0.0 (breaks ML feature range)
         return final_idx if final_idx > 0.0 else 1.0
         
     except Exception as e:

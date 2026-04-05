@@ -69,7 +69,9 @@ def calculate_passive_recovery(db: Session, user_id: int):
     last_activity = last_claim.created_at if last_claim else user.created_at
     
     if last_activity:
-        days_elapsed = (datetime.utcnow() - last_activity).days
+        # Strip timezone info to safely subtract from utcnow()
+        naive_last_act = last_activity.replace(tzinfo=None)
+        days_elapsed = (datetime.utcnow() - naive_last_act).days
         if days_elapsed > 0:
             recovery = days_elapsed * 0.5
             user.trust_score = min(100.0, float(user.trust_score + recovery))

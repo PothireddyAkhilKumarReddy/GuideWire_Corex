@@ -50,7 +50,9 @@ def calculate_risk(city: str, lat: float, lon: float, claim_reason: str = None):
     # The Model expects: ['rainfall_mm', 'temperature_c', 'aqi', 'traffic_index', 'demand_drop_pct']
     
     # Dynamically pull real-time TomTom traffic congestion (returns 0.0 to 10.0)
-    traffic_index = get_traffic_data(lat, lon)
+    # Pass actual_city so the metro congestion floor is applied for Indian metros
+    resolved_city = actual_city if actual_city != "Unknown" else city
+    traffic_index = get_traffic_data(lat, lon, city=resolved_city)
     demand_drop_pct = 5.0
     
     # 🧠 Run Machine Learning Prediction!

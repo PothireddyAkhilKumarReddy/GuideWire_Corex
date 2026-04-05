@@ -1,49 +1,43 @@
-import BottomNav from '../components/BottomNav'
 import { useState, useEffect } from 'react'
-import PaymentModal from '../components/PaymentModal'
+import { loadStripe } from '@stripe/stripe-js'
+
+const STRIPE_PK = import.meta.env.VITE_STRIPE_PK || 'pk_test_51TIjAa0shsxERJ8HqZWHYlRDxLvTCvOhNhxPm09QyPFsuNJubO8xG7oR0sKPjvwR3b4DrNvwccczds0rH4outVIo00aNnezLeQ';
+const stripePromise = loadStripe(STRIPE_PK);
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
-export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRole, userId, setSubscription, PLANS }) {
+export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRole, userId, setSubscription, PLANS, profileComplete }) {
   const [priceMultiplier, setPriceMultiplier] = useState(1.0);
   const [discountReason, setDiscountReason] = useState("Loading Risk Profile...");
   const [coords, setCoords] = useState({ lat: null, lon: null });
   const [isLoading, setIsLoading] = useState(true);
 
-  const [showPaymentModal, setShowPaymentModal] = useState(false)
-  const [selectedPlan, setSelectedPlan] = useState(null)
-  const [paymentStep, setPaymentStep] = useState('select')
-  const [paymentMethod, setPaymentMethod] = useState('card')
+  const [paymentLoading, setPaymentLoading] = useState(null); // holds plan id being processed
 
-  const handleBuyPlan = (plan) => {
-    setSelectedPlan(plan);
-    setPaymentStep('select');
-    setPaymentMethod('card');
-    setShowPaymentModal(true);
-  }
-
-  const handlePaymentSubmit = async () => {
-    setPaymentStep('processing');
+  const handleBuyPlan = async (plan) => {
+    setPaymentLoading(plan.id);
     try {
-      if (!userId) throw new Error("Not logged in");
-      const res = await fetch(`${API_BASE}/api/plans/select-plan`, {
-        method: "POST", headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ user_id: userId, plan_name: selectedPlan.name })
+      const res = await fetch(`${API_BASE}/api/payment/create-checkout-session`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: userId,
+          plan_name: plan.name,
+          premium: plan.premium,
+          coverage: plan.coverage
+        })
       });
-      if (!res.ok) throw new Error("Payment API failed");
-      
-      setPaymentStep('success');
-      const expiry = new Date();
-      expiry.setDate(expiry.getDate() + 7);
-      setSubscription({ plan: selectedPlan.name, premium: selectedPlan.premium, coverage: selectedPlan.coverage, expiry: expiry.toLocaleDateString('en-IN'), activatedOn: new Date().toLocaleDateString('en-IN') });
-      setTimeout(() => {
-        setShowPaymentModal(false);
-        setCurrentView('dashboard');
-      }, 2000);
-    } catch {
-      setPaymentStep('select');
-      alert("Payment API connection failed. Please ensure backend is running.");
+      const data = await res.json();
+      if (data.checkout_url) {
+        window.location.href = data.checkout_url;
+      } else {
+        alert('Failed to create checkout session.');
+      }
+    } catch (e) {
+      console.error('Stripe checkout error:', e);
+      alert('Payment service unavailable. Please try again.');
     }
+    setPaymentLoading(null);
   }
 
   useEffect(() => {
@@ -119,7 +113,18 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
           </div>
         </div>
 
-        <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))', gap:'20px', marginBottom:'50px', opacity: isLoading ? 0.5 : 1, transition: 'opacity 0.3s'}}>
+        {!profileComplete && isLoggedIn && (
+          <div style={{background:'#fffbeb', border:'1px solid #fde68a', borderRadius:'16px', padding:'25px', marginBottom:'40px', textAlign:'center', boxShadow:'0 10px 30px rgba(180, 83, 9, 0.05)'}}>
+            <div style={{width:'50px', height:'50px', background:'#fef3c7', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'24px', margin:'0 auto 15px auto'}}>⚠️</div>
+            <h3 style={{fontSize:'18px', fontWeight:'800', color:'#b45309', margin:'0 0 10px 0'}}>Complete Your Profile</h3>
+            <p style={{fontSize:'14px', color:'#d97706', margin:'0 0 20px 0'}}>We need your profile details to activate a coverage plan and generate your wallet.</p>
+            <button onClick={() => setCurrentView('profile-setup')} style={{padding:'14px 28px', background:'#b45309', color:'white', borderRadius:'12px', fontSize:'14px', fontWeight:'800', border:'none', cursor:'pointer'}}>
+              Go to Profile Setup →
+            </button>
+          </div>
+        )}
+
+        <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))', gap:'20px', marginBottom:'50px', opacity: (!profileComplete && isLoggedIn) ? 0.4 : (isLoading ? 0.5 : 1), transition: 'opacity 0.3s', pointerEvents: (!profileComplete && isLoggedIn) ? 'none' : 'auto'}}>
           {/* Basic */}
           <div className="hover-card" style={{background:'white', borderRadius:'24px', padding:'35px 30px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', position:'relative'}}>
             <h3 style={{fontSize:'20px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Basic</h3>
@@ -129,16 +134,16 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
             </div>
             <p style={{fontSize:'11px', fontWeight:'700', color:'#94a3b8', letterSpacing:'1px', margin:'0 0 25px 0'}}>DYNAMIC BASE RATE</p>
             <div style={{display:'flex', flexDirection:'column', gap:'14px', marginBottom:'30px'}}>
-              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'#334155'}}><span style={{color:'#22c55e'}}>✓</span> Personal Accident Cover</div>
-              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'#334155'}}><span style={{color:'#22c55e'}}>✓</span> WhatsApp Claim Support</div>
-              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'#334155'}}><span style={{color:'#22c55e'}}>✓</span> Hospital Cash Benefit</div>
+              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'#334155'}}><span style={{color:'#22c55e'}}>✓</span> Weather Risk Auto-Trigger</div>
+              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'#334155'}}><span style={{color:'#22c55e'}}>✓</span> WhatsApp Claim Alerts</div>
+              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'#334155'}}><span style={{color:'#22c55e'}}>✓</span> Basic Payout Protection</div>
             </div>
-            <button style={{width:'100%', padding:'16px', background:'white', color:'#021676', border:'2px solid #e2e8f0', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[0], premium: calculatePrice(40)}) : setCurrentView('auth')}>SELECT BASIC</button>
+            <button style={{width:'100%', padding:'16px', background:'white', color:'#021676', border:'2px solid #e2e8f0', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[0], premium: calculatePrice(40)}) : setCurrentView('auth')}>{paymentLoading === 'basic' ? '⏳ Redirecting...' : 'SELECT BASIC'}</button>
           </div>
 
           {/* Standard */}
           <div className="hover-card" style={{background:'#021676', borderRadius:'24px', padding:'35px 30px', color:'white', position:'relative', boxShadow:'0 20px 40px rgba(2, 22, 118, 0.2)', transform:'scale(1.02)'}}>
-            <div style={{position:'absolute', top:'-12px', left:'50%', transform:'translateX(-50%)', background:'#3b82f6', color:'white', padding:'6px 16px', borderRadius:'20px', fontSize:'10px', fontWeight:'800', letterSpacing:'1px'}}>MOST PROTECTIVE</div>
+            <div style={{position:'absolute', top:'-12px', left:'50%', transform:'translateX(-50%)', background:'#3b82f6', color:'white', padding:'6px 16px', borderRadius:'20px', fontSize:'10px', fontWeight:'800', letterSpacing:'1px'}}>BEST VALUE</div>
             <h3 style={{fontSize:'20px', fontWeight:'800', margin:'0 0 8px 0'}}>Standard</h3>
             <div style={{fontSize:'48px', fontWeight:'900', margin:'0 0 5px 0'}}>
               {priceMultiplier !== 1.0 && <span style={{fontSize:'24px', textDecoration:'line-through', color:'rgba(255,255,255,0.4)', marginRight:'8px'}}>₹70</span>}
@@ -146,28 +151,32 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
             </div>
             <p style={{fontSize:'11px', fontWeight:'700', color:'rgba(255,255,255,0.6)', letterSpacing:'1px', margin:'0 0 25px 0'}}>AI RECOMMENDED</p>
             <div style={{display:'flex', flexDirection:'column', gap:'14px', marginBottom:'30px'}}>
-              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.9)'}}><span style={{color:'#34d399'}}>✓</span> Medical Expense Reimbursement</div>
-              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.9)'}}><span style={{color:'#34d399'}}>✓</span> Disability Benefit Included</div>
-              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.9)'}}><span style={{color:'#34d399'}}>✓</span> Instant Parametric Approval</div>
-              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.9)'}}><span style={{color:'#34d399'}}>✓</span> Priority WhatsApp Support</div>
+              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.9)'}}><span style={{color:'#34d399'}}>✓</span> Weather + Traffic + AQI Triggers</div>
+              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.9)'}}><span style={{color:'#34d399'}}>✓</span> Instant Parametric Payouts</div>
+              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.9)'}}><span style={{color:'#34d399'}}>✓</span> AI Risk Monitoring 24/7</div>
+              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.9)'}}><span style={{color:'#34d399'}}>✓</span> Priority Claim Processing</div>
             </div>
-            <button style={{width:'100%', padding:'16px', background:'white', color:'#021676', border:'none', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[1], premium: calculatePrice(70)}) : setCurrentView('auth')}>GET PROTECTED</button>
+            <button style={{width:'100%', padding:'16px', background:'white', color:'#021676', border:'none', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[1], premium: calculatePrice(70)}) : setCurrentView('auth')}>{paymentLoading === 'standard' ? '⏳ Redirecting...' : 'GET PROTECTED'}</button>
           </div>
 
           {/* Premium */}
-          <div className="hover-card" style={{background:'white', borderRadius:'24px', padding:'35px 30px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', position:'relative'}}>
-            <h3 style={{fontSize:'20px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Premium</h3>
-            <div style={{fontSize:'42px', fontWeight:'900', color:'#0f172a', margin:'0 0 5px 0'}}>
-              {priceMultiplier !== 1.0 && <span style={{fontSize:'22px', textDecoration:'line-through', color:'#cbd5e1', marginRight:'8px'}}>₹100</span>}
-              ₹{calculatePrice(100)}<span style={{fontSize:'16px', fontWeight:'600', color:'#94a3b8'}}>/wk</span>
+          <div className="hover-card" style={{background:'linear-gradient(145deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%)', borderRadius:'24px', padding:'35px 30px', border:'1px solid #d4a848', boxShadow:'0 20px 40px rgba(0,0,0,0.3), inset 0 1px 0 rgba(212,168,72,0.2)', position:'relative'}}>
+            <div style={{position:'absolute', top:'12px', right:'16px', background:'linear-gradient(135deg, #d4a848, #f5d680)', color:'#0a0a0a', padding:'5px 14px', borderRadius:'20px', fontSize:'10px', fontWeight:'800', letterSpacing:'1px'}}>ELITE</div>
+            <div style={{position:'absolute', top:'-40px', right:'-40px', width:'120px', height:'120px', borderRadius:'50%', background:'radial-gradient(circle, rgba(212,168,72,0.12) 0%, transparent 70%)', overflow:'hidden'}}></div>
+            <div style={{position:'absolute', bottom:'-30px', left:'-30px', width:'100px', height:'100px', borderRadius:'50%', background:'radial-gradient(circle, rgba(212,168,72,0.08) 0%, transparent 70%)', overflow:'hidden'}}></div>
+            <h3 style={{fontSize:'20px', fontWeight:'800', color:'#d4a848', margin:'0 0 8px 0', letterSpacing:'0.5px'}}>Premium</h3>
+            <div style={{fontSize:'42px', fontWeight:'900', color:'white', margin:'0 0 5px 0'}}>
+              {priceMultiplier !== 1.0 && <span style={{fontSize:'22px', textDecoration:'line-through', color:'rgba(255,255,255,0.3)', marginRight:'8px'}}>₹100</span>}
+              ₹{calculatePrice(100)}<span style={{fontSize:'16px', fontWeight:'600', color:'rgba(212,168,72,0.7)'}}>/wk</span>
             </div>
-            <p style={{fontSize:'11px', fontWeight:'700', color:'#ef4444', letterSpacing:'1px', margin:'0 0 25px 0'}}>RISK-ADJUSTED STARTING RATE</p>
+            <p style={{fontSize:'11px', fontWeight:'700', color:'#d4a848', letterSpacing:'1px', margin:'0 0 25px 0'}}>MAXIMUM PROTECTION</p>
             <div style={{display:'flex', flexDirection:'column', gap:'14px', marginBottom:'30px'}}>
-              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'#334155'}}><span style={{color:'#22c55e'}}>✓</span> Unlimited Dynamic Coverage</div>
-              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'#334155'}}><span style={{color:'#22c55e'}}>✓</span> Dedicated WhatsApp Concierge</div>
-              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'#334155'}}><span style={{color:'#22c55e'}}>✓</span> End-to-End Claim Support</div>
+              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.85)'}}><span style={{color:'#d4a848'}}>✓</span> All Environmental Triggers</div>
+              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.85)'}}><span style={{color:'#d4a848'}}>✓</span> Highest Coverage ₹1,300</div>
+              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.85)'}}><span style={{color:'#d4a848'}}>✓</span> Dedicated Claim Support</div>
+              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.85)'}}><span style={{color:'#d4a848'}}>✓</span> Fastest Payout Processing</div>
             </div>
-            <button style={{width:'100%', padding:'16px', background:'white', color:'#021676', border:'2px solid #e2e8f0', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[2], premium: calculatePrice(100)}) : setCurrentView('auth')}>CUSTOMIZE PREMIUM</button>
+            <button style={{width:'100%', padding:'16px', background:'linear-gradient(135deg, #d4a848, #f5d680)', color:'#0a0a0a', border:'none', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer', boxShadow:'0 4px 15px rgba(212,168,72,0.3)'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[2], premium: calculatePrice(100)}) : setCurrentView('auth')}>{paymentLoading === 'premium' ? '⏳ Redirecting...' : 'SELECT PREMIUM'}</button>
           </div>
         </div>
 
@@ -179,11 +188,11 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
               <div>COVERAGE</div><div>BASIC</div><div style={{color:'#021676'}}>STANDARD</div><div>PREMIUM</div>
             </div>
             {[
-              {name:'Personal Accident Cover', b:'✓', s:'✓', p:'✓'},
-              {name:'Medical Reimbursement', b:'✕', s:'Up to ₹1L', p:'Unlimited'},
-              {name:'Hospital Cash Benefit', b:'✓', s:'Included', p:'Priority'},
-              {name:'WhatsApp Claims', b:'Standard', s:'Instant', p:'Concierge'},
-              {name:'AI Parametric Engine', b:'1.0x', s:'1.5x', p:'Unlimited'},
+              {name:'Weather Risk Trigger', b:'✓', s:'✓', p:'✓'},
+              {name:'Traffic & AQI Triggers', b:'✕', s:'✓', p:'✓'},
+              {name:'Coverage Limit', b:'₹700', s:'₹1,000', p:'₹1,300'},
+              {name:'Claim Processing', b:'Standard', s:'Priority', p:'Dedicated'},
+              {name:'AI Risk Engine', b:'1.0x', s:'1.5x', p:'Unlimited'},
             ].map((row, i) => (
               <div key={i} style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'15px 20px', borderBottom: i < 4 ? '1px solid #f1f5f9' : 'none', fontSize:'14px', alignItems:'center'}}>
                 <div style={{color:'#0f172a', fontWeight:'600'}}>{row.name}</div>
@@ -195,19 +204,6 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
           </div>
         </div>
       </div>
-      {isLoggedIn && <BottomNav active="plans" setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole} />}
-
-      {/* Payment Modal Overlay */}
-      {showPaymentModal && selectedPlan && (
-        <PaymentModal
-          selectedPlan={selectedPlan}
-          paymentStep={paymentStep}
-          paymentMethod={paymentMethod}
-          setPaymentMethod={setPaymentMethod}
-          setShowPaymentModal={setShowPaymentModal}
-          handlePaymentSubmit={handlePaymentSubmit}
-        />
-      )}
     </div>
   )
 }

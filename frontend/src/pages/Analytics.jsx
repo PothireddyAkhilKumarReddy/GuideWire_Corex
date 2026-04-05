@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import BottomNav from '../components/BottomNav'
+
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
@@ -187,7 +187,6 @@ export default function Analytics({ userId, setCurrentView, setIsLoggedIn, setRo
         </div>
 
       </div>
-      <BottomNav active="analytics" setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole} />
     </div>
   );
 }

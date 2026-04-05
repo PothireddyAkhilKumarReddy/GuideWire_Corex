@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import BottomNav from '../components/BottomNav'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
-export default function Claims({ coords, results, userId, subscription, setSubscription, setCurrentView, setIsLoggedIn, setRole, setClaimHistory, setHonorScore }) {
+export default function Claims({ coords, results, userId, subscription, setSubscription, setCurrentView, setIsLoggedIn, setRole, setClaimHistory, setHonorScore, setWalletBalance }) {
   const [claimForm, setClaimForm] = useState({ name: '', mobile: '', city: 'Hyderabad', location: '', reason: '', description: '' })
   const [claimResult, setClaimResult] = useState(null)
   const [claimLoading, setClaimLoading] = useState(false)
@@ -42,6 +41,9 @@ export default function Claims({ coords, results, userId, subscription, setSubsc
       if (claimData.honor_score !== undefined) {
         setHonorScore(claimData.honor_score);
       }
+      if (claimData.wallet_balance !== undefined && setWalletBalance) {
+        setWalletBalance(claimData.wallet_balance);
+      }
       
       const newClaim = { id: `CLM-${claimData.claim_id || Date.now()}`, date: new Date().toLocaleDateString('en-IN'), reason: claimForm.reason, city: claimForm.city, location: claimForm.location, payout: claimData.payout, status: parsedStatus, riskScore: data.risk_level, xaiReason: data.xai_reason || 'Standard Operating Conditions' };
       setClaimHistory(prev => [newClaim, ...prev]);
@@ -59,7 +61,7 @@ export default function Claims({ coords, results, userId, subscription, setSubsc
          setClaimResult({ status: 'rejected', riskScore: data.risk_level, message: `Claim halted for fraud review. Trust Score: ${claimData.trust_score}` });
       } else {
          const reasonText = data.xai_reason ? ` Verification Match: ${data.xai_reason}.` : '';
-         setClaimResult({ status: 'approved', payout: claimData.payout, riskScore: data.risk_level, message: `Claim approved! ₹${claimData.payout} will be credited within 24 hours.${reasonText}` });
+         setClaimResult({ status: 'approved', payout: claimData.payout, riskScore: data.risk_level, message: `Claim approved! ₹${claimData.payout} credited to your wallet.${reasonText}` });
       }
     } catch (e) {
       console.error(e);
@@ -176,7 +178,6 @@ export default function Claims({ coords, results, userId, subscription, setSubsc
            </>
          )}
       </div>
-      <BottomNav active="claims" setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole} />
     </div>
   )
 }

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "C:\Users\akhil\OneDrive\Documents\GuideWire Hackathon\InsurGig AI\backend\routes\payment.py", line 69, in verify_session
+    metadata = dict(session.metadata) if session.metadata else {}
+  File "C:\Users\akhil\AppData\Local\Programs\Python\Python310\lib\site-packages\stripe\_stripe_object.py", line 224, in __getitem__
+    raise err
+  File "C:\Users\akhil\AppData\Local\Programs\Python\Python310\lib\site-packages\stripe\_stripe_object.py", line 203, in __getitem__
+    return self._data[k]
+KeyError: 0

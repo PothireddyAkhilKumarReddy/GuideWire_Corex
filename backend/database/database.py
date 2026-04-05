@@ -2,6 +2,9 @@ import os
 import ssl
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Read DATABASE_URL from environment variable (set on Render for production)
 # Falls back to local SQLite for development if no URL provided
@@ -15,7 +18,7 @@ else:
 
 # Neon/Cloud DBs require SSL natively defined in the URL, while local SQLite does not
 if "sqlite" not in SQLALCHEMY_DATABASE_URL:
-    engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True)
+    engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True, pool_size=5, max_overflow=10, pool_recycle=300)
 else:
     engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True, connect_args={"check_same_thread": False})
 

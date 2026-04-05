@@ -13,3 +13,5 @@ scikit-learn
 joblib
 gunicorn
 requests
+stripe
+google-auth

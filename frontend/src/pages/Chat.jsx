@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import BottomNav from '../components/BottomNav'
+import { useState, useRef, useEffect } from 'react'
 
 export default function Chat({ role, isLoggedIn, setCurrentView, setIsLoggedIn, setRole }) {
   const [chatMessages, setChatMessages] = useState([
@@ -104,7 +103,6 @@ export default function Chat({ role, isLoggedIn, setCurrentView, setIsLoggedIn, 
           ))}
         </div>
       </div>
-      {isLoggedIn && <BottomNav active="chat" setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole} />}
     </div>
   )
 }
