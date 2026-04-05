@@ -360,6 +360,7 @@ export default function App() {
           setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole}
           profileComplete={profileComplete}
           cachedWallet={cachedWallet} setCachedWallet={setCachedWallet}
+          walletBalance={walletBalance} setWalletBalance={setWalletBalance}
         />
       )}
       

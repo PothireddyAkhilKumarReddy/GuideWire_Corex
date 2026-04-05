@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
-export default function Wallet({ userId, setCurrentView, setIsLoggedIn, setRole, profileComplete, cachedWallet, setCachedWallet }) {
+export default function Wallet({ userId, setCurrentView, setIsLoggedIn, setRole, profileComplete, cachedWallet, setCachedWallet, walletBalance, setWalletBalance }) {
   const [data, setData] = useState(cachedWallet || null);
   const [loading, setLoading] = useState(!cachedWallet);
   const [withdrawing, setWithdrawing] = useState(false);
@@ -16,6 +16,7 @@ export default function Wallet({ userId, setCurrentView, setIsLoggedIn, setRole,
       const json = await res.json();
       setData(json);
       if (setCachedWallet) setCachedWallet(json);
+      if (setWalletBalance && json.balance !== undefined) setWalletBalance(json.balance);
     } catch (e) {
       console.error('Wallet fetch error:', e);
     }
