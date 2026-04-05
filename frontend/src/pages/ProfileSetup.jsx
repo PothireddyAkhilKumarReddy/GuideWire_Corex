@@ -3,7 +3,7 @@ import { Camera, UploadCloud, MapPin, User as UserIcon, Phone, Calendar, Hash, C
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
-export default function ProfileSetup({ userId, userName, setProfileComplete, setCurrentView, cachedProfile, setCachedProfile }) {
+export default function ProfileSetup({ userId, userName, setProfileComplete, setCurrentView, cachedProfile, setCachedProfile, honorScore }) {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
@@ -246,7 +246,7 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
 
             <div style={{textAlign: 'right'}}>
               <div style={{fontSize: '11px', color: '#94a3b8', fontWeight: '700', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '6px'}}>Honor Score</div>
-              <div style={{fontSize: '40px', fontWeight: '900', color: 'white', lineHeight: 1}}>{userData.honor_score}<span style={{fontSize: '16px', color: '#64748b', fontWeight: '500'}}>/100</span></div>
+              <div style={{fontSize: '40px', fontWeight: '900', color: 'white', lineHeight: 1}}>{honorScore !== undefined ? honorScore : userData.honor_score}<span style={{fontSize: '16px', color: '#64748b', fontWeight: '500'}}>/100</span></div>
             </div>
           </div>
         </div>

@@ -297,6 +297,7 @@ export default function App() {
           userId={userId} userName={userName}
           setProfileComplete={setProfileComplete} setCurrentView={setCurrentView}
           cachedProfile={cachedProfile} setCachedProfile={setCachedProfile}
+          honorScore={honorScore}
         />
       )}
       
