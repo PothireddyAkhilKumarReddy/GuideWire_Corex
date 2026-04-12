@@ -158,9 +158,9 @@ export default function App() {
   }, []);
 
   const PLANS = [
-    { id: 'basic', name: 'Basic', premium: 100, coverage: 3000, period: 'week', features: ['Weather Risk Auto-Trigger', 'WhatsApp Claim Alerts', 'Basic Payout Protection'] },
-    { id: 'standard', name: 'Standard', premium: 150, coverage: 5000, period: 'week', features: ['Weather + Traffic + AQI Triggers', 'Instant Parametric Payouts', 'AI Risk Monitoring 24/7', 'Priority Claim Processing'], recommended: true },
-    { id: 'premium', name: 'Premium', premium: 200, coverage: 8000, period: 'week', features: ['All Environmental Triggers', 'Highest Coverage Limit', 'Dedicated Claim Support', 'Minor Accident Telematics'] },
+    { id: 'basic', name: 'Basic', premium: 100, coverage: 800, period: 'week', features: ['Weather Risk Auto-Trigger', 'WhatsApp Claim Alerts', 'Basic Payout Protection'] },
+    { id: 'standard', name: 'Standard', premium: 150, coverage: 1400, period: 'week', features: ['Weather + Traffic + AQI Triggers', 'Instant Parametric Payouts', 'AI Risk Monitoring 24/7', 'Priority Claim Processing'], recommended: true },
+    { id: 'premium', name: 'Premium', premium: 200, coverage: 1800, period: 'week', features: ['All Environmental Triggers', 'Highest Coverage Limit', 'Dedicated Claim Support', 'Minor Accident Telematics'] },
   ]
 
   const [oracleStatus, setOracleStatus] = useState(null);
