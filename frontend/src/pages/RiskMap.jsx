@@ -51,12 +51,65 @@ export default function RiskMap({ role, setIsLoggedIn, setCurrentView, setRole }
                   <button className="btn-primary" style={{ width: '100%' }} onClick={() => setCurrentView('dashboard')}>VIEW DETAILED REPORT</button>
                </div>
                
-               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '40px 40px' }}>
-                  <div className="dot" style={{ position: 'absolute', top: '20%', left: '30%', height: '24px', width: '24px', background: 'var(--accent-red)', boxShadow: '0 0 40px 15px rgba(248, 113, 113, 0.4)' }}></div>
-                  <div className="dot" style={{ position: 'absolute', top: '75%', left: '65%', height: '18px', width: '18px', background: '#fbbf24', boxShadow: '0 0 30px 10px rgba(251, 191, 36, 0.4)' }}></div>
-                  <div className="dot dot-green" style={{ position: 'absolute', top: '50%', left: '80%', height: '14px', width: '14px', boxShadow: '0 0 20px 8px rgba(52, 211, 153, 0.4)' }}></div>
-                  <div style={{ position: 'absolute', top: '45%', left: '45%', width: '300px', height: '300px', borderRadius: '50%', border: '2px dashed rgba(56, 189, 248, 0.2)', transform: 'translate(-50%, -50%)' }}></div>
-                  <div style={{ position: 'absolute', top: '45%', left: '45%', width: '150px', height: '150px', borderRadius: '50%', border: '1px solid rgba(56, 189, 248, 0.3)', transform: 'translate(-50%, -50%)' }}></div>
+               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)', backgroundSize: '40px 40px', overflow: 'hidden' }}>
+                  
+                  <style>{`
+                  @keyframes radar-sweep {
+                     from { transform: rotate(0deg); }
+                     to { transform: rotate(360deg); }
+                  }
+                  @keyframes globe-spin {
+                     from { background-position: 0 0; }
+                     to { background-position: -200px 0; }
+                  }
+                  .holo-globe {
+                     position: absolute;
+                     top: 50%; left: 55%;
+                     transform: translate(-50%, -50%);
+                     width: 500px; height: 500px;
+                     border-radius: 50%;
+                     background: radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.05), rgba(2, 22, 118, 0.4) 80%);
+                     box-shadow: inset 0 0 80px rgba(56, 189, 248, 0.3), 0 0 100px rgba(56, 189, 248, 0.1);
+                     border: 2px solid rgba(56, 189, 248, 0.2);
+                  }
+                  .holo-globe::before {
+                     content: '';
+                     position: absolute;
+                     inset: 0;
+                     border-radius: 50%;
+                     background-image: 
+                        linear-gradient(rgba(56, 189, 248, 0.2) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(56, 189, 248, 0.2) 1px, transparent 1px);
+                     background-size: 30px 30px;
+                     animation: globe-spin 15s linear infinite;
+                     border-radius: 50%;
+                     mask-image: radial-gradient(circle, white 40%, transparent 100%);
+                     -webkit-mask-image: radial-gradient(circle, white 40%, transparent 100%);
+                  }
+                  .radar-scanner {
+                     position: absolute;
+                     top: 50%; left: 55%;
+                     transform-origin: center;
+                     width: 500px; height: 500px;
+                     margin-top: -250px; margin-left: -250px;
+                     border-radius: 50%;
+                     background: conic-gradient(from 0deg, transparent 70%, rgba(56, 189, 248, 0.5) 100%);
+                     animation: radar-sweep 4s linear infinite;
+                  }
+                  .ring-1 {
+                     position: absolute; top: 50%; left: 55%; width: 300px; height: 300px;
+                     transform: translate(-50%, -50%); border-radius: 50%; border: 1px dashed rgba(56, 189, 248, 0.4);
+                  }
+                  .ring-2 {
+                     position: absolute; top: 50%; left: 55%; width: 700px; height: 700px;
+                     transform: translate(-50%, -50%); border-radius: 50%; border: 1px solid rgba(56, 189, 248, 0.1);
+                  }
+                  `}</style>
+                  
+                  <div className="holo-globe"></div>
+                  <div className="radar-scanner"></div>
+                  <div className="ring-1"></div>
+                  <div className="ring-2"></div>
                   <div style={{ position: 'absolute', top: '40px', right: '40px', background: 'rgba(0,0,0,0.8)', padding: '20px', borderRadius: '12px', border: '1px solid var(--border-color)', color: 'var(--text-muted)', fontSize: '12px' }}>
                      <h4 style={{ color: 'white', margin: '0 0 10px 0' }}>WEATHER ALERT</h4>
                      <p style={{ margin: 0 }}>Storm cell approaching downtown.<br />Payout reserve fully liquid.</p>
