@@ -161,6 +161,10 @@ Lower risk → lower premium
 ### TomTom Traffic Flow API
 - Measures hyper-local road congestion ratios (`currentSpeed` vs `freeFlowSpeed`).
 
+### IoT Telematics & Geophysical Sensors (Round 3 Upgrades)
+- **Smartphone Accelerometer Data**: Simulates high G-force crashes to instantly trigger auto-payouts.
+- **USGS Seismic Data**: Simulates localized earthquake magnitudes to trigger crisis payouts.
+
 ### Synthetic Transaction System
 - Dynamic ML variables simulate payment rails for conceptualized payouts without real banking APIs.
 
@@ -176,7 +180,9 @@ Serverless Postgres Database -> Hosted on Neon.tech
 ↓
 SciKit-Learn Random Forest Model -> Calculates Live Risk
 ↓
-External Telemetry (TomTom + OpenWeather) -> Injects live GPS variables
+APScheduler Overlord Daemon -> Autonomously scans users & triggers claims 24/7 without human input
+↓
+External Telemetry (TomTom + OpenWeather + IoT Crash Sensors) -> Injects live environmental variables
 
 ---
 
@@ -186,6 +192,7 @@ External Telemetry (TomTom + OpenWeather) -> Injects live GPS variables
 - Python FastAPI (Backend)  
 - PostgreSQL (Neon Serverless DB)  
 - SQLAlchemy (ORM)
+- APScheduler (Autonomous Background Daemon)
 - Scikit-Learn RandomForest (ML Core)  
 - OpenWeather API (Weather & AQI)  
 - TomTom API (Live Traffic)
