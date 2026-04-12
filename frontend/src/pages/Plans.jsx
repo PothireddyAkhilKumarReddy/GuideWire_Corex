@@ -129,8 +129,8 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
           <div className="hover-card" style={{background:'white', borderRadius:'24px', padding:'35px 30px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', position:'relative'}}>
             <h3 style={{fontSize:'20px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Basic</h3>
             <div style={{fontSize:'42px', fontWeight:'900', color:'#0f172a', margin:'0 0 5px 0'}}>
-              {priceMultiplier !== 1.0 && <span style={{fontSize:'22px', textDecoration:'line-through', color:'#cbd5e1', marginRight:'8px'}}>₹40</span>}
-              ₹{calculatePrice(40)}<span style={{fontSize:'16px', fontWeight:'600', color:'#94a3b8'}}>/wk</span>
+              {priceMultiplier !== 1.0 && <span style={{fontSize:'22px', textDecoration:'line-through', color:'#cbd5e1', marginRight:'8px'}}>₹100</span>}
+              ₹{calculatePrice(100)}<span style={{fontSize:'16px', fontWeight:'600', color:'#94a3b8'}}>/wk</span>
             </div>
             <p style={{fontSize:'11px', fontWeight:'700', color:'#94a3b8', letterSpacing:'1px', margin:'0 0 25px 0'}}>DYNAMIC BASE RATE</p>
             <div style={{display:'flex', flexDirection:'column', gap:'14px', marginBottom:'30px'}}>
@@ -146,8 +146,8 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
             <div style={{position:'absolute', top:'-12px', left:'50%', transform:'translateX(-50%)', background:'#3b82f6', color:'white', padding:'6px 16px', borderRadius:'20px', fontSize:'10px', fontWeight:'800', letterSpacing:'1px'}}>BEST VALUE</div>
             <h3 style={{fontSize:'20px', fontWeight:'800', margin:'0 0 8px 0'}}>Standard</h3>
             <div style={{fontSize:'48px', fontWeight:'900', margin:'0 0 5px 0'}}>
-              {priceMultiplier !== 1.0 && <span style={{fontSize:'24px', textDecoration:'line-through', color:'rgba(255,255,255,0.4)', marginRight:'8px'}}>₹70</span>}
-              ₹{calculatePrice(70)}<span style={{fontSize:'16px', fontWeight:'600', color:'rgba(255,255,255,0.6)'}}>/wk</span>
+              {priceMultiplier !== 1.0 && <span style={{fontSize:'24px', textDecoration:'line-through', color:'rgba(255,255,255,0.4)', marginRight:'8px'}}>₹150</span>}
+              ₹{calculatePrice(150)}<span style={{fontSize:'16px', fontWeight:'600', color:'rgba(255,255,255,0.6)'}}>/wk</span>
             </div>
             <p style={{fontSize:'11px', fontWeight:'700', color:'rgba(255,255,255,0.6)', letterSpacing:'1px', margin:'0 0 25px 0'}}>AI RECOMMENDED</p>
             <div style={{display:'flex', flexDirection:'column', gap:'14px', marginBottom:'30px'}}>
@@ -166,13 +166,13 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
             <div style={{position:'absolute', bottom:'-30px', left:'-30px', width:'100px', height:'100px', borderRadius:'50%', background:'radial-gradient(circle, rgba(212,168,72,0.08) 0%, transparent 70%)', overflow:'hidden'}}></div>
             <h3 style={{fontSize:'20px', fontWeight:'800', color:'#d4a848', margin:'0 0 8px 0', letterSpacing:'0.5px'}}>Premium</h3>
             <div style={{fontSize:'42px', fontWeight:'900', color:'white', margin:'0 0 5px 0'}}>
-              {priceMultiplier !== 1.0 && <span style={{fontSize:'22px', textDecoration:'line-through', color:'rgba(255,255,255,0.3)', marginRight:'8px'}}>₹100</span>}
-              ₹{calculatePrice(100)}<span style={{fontSize:'16px', fontWeight:'600', color:'rgba(212,168,72,0.7)'}}>/wk</span>
+              {priceMultiplier !== 1.0 && <span style={{fontSize:'22px', textDecoration:'line-through', color:'rgba(255,255,255,0.3)', marginRight:'8px'}}>₹200</span>}
+              ₹{calculatePrice(200)}<span style={{fontSize:'16px', fontWeight:'600', color:'rgba(212,168,72,0.7)'}}>/wk</span>
             </div>
             <p style={{fontSize:'11px', fontWeight:'700', color:'#d4a848', letterSpacing:'1px', margin:'0 0 25px 0'}}>MAXIMUM PROTECTION</p>
             <div style={{display:'flex', flexDirection:'column', gap:'14px', marginBottom:'30px'}}>
               <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.85)'}}><span style={{color:'#d4a848'}}>✓</span> All Environmental Triggers</div>
-              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.85)'}}><span style={{color:'#d4a848'}}>✓</span> Highest Coverage ₹1,300</div>
+              <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.85)'}}><span style={{color:'#d4a848'}}>✓</span> Highest Coverage ₹1,800</div>
               <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.85)'}}><span style={{color:'#d4a848'}}>✓</span> Dedicated Claim Support</div>
               <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.85)'}}><span style={{color:'#d4a848'}}>✓</span> Fastest Payout Processing</div>
             </div>

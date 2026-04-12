@@ -6,12 +6,14 @@ import {
   ShieldCheck, 
   User, 
   LogOut,
-  History
+  History,
+  Map
 } from 'lucide-react';
 
 export default function Sidebar({ currentView, setCurrentView, userName, handleLogout }) {
   const navItems = [
     { id: 'dashboard', label: 'Overview', icon: LayoutDashboard },
+    { id: 'map', label: 'Live Map', icon: Map },
     { id: 'wallet', label: 'Wallet', icon: Wallet },
     { id: 'claims', label: 'Claims', icon: FileText },
     { id: 'plans', label: 'Coverage Plans', icon: ShieldCheck },

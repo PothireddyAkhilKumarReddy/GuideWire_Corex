@@ -207,7 +207,7 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                   ) : (
                     <div style={{cursor:'pointer'}} onClick={() => setCurrentView('plans')}>
                       <div style={{fontSize:'18px', fontWeight:'800'}}>Buy a Plan</div>
-                      <div style={{fontSize:'12px', color:'rgba(255,255,255,0.6)', marginTop:'5px'}}>Starting at ₹40/week →</div>
+                      <div style={{fontSize:'12px', color:'rgba(255,255,255,0.6)', marginTop:'5px'}}>Starting at ₹100/week →</div>
                     </div>
                   )}
                </div>

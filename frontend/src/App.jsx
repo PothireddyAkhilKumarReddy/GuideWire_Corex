@@ -15,6 +15,7 @@ import ClaimHistory from './pages/ClaimHistory'
 import Analytics from './pages/Analytics'
 import Wallet from './pages/Wallet'
 import PaymentSuccess from './pages/PaymentSuccess'
+import RiskMap from './pages/RiskMap'
 import Sidebar from './components/Sidebar'
 
 // App Boot
@@ -319,6 +320,15 @@ export default function App() {
           setCurrentView={setCurrentView} setIsLoggedIn={setIsLoggedIn} setRole={setRole}
           userId={userId} setClaimHistory={setClaimHistory} setHonorScore={setHonorScore}
           setWalletBalance={setWalletBalance}
+        />
+      )}
+      
+      {currentView === 'map' && (
+        <RiskMap
+          coords={coords}
+          results={results}
+          setCurrentView={setCurrentView} 
+          setIsLoggedIn={setIsLoggedIn}
         />
       )}
       
