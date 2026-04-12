@@ -120,6 +120,9 @@ def calculate_risk(city: str, lat: float, lon: float, claim_reason: str = None):
     elif final_score > 65.0:
         price_multiplier = 1.15 # 15% Algorithmic Inflation
         discount_reason = "High Risk Zone (15% Surge)"
+    else:
+        price_multiplier = 1.05 # 5% micro-volatility to show dynamic engine is active
+        discount_reason = "Medium Risk Zone (5% Adj.)"
         
     recommended_premium = float(30.0 + (final_score * 0.75))
     

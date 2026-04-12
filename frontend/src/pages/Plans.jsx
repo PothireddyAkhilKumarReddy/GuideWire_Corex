@@ -190,7 +190,7 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
             {[
               {name:'Weather Risk Trigger', b:'✓', s:'✓', p:'✓'},
               {name:'Traffic & AQI Triggers', b:'✕', s:'✓', p:'✓'},
-              {name:'Coverage Limit', b:'₹700', s:'₹1,000', p:'₹1,300'},
+              {name:'Coverage Limit', b:'₹800', s:'₹1,400', p:'₹1,800'},
               {name:'Claim Processing', b:'Standard', s:'Priority', p:'Dedicated'},
               {name:'AI Risk Engine', b:'1.0x', s:'1.5x', p:'Unlimited'},
             ].map((row, i) => (

@@ -35,11 +35,13 @@ export default function RiskMap({ role, setIsLoggedIn, setCurrentView, setRole }
          <div className="main-area" style={{ background: '#06090f', position: 'relative', padding: '40px', display: 'flex', flexDirection: 'column' }}>
             <div style={{ flex: 1, position: 'relative' }}>
                <div className="card" style={{ background: 'rgba(21,27,40,0.8)', backdropFilter: 'blur(10px)', marginBottom: '20px', maxWidth: '400px', zIndex: 10, position: 'relative' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                     <h3 style={{ margin: 0 }}>Risk Overview</h3>
-                     <span style={{ color: 'var(--accent-green)' }}>📊</span>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+                     <h3 style={{ margin: 0, fontSize: '20px', fontWeight: '900', color: '#60a5fa', textTransform: 'uppercase', letterSpacing: '1px' }}>Autonomous AI Overlord</h3>
+                     <span style={{ color: 'var(--accent-green)', fontSize: '22px', animation: 'pulse 2s infinite' }}>📡</span>
                   </div>
-                  <div className="sys-label">ACTIVE LOCATIONS</div>
+                  <p style={{ fontSize: '13px', color: '#94a3b8', lineHeight: '1.6', margin: '0 0 25px 0' }}>This Live Daemon acts as a decentralized parametric judge. It polls USGS Seismic, OpenWeather, and IoT Crash Sensor APIs 24/7. When parameters breach threshold limits, funds are routed to affected gig-workers instantly without human review.</p>
+
+                  <div className="sys-label">ACTIVE GIG-WORKER LOCATIONS</div>
                   <div style={{ fontSize: '48px', fontWeight: '800', color: 'var(--accent-blue)', marginBottom: '20px', borderBottom: '2px solid var(--accent-blue)', paddingBottom: '10px', display: 'inline-block' }}>12</div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '25px' }}>
                      <div style={{ textAlign: 'center' }}><div className="sys-label">SAFE</div><div style={{ color: 'var(--accent-green)', fontWeight: '700', fontSize: '18px' }}>72%</div></div>
