@@ -57,10 +57,6 @@ export default function RiskMap({ role, setIsLoggedIn, setCurrentView, setRole }
                   @keyframes radar-sweep {
                      from { transform: rotate(0deg); }
                      to { transform: rotate(360deg); }
-                  <style>{`
-                  @keyframes radar-sweep {
-                     from { transform: rotate(0deg); }
-                     to { transform: rotate(360deg); }
                   }
                   @keyframes spinEarth {
                      from { background-position: 0 0; }
