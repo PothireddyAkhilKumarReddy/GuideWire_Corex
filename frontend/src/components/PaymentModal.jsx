@@ -1,7 +1,7 @@
 export default function PaymentModal({ selectedPlan, paymentStep, paymentMethod, setPaymentMethod, setShowPaymentModal, handlePaymentSubmit }) {
   return (
     <div style={{position:'fixed', inset:0, background:'rgba(0,0,0,0.6)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', zIndex:1000, padding:'20px'}}>
-      <div style={{background:'white', borderRadius:'32px', padding:'40px', maxWidth:'440px', width:'100%', boxShadow:'0 30px 80px rgba(0,0,0,0.15)', position:'relative'}}>
+      <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'32px', padding:'40px', maxWidth:'440px', width:'100%', boxShadow:'0 30px 80px rgba(0,0,0,0.15)', position:'relative'}}>
         
         {paymentStep === 'select' && (
           <>
@@ -13,7 +13,7 @@ export default function PaymentModal({ selectedPlan, paymentStep, paymentMethod,
               <p style={{color:'#64748b', fontSize:'14px', margin:0}}>{selectedPlan.name} Plan — ₹{selectedPlan.premium}/week</p>
             </div>
 
-            <div style={{background:'#f8fafc', borderRadius:'16px', padding:'20px', marginBottom:'25px', border:'1px solid #e2e8f0'}}>
+            <div style={{background:'#f8fafc', borderRadius:'16px', padding:'20px', marginBottom:'25px', border:'1px solid rgba(255, 255, 255, 0.8)'}}>
               <div style={{display:'flex', justifyContent:'space-between', marginBottom:'10px'}}>
                 <span style={{fontSize:'13px', color:'#64748b', fontWeight:'600'}}>Plan</span>
                 <span style={{fontSize:'13px', fontWeight:'800', color:'#0f172a'}}>{selectedPlan.name}</span>
@@ -46,17 +46,17 @@ export default function PaymentModal({ selectedPlan, paymentStep, paymentMethod,
 
             {paymentMethod === 'card' && (
               <div style={{display:'grid', gap:'15px', marginBottom:'25px'}}>
-                <input type="text" placeholder="Card Number" defaultValue="4111 1111 1111 1111" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
+                <input type="text" placeholder="Card Number" defaultValue="4111 1111 1111 1111" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid rgba(255, 255, 255, 0.8)', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
                 <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'15px'}}>
-                  <input type="text" placeholder="MM/YY" defaultValue="12/28" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
-                  <input type="text" placeholder="CVV" defaultValue="123" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
+                  <input type="text" placeholder="MM/YY" defaultValue="12/28" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid rgba(255, 255, 255, 0.8)', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
+                  <input type="text" placeholder="CVV" defaultValue="123" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid rgba(255, 255, 255, 0.8)', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
                 </div>
               </div>
             )}
 
             {paymentMethod === 'upi' && (
               <div style={{marginBottom:'25px'}}>
-                <input type="text" placeholder="Enter UPI ID" defaultValue="worker@paytm" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
+                <input type="text" placeholder="Enter UPI ID" defaultValue="worker@paytm" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid rgba(255, 255, 255, 0.8)', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
               </div>
             )}
 

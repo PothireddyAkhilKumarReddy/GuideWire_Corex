@@ -82,7 +82,7 @@ export default function Claims({ coords, results, userId, subscription, setSubsc
       <div style={{maxWidth:'600px', margin:'0 auto'}}>
          <header style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'30px'}}>
             <div style={{display:'flex', alignItems:'center', gap:'12px'}}>
-               <div style={{width:'44px', height:'44px', background:'white', borderRadius:'14px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.03)', cursor:'pointer'}} onClick={() => setCurrentView('dashboard')}>
+               <div style={{width:'44px', height:'44px', background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'14px', border:'1px solid rgba(255, 255, 255, 0.8)', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.03)', cursor:'pointer'}} onClick={() => setCurrentView('dashboard')}>
                   <span style={{fontSize:'20px'}}>←</span>
                </div>
                <div>
@@ -93,7 +93,7 @@ export default function Claims({ coords, results, userId, subscription, setSubsc
          </header>
 
          {!subscription ? (
-           <div className="hover-card" style={{background:'white', borderRadius:'32px', padding:'50px 30px', textAlign:'center', border:'1px solid #e2e8f0', boxShadow:'0 20px 40px rgba(0,0,0,0.04)'}}>
+           <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'32px', padding:'50px 30px', textAlign:'center', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 20px 40px rgba(0,0,0,0.04)'}}>
              <div style={{fontSize:'60px', marginBottom:'20px'}}>🔒</div>
              <h2 style={{fontSize:'22px', fontWeight:'900', color:'#0f172a', margin:'0 0 10px 0'}}>No Active Subscription</h2>
              <p style={{color:'#64748b', fontSize:'14px', lineHeight:'1.6', margin:'0 0 30px 0'}}>You need an active insurance plan to file claims. Choose a plan that suits your needs.</p>
@@ -102,7 +102,7 @@ export default function Claims({ coords, results, userId, subscription, setSubsc
          ) : (
            <>
              {/* Claim Form */}
-             <div className="hover-card" style={{background:'white', borderRadius:'32px', padding:'30px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.04)', marginBottom:'20px'}}>
+             <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'32px', padding:'30px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 20px 40px rgba(0,0,0,0.04)', marginBottom:'20px'}}>
                
                <div style={{background:'#fffbeb', borderLeft:'4px solid #f59e0b', padding:'15px', borderRadius:'12px', marginBottom:'25px'}}>
                  <div style={{fontSize:'12px', fontWeight:'800', color:'#b45309', marginBottom:'5px'}}>MANUAL OVERRIDE SYSTEM</div>
@@ -117,25 +117,25 @@ export default function Claims({ coords, results, userId, subscription, setSubsc
                <div style={{display:'grid', gap:'18px'}}>
                  <div>
                    <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px'}}>FULL NAME</label>
-                   <input type="text" value={claimForm.name} onChange={(e) => setClaimForm({...claimForm, name: e.target.value})} placeholder="Enter your full name" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
+                   <input type="text" value={claimForm.name} onChange={(e) => setClaimForm({...claimForm, name: e.target.value})} placeholder="Enter your full name" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid rgba(255, 255, 255, 0.8)', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
                  </div>
                  <div>
                    <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px'}}>MOBILE NUMBER</label>
-                   <input type="tel" value={claimForm.mobile} onChange={(e) => setClaimForm({...claimForm, mobile: e.target.value.replace(/\D/g, '').slice(0, 10)})} placeholder="Enter 10-digit mobile number" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
+                   <input type="tel" value={claimForm.mobile} onChange={(e) => setClaimForm({...claimForm, mobile: e.target.value.replace(/\D/g, '').slice(0, 10)})} placeholder="Enter 10-digit mobile number" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid rgba(255, 255, 255, 0.8)', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
                  </div>
                   <div className="flex-col-mobile" style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'15px'}}>
                    <div>
                      <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px'}}>CITY</label>
-                     <input type="text" value={claimForm.city} onChange={(e) => setClaimForm({...claimForm, city: e.target.value})} placeholder="Hyderabad" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
+                     <input type="text" value={claimForm.city} onChange={(e) => setClaimForm({...claimForm, city: e.target.value})} placeholder="Hyderabad" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid rgba(255, 255, 255, 0.8)', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
                    </div>
                    <div>
                      <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px'}}>CURRENT LOCATION (GPS Tracked) 📍</label>
-                     <input type="text" value={claimForm.location} onChange={(e) => setClaimForm({...claimForm, location: e.target.value})} placeholder="e.g., Banjara Hills" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
+                     <input type="text" value={claimForm.location} onChange={(e) => setClaimForm({...claimForm, location: e.target.value})} placeholder="e.g., Banjara Hills" style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid rgba(255, 255, 255, 0.8)', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}} />
                    </div>
                  </div>
                  <div>
                    <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px'}}>REASON FOR CLAIM</label>
-                   <select value={claimForm.reason} onChange={(e) => setClaimForm({...claimForm, reason: e.target.value})} style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}}>
+                   <select value={claimForm.reason} onChange={(e) => setClaimForm({...claimForm, reason: e.target.value})} style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid rgba(255, 255, 255, 0.8)', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc'}}>
                      <option value="">Select a reason...</option>
                      <option value="Heavy Rain">🌧️ Heavy Rainfall</option>
                      <option value="Extreme Heat">🌡️ Extreme Heat</option>
@@ -146,7 +146,7 @@ export default function Claims({ coords, results, userId, subscription, setSubsc
                  </div>
                  <div>
                    <label style={{fontSize:'10px', fontWeight:'800', color:'#94a3b8', letterSpacing:'1px', display:'block', marginBottom:'8px'}}>DESCRIPTION (OPTIONAL)</label>
-                   <textarea value={claimForm.description} onChange={(e) => setClaimForm({...claimForm, description: e.target.value})} placeholder="Describe the disruption you faced..." rows={3} style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc', resize:'vertical', fontFamily:'inherit'}} />
+                   <textarea value={claimForm.description} onChange={(e) => setClaimForm({...claimForm, description: e.target.value})} placeholder="Describe the disruption you faced..." rows={3} style={{width:'100%', padding:'15px 18px', borderRadius:'14px', border:'1px solid rgba(255, 255, 255, 0.8)', fontSize:'14px', color:'#0f172a', outline:'none', boxSizing:'border-box', background:'#f8fafc', resize:'vertical', fontFamily:'inherit'}} />
                  </div>
                </div>
 
@@ -158,7 +158,7 @@ export default function Claims({ coords, results, userId, subscription, setSubsc
                  {claimLoading ? '⏳ PROCESSING CLAIM...' : '🛡️ SUBMIT CLAIM'}
                </button>
                
-               <div style={{marginTop:'25px', padding:'15px', background:'#f8fafc', borderRadius:'16px', border:'1px solid #e2e8f0'}}>
+               <div style={{marginTop:'25px', padding:'15px', background:'#f8fafc', borderRadius:'16px', border:'1px solid rgba(255, 255, 255, 0.8)'}}>
                   <h4 style={{margin:'0 0 8px 0', fontSize:'11px', fontWeight:'800', display:'flex', alignItems:'center', gap:'6px', color:'#64748b'}}><span style={{color:'#ef4444'}}>⚠️</span> POLICY CONDITIONS & EXCLUSIONS</h4>
                   <p style={{margin:'0', fontSize:'11px', lineHeight:'1.6', color:'#64748b'}}>Parametric payouts are algorithmically verified bounds and implicitly EXCLUDE: <strong style={{color:'#0f172a'}}>Self-inflicted disruptions</strong> (voluntary work cessation), <strong style={{color:'#0f172a'}}>Anticipated seasonal baselines</strong>, <strong style={{color:'#0f172a'}}>Pre-existing economic gaps</strong>, and <strong style={{color:'#0f172a'}}>Geofencing manipulation</strong>. All telemetry is adversarial-checked against cell tower validation & device-trust fingerprints.</p>
                </div>

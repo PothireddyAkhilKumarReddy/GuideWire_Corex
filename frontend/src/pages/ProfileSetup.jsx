@@ -198,7 +198,7 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
   if (viewMode === 'view' && userData) {
     const InfoRow = ({ icon, label, value, editKey }) => (
       <div style={{display: 'flex', alignItems: 'center', gap: '16px', padding: '16px 0', borderBottom: '1px solid #f1f5f9'}}>
-        <div style={{width: '40px', height: '40px', background: 'white', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', flexShrink: 0}}>
+        <div style={{width: '40px', height: '40px', background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(24px)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', flexShrink: 0}}>
           {icon}
         </div>
         <div style={{flex: 1, minWidth: 0}}>
@@ -255,7 +255,7 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
         <div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: '16px', gap: '12px'}}>
           {isEditing ? (
             <>
-              <button onClick={cancelEditing} style={{display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', borderRadius: '10px', border: '1px solid #e2e8f0', background: 'white', color: '#64748b', fontSize: '13px', fontWeight: '600', cursor: 'pointer'}}>
+              <button onClick={cancelEditing} style={{display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.8)', background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(24px)', color: '#64748b', fontSize: '13px', fontWeight: '600', cursor: 'pointer'}}>
                 <X size={15} /> Cancel
               </button>
               <button onClick={saveEdits} disabled={saving} style={{display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', borderRadius: '10px', border: 'none', background: '#10b981', color: 'white', fontSize: '13px', fontWeight: '700', cursor: 'pointer', opacity: saving ? 0.7 : 1}}>
@@ -263,7 +263,7 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
               </button>
             </>
           ) : (
-            <button onClick={startEditing} style={{display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', borderRadius: '10px', border: '1px solid #e2e8f0', background: 'white', color: '#3b82f6', fontSize: '13px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.04)'}}>
+            <button onClick={startEditing} style={{display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.8)', background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(24px)', color: '#3b82f6', fontSize: '13px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 1px 3px rgba(0,0,0,0.04)'}}>
               <Edit3 size={15} /> Edit Profile
             </button>
           )}
@@ -272,14 +272,14 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
         {/* Info Cards Grid */}
         <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px'}}>
           {/* Contact Information */}
-          <div style={{background: 'white', padding: '32px', borderRadius: '20px', border: '1px solid #e2e8f0', boxShadow: '0 2px 10px rgba(0,0,0,0.03)'}}>
+          <div style={{background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(24px)', padding: '32px', borderRadius: '20px', border: '1px solid rgba(255, 255, 255, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.03)'}}>
             <h3 style={{fontSize: '13px', fontWeight: '700', color: '#3b82f6', letterSpacing: '1.5px', textTransform: 'uppercase', margin: '0 0 8px 0'}}>Contact Information</h3>
 
             <InfoRow icon={<Phone size={18} color="#3b82f6" />} label="Phone Number" value={userData.phone} editKey="phone" />
             <InfoRow icon={<Mail size={18} color="#3b82f6" />} label="Email Address" value={userData.email} />
             <InfoRow icon={<MapPin size={18} color="#3b82f6" />} label="Address" value={userData.address} editKey="address" />
             <div style={{display: 'flex', alignItems: 'center', gap: '16px', padding: '16px 0'}}>
-              <div style={{width: '40px', height: '40px', background: 'white', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', flexShrink: 0}}>
+              <div style={{width: '40px', height: '40px', background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(24px)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', flexShrink: 0}}>
                 <MapPin size={18} color="#3b82f6" />
               </div>
               <div style={{flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px'}}>
@@ -304,7 +304,7 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
           </div>
 
           {/* Personal Identity */}
-          <div style={{background: 'white', padding: '32px', borderRadius: '20px', border: '1px solid #e2e8f0', boxShadow: '0 2px 10px rgba(0,0,0,0.03)'}}>
+          <div style={{background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(24px)', padding: '32px', borderRadius: '20px', border: '1px solid rgba(255, 255, 255, 0.8)', boxShadow: '0 2px 10px rgba(0,0,0,0.03)'}}>
             <h3 style={{fontSize: '13px', fontWeight: '700', color: '#3b82f6', letterSpacing: '1.5px', textTransform: 'uppercase', margin: '0 0 8px 0'}}>Personal Identity</h3>
 
             <InfoRow icon={<Calendar size={18} color="#3b82f6" />} label="Date of Birth" value={userData.date_of_birth} editKey="date_of_birth" />
@@ -313,7 +313,7 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
 
             {/* Member Since */}
             <div style={{display: 'flex', alignItems: 'center', gap: '16px', padding: '16px 0'}}>
-              <div style={{width: '40px', height: '40px', background: 'white', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', flexShrink: 0}}>
+              <div style={{width: '40px', height: '40px', background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(24px)', borderRadius: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', flexShrink: 0}}>
                 <CheckCircle size={18} color="#10b981" />
               </div>
               <div>
@@ -335,7 +335,7 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
       <div style={{maxWidth: '672px', margin: '0 auto'}}>
         <header style={{marginBottom: '40px'}}>
           <div style={{display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px'}}>
-             <div style={{width: '40px', height: '40px', background: 'white', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', color: '#2563eb', fontWeight: '900', border: '1px solid #e2e8f0'}}>
+             <div style={{width: '40px', height: '40px', background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(24px)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 1px 2px rgba(0,0,0,0.05)', color: '#2563eb', fontWeight: '900', border: '1px solid rgba(255, 255, 255, 0.8)'}}>
                 ⊞
              </div>
              <div>
@@ -365,7 +365,7 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
         </header>
 
         {/* Form Card */}
-        <div style={{background: 'white', borderRadius: '32px', border: '1px solid #f1f5f9', padding: '48px', boxShadow: '0 10px 40px rgba(0,0,0,0.03)'}}>
+        <div style={{background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(24px)', borderRadius: '32px', border: '1px solid rgba(255, 255, 255, 0.8)', padding: '48px', boxShadow: '0 10px 40px rgba(0,0,0,0.03)'}}>
           <div style={{textAlign: 'center', marginBottom: '32px'}}>
             <h2 style={{fontSize: '24px', fontWeight: '900', color: '#0f172a', margin: '0 0 8px 0'}}>
               {step === 1 ? `Welcome, ${userName}!` : step === 2 ? 'Where do you work?' : step === 3 ? 'Identity Verification' : 'Final Step: Photos'}
@@ -381,12 +381,12 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
               <div>
                 <label style={{display: 'block', fontSize: '12px', fontWeight: '700', color: '#94a3b8', letterSpacing: '1px', marginBottom: '8px', marginLeft: '4px'}}>MOBILE NUMBER</label>
                 <input type="tel" value={form.phone} onChange={e => update('phone', e.target.value)} placeholder="+91" maxLength={13}
-                  style={{width: '100%', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '14px 16px', fontSize: '14px', color: '#0f172a', outline: 'none', boxSizing: 'border-box', fontWeight: '500'}} />
+                  style={{width: '100%', background: '#f8fafc', border: '1px solid rgba(255, 255, 255, 0.8)', borderRadius: '12px', padding: '14px 16px', fontSize: '14px', color: '#0f172a', outline: 'none', boxSizing: 'border-box', fontWeight: '500'}} />
               </div>
               <div>
                 <label style={{display: 'block', fontSize: '12px', fontWeight: '700', color: '#94a3b8', letterSpacing: '1px', marginBottom: '8px', marginLeft: '4px'}}>DATE OF BIRTH</label>
                 <input type="date" value={form.dob} onChange={e => update('dob', e.target.value)}
-                  style={{width: '100%', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', padding: '14px 16px', fontSize: '14px', color: '#0f172a', outline: 'none', boxSizing: 'border-box', fontWeight: '500'}} />
+                  style={{width: '100%', background: '#f8fafc', border: '1px solid rgba(255, 255, 255, 0.8)', borderRadius: '12px', padding: '14px 16px', fontSize: '14px', color: '#0f172a', outline: 'none', boxSizing: 'border-box', fontWeight: '500'}} />
               </div>
             </div>
           )}
@@ -399,18 +399,18 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
                 <div style={{position: 'relative'}}>
                   <div style={{position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8'}}><MapPin size={18} /></div>
                   <input type="text" value={form.city} onChange={e => update('city', e.target.value)} placeholder="e.g. Mumbai, Bangalore"
-                    style={{width: '100%', padding: '14px 16px 14px 40px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', color: '#0f172a', outline: 'none', boxSizing: 'border-box', fontWeight: '500'}} />
+                    style={{width: '100%', padding: '14px 16px 14px 40px', background: '#f8fafc', border: '1px solid rgba(255, 255, 255, 0.8)', borderRadius: '12px', fontSize: '14px', color: '#0f172a', outline: 'none', boxSizing: 'border-box', fontWeight: '500'}} />
                 </div>
               </div>
               <div>
                 <label style={{display: 'block', fontSize: '12px', fontWeight: '700', color: '#94a3b8', letterSpacing: '1px', marginBottom: '8px', marginLeft: '4px'}}>PIN CODE</label>
                 <input type="text" value={form.pincode} onChange={e => update('pincode', e.target.value.replace(/\D/g, ''))} placeholder="e.g. 522502" maxLength={6}
-                  style={{width: '100%', padding: '14px 16px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', color: '#0f172a', outline: 'none', boxSizing: 'border-box', fontWeight: '500', letterSpacing: '2px'}} />
+                  style={{width: '100%', padding: '14px 16px', background: '#f8fafc', border: '1px solid rgba(255, 255, 255, 0.8)', borderRadius: '12px', fontSize: '14px', color: '#0f172a', outline: 'none', boxSizing: 'border-box', fontWeight: '500', letterSpacing: '2px'}} />
               </div>
               <div>
                 <label style={{display: 'block', fontSize: '12px', fontWeight: '700', color: '#94a3b8', letterSpacing: '1px', marginBottom: '8px', marginLeft: '4px'}}>FULL ADDRESS</label>
                 <textarea value={form.address} onChange={e => update('address', e.target.value)} placeholder="House No, Street, Area..." rows={3}
-                  style={{width: '100%', padding: '14px 16px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', fontSize: '14px', color: '#0f172a', outline: 'none', boxSizing: 'border-box', fontWeight: '500', resize: 'none', fontFamily: 'inherit'}} />
+                  style={{width: '100%', padding: '14px 16px', background: '#f8fafc', border: '1px solid rgba(255, 255, 255, 0.8)', borderRadius: '12px', fontSize: '14px', color: '#0f172a', outline: 'none', boxSizing: 'border-box', fontWeight: '500', resize: 'none', fontFamily: 'inherit'}} />
               </div>
             </div>
           )}
@@ -421,12 +421,12 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
               <div>
                 <label style={{display: 'block', fontSize: '12px', fontWeight: '700', color: '#94a3b8', letterSpacing: '1px', marginBottom: '8px', textAlign: 'center'}}>AADHAAR NUMBER</label>
                 <input type="text" value={form.aadhaar} onChange={e => update('aadhaar', e.target.value.replace(/\D/g, ''))} placeholder="XXXX XXXX XXXX" maxLength={12}
-                  style={{width: '100%', padding: '20px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', fontSize: '20px', color: '#0f172a', outline: 'none', boxSizing: 'border-box', fontWeight: '900', letterSpacing: '5px', textAlign: 'center'}} />
+                  style={{width: '100%', padding: '20px', background: '#f8fafc', border: '1px solid rgba(255, 255, 255, 0.8)', borderRadius: '12px', fontSize: '20px', color: '#0f172a', outline: 'none', boxSizing: 'border-box', fontWeight: '900', letterSpacing: '5px', textAlign: 'center'}} />
               </div>
               <div>
                 <label style={{display: 'block', fontSize: '12px', fontWeight: '700', color: '#94a3b8', letterSpacing: '1px', marginBottom: '8px', textAlign: 'center'}}>PAN CARD NUMBER</label>
                 <input type="text" value={form.pan} onChange={e => update('pan', e.target.value.toUpperCase())} placeholder="ABCDE1234F" maxLength={10}
-                  style={{width: '100%', padding: '20px', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '12px', fontSize: '20px', color: '#0f172a', outline: 'none', boxSizing: 'border-box', fontWeight: '900', letterSpacing: '5px', textAlign: 'center'}} />
+                  style={{width: '100%', padding: '20px', background: '#f8fafc', border: '1px solid rgba(255, 255, 255, 0.8)', borderRadius: '12px', fontSize: '20px', color: '#0f172a', outline: 'none', boxSizing: 'border-box', fontWeight: '900', letterSpacing: '5px', textAlign: 'center'}} />
               </div>
               <div style={{background: '#fffbeb', borderRadius: '12px', padding: '16px', border: '1px solid #fef3c7', display: 'flex', alignItems: 'flex-start', gap: '12px'}}>
                  <div style={{color: '#d97706', marginTop: '2px'}}>🔒</div>
@@ -439,7 +439,7 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
           {step === 4 && (
             <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px'}}>
               {/* Profile Photo Upload */}
-              <div style={{background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
+              <div style={{background: '#f8fafc', border: '1px solid rgba(255, 255, 255, 0.8)', borderRadius: '16px', padding: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
                 <label style={{display: 'block', fontSize: '10px', fontWeight: '700', color: '#94a3b8', letterSpacing: '1px', marginBottom: '16px'}}>PROFILE PHOTO (UPLOAD)</label>
                 {profilePhoto ? (
                   <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
@@ -447,7 +447,7 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
                     <div style={{fontSize: '12px', fontWeight: '700', color: '#059669'}}>✓ Uploaded</div>
                   </div>
                 ) : (
-                  <label style={{width: '100%', height: '96px', background: 'white', border: '1px dashed #cbd5e1', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>
+                  <label style={{width: '100%', height: '96px', background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(24px)', border: '1px dashed #cbd5e1', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'pointer'}}>
                     <UploadCloud size={20} style={{color: '#94a3b8', marginBottom: '8px'}} />
                     <span style={{fontSize: '11px', fontWeight: '700', color: '#64748b'}}>Tap to browse</span>
                     <input type="file" accept="image/*" onChange={handleFileUpload} style={{display: 'none'}} />
@@ -456,7 +456,7 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
               </div>
 
               {/* Webcam Verification */}
-              <div style={{background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '16px', padding: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
+              <div style={{background: '#f8fafc', border: '1px solid rgba(255, 255, 255, 0.8)', borderRadius: '16px', padding: '16px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center'}}>
                 <label style={{display: 'block', fontSize: '10px', fontWeight: '700', color: '#94a3b8', letterSpacing: '1px', marginBottom: '16px'}}>LIVE VERIFICATION (CAM)</label>
                 {verificationPhoto ? (
                   <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
@@ -470,7 +470,7 @@ export default function ProfileSetup({ userId, userName, setProfileComplete, set
                     <button onClick={capturePhoto} style={{width: '100%', padding: '8px', background: '#2563eb', color: 'white', fontSize: '12px', fontWeight: '700', borderRadius: '8px', border: 'none', cursor: 'pointer'}}>📸 Capture</button>
                   </div>
                 ) : (
-                  <button onClick={startCamera} style={{width: '100%', height: '96px', background: 'white', border: '1px dashed #cbd5e1', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', outline: 'none'}}>
+                  <button onClick={startCamera} style={{width: '100%', height: '96px', background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(24px)', border: '1px dashed #cbd5e1', borderRadius: '12px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', outline: 'none'}}>
                     <Camera size={20} style={{color: '#94a3b8', marginBottom: '8px'}} />
                     <span style={{fontSize: '11px', fontWeight: '700', color: '#64748b'}}>Open Camera</span>
                   </button>

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-export default function Dashboard({ coords, userName, claimHistory, subscription, setCurrentView, setIsLoggedIn, setRole, results, loadingRisk, handleCheckRisk, handleZeroTouchOracle, oracleStatus, setOracleStatus, honorScore = 100, walletBalance = 0, profileComplete }) {
+export default function Dashboard({ coords, userName, claimHistory, subscription, setCurrentView, setIsLoggedIn, setRole, results, loadingRisk, handleCheckRisk, handleZeroTouchAIEngine, oracleStatus, setSystemStatus, honorScore = 100, walletBalance = 0, profileComplete }) {
   useEffect(() => {
     if (coords && coords.lat && !results?.riskScore && !loadingRisk) {
       handleCheckRisk();
@@ -15,7 +15,7 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
       <div style={{maxWidth:'1100px', margin:'0 auto'}}>
          <header style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'30px'}}>
             <div style={{display:'flex', alignItems:'center', gap:'12px'}}>
-               <div style={{width:'44px', height:'44px', background:'white', borderRadius:'14px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.03)'}}>
+               <div style={{width:'44px', height:'44px', background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'14px', border:'1px solid rgba(255, 255, 255, 0.8)', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.03)'}}>
                   <span style={{background:'#021676', color:'white', width:'24px', height:'24px', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'6px', fontSize:'12px'}}>⊞</span>
                </div>
                <div>
@@ -41,25 +41,25 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
          )}
 
          {/* Platform Logos section */}
-         <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'25px', padding: '12px 18px', background: 'white', borderRadius: '16px', border: '1px solid #bae6fd', width: 'fit-content', boxShadow: '0 2px 8px rgba(56, 189, 248, 0.06)'}}>
+         <div style={{display:'flex', alignItems:'center', gap:'12px', marginBottom:'25px', padding: '12px 18px', background: 'rgba(255, 255, 255, 0.7)', backdropFilter: 'blur(24px)', borderRadius: '16px', border: '1px solid #bae6fd', width: 'fit-content', boxShadow: '0 2px 8px rgba(56, 189, 248, 0.06)'}}>
             <div style={{fontSize:'11px', fontWeight:'700', color:'#64748b', letterSpacing:'1px', textTransform:'uppercase', whiteSpace:'nowrap'}}>Platforms Protected:</div>
             <div style={{display:'flex', gap:'8px'}}>
-               <div style={{background:'white', padding:'6px 10px', borderRadius:'8px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center'}}>
+               <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', padding:'6px 10px', borderRadius:'8px', border:'1px solid rgba(255, 255, 255, 0.8)', display:'flex', alignItems:'center', justifyContent:'center'}}>
                   <span style={{fontSize:'12px', fontWeight:'800', color:'#fc8019'}}>swiggy</span>
                </div>
-               <div style={{background:'white', padding:'6px 10px', borderRadius:'8px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center'}}>
+               <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', padding:'6px 10px', borderRadius:'8px', border:'1px solid rgba(255, 255, 255, 0.8)', display:'flex', alignItems:'center', justifyContent:'center'}}>
                   <span style={{fontSize:'12px', fontWeight:'900', color:'#cb202d'}}>zomato</span>
                </div>
-               <div style={{background:'white', padding:'6px 10px', borderRadius:'8px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center'}}>
+               <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', padding:'6px 10px', borderRadius:'8px', border:'1px solid rgba(255, 255, 255, 0.8)', display:'flex', alignItems:'center', justifyContent:'center'}}>
                   <span style={{fontSize:'12px', fontWeight:'900', color:'black', letterSpacing:'-0.5px'}}>blink<span style={{color:'#16a34a'}}>it</span></span>
                </div>
-               <div style={{background:'white', padding:'6px 10px', borderRadius:'8px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center'}}>
+               <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', padding:'6px 10px', borderRadius:'8px', border:'1px solid rgba(255, 255, 255, 0.8)', display:'flex', alignItems:'center', justifyContent:'center'}}>
                   <span style={{fontSize:'12px', fontWeight:'900', color:'#4b207f', letterSpacing:'-0.5px'}}>zepto</span>
                </div>
-               <div style={{background:'white', padding:'6px 10px', borderRadius:'8px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center'}}>
+               <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', padding:'6px 10px', borderRadius:'8px', border:'1px solid rgba(255, 255, 255, 0.8)', display:'flex', alignItems:'center', justifyContent:'center'}}>
                   <span style={{fontSize:'11px', fontWeight:'700', color:'#142328'}}>Uber <span style={{color:'#06c167', fontWeight:'800'}}>Eats</span></span>
                </div>
-               <div style={{background:'white', padding:'6px 10px', borderRadius:'8px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center'}}>
+               <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', padding:'6px 10px', borderRadius:'8px', border:'1px solid rgba(255, 255, 255, 0.8)', display:'flex', alignItems:'center', justifyContent:'center'}}>
                   <span style={{fontSize:'11px', fontWeight:'900', color:'#8dc63f'}}>big<span style={{color:'#333'}}>basket</span></span>
                </div>
             </div>
@@ -72,13 +72,13 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
             <div style={{display:'flex', flexDirection:'column', gap:'20px'}}>
 
                {/* Location Map */}
-               <div className="hover-card" style={{background:'white', borderRadius:'32px', padding:'25px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.04)'}}>
+               <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'32px', padding:'25px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 20px 40px rgba(0,0,0,0.04)'}}>
                   <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'20px'}}>
                      <div style={{fontSize:'12px', fontWeight:'800', letterSpacing:'1px', color:'#64748b'}}>CURRENT LOCATION</div>
                      <div style={{fontSize:'12px', fontWeight:'800', color:'#021676', background:'#eff6ff', padding:'6px 12px', borderRadius:'10px'}}>{coords && coords.lat ? `${coords.lat.toFixed(4)}, ${coords.lon.toFixed(4)}` : 'Scanning...'}</div>
                   </div>
                   
-                  <div style={{height:'320px', background:'linear-gradient(145deg, #f8fafc, #f1f5f9)', borderRadius:'20px', border:'1px solid #e2e8f0', position:'relative', overflow:'hidden'}}>
+                  <div style={{height:'320px', background:'linear-gradient(145deg, #f8fafc, #f1f5f9)', borderRadius:'20px', border:'1px solid rgba(255, 255, 255, 0.8)', position:'relative', overflow:'hidden'}}>
                      <iframe 
                        title="Live Location Map"
                        width="100%" 
@@ -88,10 +88,11 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                        allowFullScreen 
                        src={`https://maps.google.com/maps?q=${coords?.lat || 17.3850},${coords?.lon || 78.4867}&z=14&output=embed`}>
                      </iframe>
-                     <div style={{position:'absolute', bottom:'15px', right:'15px', background:'white', padding:'8px 12px', borderRadius:'12px', fontSize:'10px', fontWeight:'800', color:'#0f172a', border:'1px solid #e2e8f0', boxShadow:'0 5px 15px rgba(0,0,0,0.05)', zIndex: 10}}>
+                     
+                     <div style={{position:'absolute', bottom:'15px', right:'15px', background:'rgba(255, 255, 255, 0.8)', backdropFilter:'blur(24px)', padding:'8px 12px', borderRadius:'12px', fontSize:'10px', fontWeight:'800', color:'#0f172a', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 5px 15px rgba(0,0,0,0.05)', zIndex: 10}}>
                         {results?.telemetry?.city || 'Locating User'}
                      </div>
-                     <div style={{position:'absolute', top:'15px', left:'15px', background:'white', padding:'10px 14px', borderRadius:'12px', border:'1px solid #e2e8f0', boxShadow:'0 5px 15px rgba(0,0,0,0.05)', display:'flex', flexDirection:'column', gap:'5px', zIndex: 10}}>
+                     <div style={{position:'absolute', top:'15px', left:'15px', background:'rgba(255, 255, 255, 0.8)', backdropFilter:'blur(24px)', padding:'10px 14px', borderRadius:'12px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 5px 15px rgba(0,0,0,0.05)', display:'flex', flexDirection:'column', gap:'5px', zIndex: 10}}>
                         <span style={{fontSize:'9px', fontWeight:'700', color:'#64748b', textTransform:'uppercase'}}>Scans Live Weather & Traffic Data</span>
                         <button className="btn-primary" style={{padding:'6px 12px', fontSize:'10px', width:'100%', borderRadius: '8px'}} onClick={handleCheckRisk}>{loadingRisk ? 'Scanning...' : 'Refresh Risk Score'}</button>
                      </div>
@@ -99,33 +100,33 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                </div>
 
                {/* Live Weather & Traffic Data */}
-               <div className="hover-card" style={{background:'white', borderRadius:'32px', padding:'30px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.04)'}}>
+               <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'32px', padding:'30px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 20px 40px rgba(0,0,0,0.04)'}}>
                   <h3 style={{fontSize:'18px', fontWeight:'800', color:'#0f172a', margin:'0 0 20px 0'}}>Live Weather & Traffic Data</h3>
                   <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'12px'}}>
                      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'15px', background:'#f8fafc', borderRadius:'16px'}}>
                         <div style={{display:'flex', alignItems:'center', gap:'12px'}}>
-                           <div style={{width:'36px', height:'36px', background:'white', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.02)'}}>💧</div>
+                           <div style={{width:'36px', height:'36px', background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.02)'}}>💧</div>
                            <div style={{fontSize:'13px', fontWeight:'700', color:'#64748b'}}>Rainfall</div>
                         </div>
                         <div style={{fontSize:'15px', fontWeight:'800', color:'#3b82f6'}}>{results?.telemetry?.rain || '0 mm'}</div>
                      </div>
                      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'15px', background:'#f8fafc', borderRadius:'16px'}}>
                         <div style={{display:'flex', alignItems:'center', gap:'12px'}}>
-                           <div style={{width:'36px', height:'36px', background:'white', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.02)'}}>🚗</div>
+                           <div style={{width:'36px', height:'36px', background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.02)'}}>🚗</div>
                            <div style={{fontSize:'13px', fontWeight:'700', color:'#64748b'}}>Traffic</div>
                         </div>
                         <div style={{fontSize:'15px', fontWeight:'800', color:'#f59e0b'}}>{results?.telemetry?.traffic || 'Normal'}</div>
                      </div>
                      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'15px', background:'#f8fafc', borderRadius:'16px'}}>
                         <div style={{display:'flex', alignItems:'center', gap:'12px'}}>
-                           <div style={{width:'36px', height:'36px', background:'white', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.02)'}}>🧠</div>
+                           <div style={{width:'36px', height:'36px', background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.02)'}}>🧠</div>
                            <div style={{fontSize:'13px', fontWeight:'700', color:'#64748b'}}>Risk Level</div>
                         </div>
                         <div style={{fontSize:'15px', fontWeight:'800', color: results?.riskScore === 'High' ? '#ef4444' : results?.riskScore === 'Medium' ? '#f59e0b' : '#22c55e'}}>{results?.riskScore || 'Low Risk'}</div>
                      </div>
                      <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'15px', background:'#f8fafc', borderRadius:'16px'}}>
                         <div style={{display:'flex', alignItems:'center', gap:'12px'}}>
-                           <div style={{width:'36px', height:'36px', background:'white', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.02)'}}>📊</div>
+                           <div style={{width:'36px', height:'36px', background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.02)'}}>📊</div>
                            <div style={{fontSize:'13px', fontWeight:'700', color:'#64748b'}}>Confidence</div>
                         </div>
                         <div style={{fontSize:'15px', fontWeight:'800', color:'#10b981'}}>96.4%</div>
@@ -157,22 +158,22 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                       <div style={{background:'rgba(34,197,94,0.1)', border:'1px solid rgba(34,197,94,0.3)', padding:'15px', borderRadius:'16px', textAlign:'center'}}>
                          <div style={{color:'#10b981', fontWeight:'800', fontSize:'14px', marginBottom:'4px'}}>⚡ Smart Contract Triggered!</div>
                          <div style={{fontSize:'12px', color:'#a7f3d0'}}>Disruption detected natively. Payout routed directly to original payment method.</div>
-                         <button onClick={() => setOracleStatus(null)} style={{marginTop:'10px', background:'transparent', color:'white', border:'1px solid rgba(255,255,255,0.2)', padding:'6px 12px', borderRadius:'8px', fontSize:'10px', cursor:'pointer'}}>Reset Scanner</button>
+                         <button onClick={() => setSystemStatus(null)} style={{marginTop:'10px', background:'transparent', color:'white', border:'1px solid rgba(255,255,255,0.2)', padding:'6px 12px', borderRadius:'8px', fontSize:'10px', cursor:'pointer'}}>Reset Scanner</button>
                       </div>
                   ) : oracleStatus === 'safe' ? (
                       <div style={{background:'rgba(59,130,246,0.1)', border:'1px solid rgba(59,130,246,0.3)', padding:'15px', borderRadius:'16px', textAlign:'center'}}>
                          <div style={{fontSize:'14px', fontWeight:'800', color:'#60a5fa', marginBottom:'5px'}}>✅ System Status: Green</div>
                          <div style={{fontSize:'12px', color:'#93c5fd'}}>No critical disruptions detected across 5 active arrays.</div>
-                         <button onClick={() => setOracleStatus(null)} style={{marginTop:'10px', background:'transparent', color:'white', border:'1px solid rgba(255,255,255,0.2)', padding:'6px 12px', borderRadius:'8px', fontSize:'10px', cursor:'pointer'}}>Reset Scanner</button>
+                         <button onClick={() => setSystemStatus(null)} style={{marginTop:'10px', background:'transparent', color:'white', border:'1px solid rgba(255,255,255,0.2)', padding:'6px 12px', borderRadius:'8px', fontSize:'10px', cursor:'pointer'}}>Reset Scanner</button>
                       </div>
                   ) : oracleStatus === 'error' ? (
                       <div style={{background:'rgba(239,68,68,0.1)', border:'1px solid rgba(239,68,68,0.3)', padding:'15px', borderRadius:'16px', textAlign:'center'}}>
                          <div style={{fontSize:'14px', fontWeight:'800', color:'#f87171'}}>Connection Refused</div>
-                         <button onClick={() => setOracleStatus(null)} style={{marginTop:'10px', background:'transparent', color:'white', border:'1px solid rgba(255,255,255,0.2)', padding:'6px 12px', borderRadius:'8px', fontSize:'10px', cursor:'pointer'}}>Reset Scanner</button>
+                         <button onClick={() => setSystemStatus(null)} style={{marginTop:'10px', background:'transparent', color:'white', border:'1px solid rgba(255,255,255,0.2)', padding:'6px 12px', borderRadius:'8px', fontSize:'10px', cursor:'pointer'}}>Reset Scanner</button>
                       </div>
                   ) : (
                       <button 
-                        onClick={handleZeroTouchOracle} 
+                        onClick={handleZeroTouchAIEngine} 
                         disabled={!subscription}
                         style={{width:'100%', padding:'16px', background: subscription ? '#3b82f6' : '#cbd5e1', color:'white', border:'none', borderRadius:'16px', fontSize:'14px', fontWeight:'800', cursor: subscription ? 'pointer' : 'not-allowed', boxShadow: subscription ? '0 10px 20px rgba(59,130,246,0.3)' : 'none'}}
                       >
@@ -221,7 +222,7 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                </div>
 
                {/* Honor Score Widget */}
-               <div className="hover-card" style={{background:'white', borderRadius:'28px', padding:'25px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.04)', textAlign:'center'}}>
+               <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'28px', padding:'25px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 20px 40px rgba(0,0,0,0.04)', textAlign:'center'}}>
                   <div style={{fontSize:'10px', fontWeight:'800', letterSpacing:'1px', color:'#64748b', marginBottom:'15px'}}>HONOR SCORE</div>
                   <div style={{position:'relative', width:'130px', height:'130px', margin:'0 auto 15px auto'}}>
                      <svg width="130" height="130" viewBox="0 0 130 130" style={{transform:'rotate(-90deg)'}}>
@@ -243,10 +244,10 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                </div>
 
                {/* Quick Actions */}
-               <div className="hover-card" style={{background:'white', borderRadius:'24px', padding:'20px', border:'1px solid #f1f5f9', boxShadow:'0 10px 20px rgba(0,0,0,0.02)'}}>
+               <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'24px', padding:'20px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 10px 20px rgba(0,0,0,0.02)'}}>
                   <div style={{fontSize:'10px', fontWeight:'800', letterSpacing:'1px', color:'#64748b', marginBottom:'15px'}}>QUICK ACTIONS</div>
                   <div style={{display:'flex', flexDirection:'column', gap:'8px'}}>
-                     <div className="hover-card" onClick={() => setCurrentView('claims')} style={{display:'flex', alignItems:'center', gap:'12px', padding:'12px 15px', background:'#f8fafc', borderRadius:'14px', cursor:'pointer', border:'1px solid #e2e8f0', transition:'all 0.2s'}}>
+                     <div className="hover-card" onClick={() => setCurrentView('claims')} style={{display:'flex', alignItems:'center', gap:'12px', padding:'12px 15px', background:'#f8fafc', borderRadius:'14px', cursor:'pointer', border:'1px solid rgba(255, 255, 255, 0.8)', transition:'all 0.2s'}}>
                         <div style={{width:'32px', height:'32px', background:'#eff6ff', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'16px'}}>🛡️</div>
                         <div>
                            <div style={{fontSize:'13px', fontWeight:'700', color:'#0f172a'}}>File a Claim</div>
@@ -254,7 +255,7 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                         </div>
                         <div style={{marginLeft:'auto', fontSize:'14px', color:'#cbd5e1'}}>→</div>
                      </div>
-                     <div className="hover-card" onClick={() => setCurrentView('history')} style={{display:'flex', alignItems:'center', gap:'12px', padding:'12px 15px', background:'#f8fafc', borderRadius:'14px', cursor:'pointer', border:'1px solid #e2e8f0', transition:'all 0.2s'}}>
+                     <div className="hover-card" onClick={() => setCurrentView('history')} style={{display:'flex', alignItems:'center', gap:'12px', padding:'12px 15px', background:'#f8fafc', borderRadius:'14px', cursor:'pointer', border:'1px solid rgba(255, 255, 255, 0.8)', transition:'all 0.2s'}}>
                         <div style={{width:'32px', height:'32px', background:'#f0fdf4', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'16px'}}>📜</div>
                         <div>
                            <div style={{fontSize:'13px', fontWeight:'700', color:'#0f172a'}}>Claim History</div>
@@ -262,7 +263,7 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                         </div>
                         <div style={{marginLeft:'auto', fontSize:'14px', color:'#cbd5e1'}}>→</div>
                      </div>
-                     <div className="hover-card" onClick={() => setCurrentView('plans')} style={{display:'flex', alignItems:'center', gap:'12px', padding:'12px 15px', background:'#f8fafc', borderRadius:'14px', cursor:'pointer', border:'1px solid #e2e8f0', transition:'all 0.2s'}}>
+                     <div className="hover-card" onClick={() => setCurrentView('plans')} style={{display:'flex', alignItems:'center', gap:'12px', padding:'12px 15px', background:'#f8fafc', borderRadius:'14px', cursor:'pointer', border:'1px solid rgba(255, 255, 255, 0.8)', transition:'all 0.2s'}}>
                         <div style={{width:'32px', height:'32px', background:'#fef2f2', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'16px'}}>💎</div>
                         <div>
                            <div style={{fontSize:'13px', fontWeight:'700', color:'#0f172a'}}>Manage Plan</div>
@@ -270,7 +271,7 @@ export default function Dashboard({ coords, userName, claimHistory, subscription
                         </div>
                         <div style={{marginLeft:'auto', fontSize:'14px', color:'#cbd5e1'}}>→</div>
                      </div>
-                     <div className="hover-card" onClick={() => setCurrentView('wallet')} style={{display:'flex', alignItems:'center', gap:'12px', padding:'12px 15px', background:'#f8fafc', borderRadius:'14px', cursor:'pointer', border:'1px solid #e2e8f0', transition:'all 0.2s'}}>
+                     <div className="hover-card" onClick={() => setCurrentView('wallet')} style={{display:'flex', alignItems:'center', gap:'12px', padding:'12px 15px', background:'#f8fafc', borderRadius:'14px', cursor:'pointer', border:'1px solid rgba(255, 255, 255, 0.8)', transition:'all 0.2s'}}>
                         <div style={{width:'32px', height:'32px', background:'#ecfdf5', borderRadius:'10px', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'16px'}}>💰</div>
                         <div>
                            <div style={{fontSize:'13px', fontWeight:'700', color:'#0f172a'}}>My Wallet</div>

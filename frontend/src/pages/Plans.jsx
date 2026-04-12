@@ -94,7 +94,7 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
       <div style={{maxWidth:'900px', margin:'0 auto'}}>
         <header style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'40px'}}>
           <div style={{display:'flex', alignItems:'center', gap:'12px', cursor:'pointer'}} onClick={() => setCurrentView(isLoggedIn ? 'dashboard' : 'landing')}>
-            <div style={{width:'44px', height:'44px', background:'white', borderRadius:'14px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.03)'}}>
+            <div style={{width:'44px', height:'44px', background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'14px', border:'1px solid rgba(255, 255, 255, 0.8)', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.03)'}}>
               <span style={{background:'#021676', color:'white', width:'24px', height:'24px', display:'flex', alignItems:'center', justifyContent:'center', borderRadius:'6px', fontSize:'12px'}}>⊞</span>
             </div>
             <div>
@@ -126,7 +126,7 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
 
         <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(250px, 1fr))', gap:'20px', marginBottom:'50px', opacity: (!profileComplete && isLoggedIn) ? 0.4 : (isLoading ? 0.5 : 1), transition: 'opacity 0.3s', pointerEvents: (!profileComplete && isLoggedIn) ? 'none' : 'auto'}}>
           {/* Basic */}
-          <div className="hover-card" style={{background:'white', borderRadius:'24px', padding:'35px 30px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', position:'relative'}}>
+          <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'24px', padding:'35px 30px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', position:'relative'}}>
             <h3 style={{fontSize:'20px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Basic</h3>
             <div style={{fontSize:'42px', fontWeight:'900', color:'#0f172a', margin:'0 0 5px 0'}}>
               {priceMultiplier !== 1.0 && <span style={{fontSize:'22px', textDecoration:'line-through', color:'#cbd5e1', marginRight:'8px'}}>₹100</span>}
@@ -138,7 +138,7 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
               <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'#334155'}}><span style={{color:'#22c55e'}}>✓</span> WhatsApp Claim Alerts</div>
               <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'#334155'}}><span style={{color:'#22c55e'}}>✓</span> Basic Payout Protection</div>
             </div>
-            <button style={{width:'100%', padding:'16px', background:'white', color:'#021676', border:'2px solid #e2e8f0', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[0], premium: calculatePrice(100)}) : setCurrentView('auth')}>{paymentLoading === 'basic' ? '⏳ Redirecting...' : 'SELECT BASIC'}</button>
+            <button style={{width:'100%', padding:'16px', background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', color:'#021676', border:'2px solid #e2e8f0', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[0], premium: calculatePrice(100)}) : setCurrentView('auth')}>{paymentLoading === 'basic' ? '⏳ Redirecting...' : 'SELECT BASIC'}</button>
           </div>
 
           {/* Standard */}
@@ -156,7 +156,7 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
               <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.9)'}}><span style={{color:'#34d399'}}>✓</span> AI Risk Monitoring 24/7</div>
               <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.9)'}}><span style={{color:'#34d399'}}>✓</span> Priority Claim Processing</div>
             </div>
-            <button style={{width:'100%', padding:'16px', background:'white', color:'#021676', border:'none', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[1], premium: calculatePrice(150)}) : setCurrentView('auth')}>{paymentLoading === 'standard' ? '⏳ Redirecting...' : 'GET PROTECTED'}</button>
+            <button style={{width:'100%', padding:'16px', background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', color:'#021676', border:'none', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[1], premium: calculatePrice(150)}) : setCurrentView('auth')}>{paymentLoading === 'standard' ? '⏳ Redirecting...' : 'GET PROTECTED'}</button>
           </div>
 
           {/* Premium */}
@@ -181,7 +181,7 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
         </div>
 
         {/* Feature Breakdown Table */}
-        <div className="hover-card" style={{background:'white', borderRadius:'24px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', overflow:'hidden'}}>
+        <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'24px', padding:'30px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', overflow:'hidden'}}>
           <h3 style={{fontSize:'20px', fontWeight:'800', color:'#0f172a', margin:'0 0 25px 0'}}>Feature Breakdown</h3>
           <div style={{overflowX:'auto'}}>
             <div style={{display:'grid', gridTemplateColumns:'2fr 1fr 1fr 1fr', padding:'15px 20px', background:'#f8fafc', borderRadius:'12px', marginBottom:'10px', fontSize:'10px', fontWeight:'800', letterSpacing:'1px', color:'#64748b'}}>

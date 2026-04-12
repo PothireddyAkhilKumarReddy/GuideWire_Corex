@@ -71,14 +71,14 @@ export default function Analytics({ userId, setCurrentView, setIsLoggedIn, setRo
 
         {/* Honor Score + Velocity Summary */}
         <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'15px', marginBottom:'20px'}}>
-          <div style={{background:'white', borderRadius:'20px', padding:'25px', border:'1px solid #e2e8f0', textAlign:'center'}}>
+          <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'20px', padding:'25px', border:'1px solid rgba(255, 255, 255, 0.8)', textAlign:'center'}}>
             <div style={{fontSize:'12px', fontWeight:'800', color:'#64748b', letterSpacing:'1px', marginBottom:'10px'}}>HONOR SCORE</div>
             <div style={{fontSize:'36px', fontWeight:'900', color: data.honor_score >= 80 ? '#10b981' : data.honor_score >= 50 ? '#f59e0b' : '#ef4444'}}>{data.honor_score}</div>
             <div style={{fontSize:'11px', fontWeight:'700', color: data.honor_score >= 80 ? '#10b981' : data.honor_score >= 50 ? '#f59e0b' : '#ef4444', marginTop:'5px'}}>
               {data.honor_score >= 80 ? 'EXCELLENT' : data.honor_score >= 50 ? 'WARNING' : 'CRITICAL'}
             </div>
           </div>
-          <div style={{background:'white', borderRadius:'20px', padding:'25px', border:'1px solid #e2e8f0', textAlign:'center'}}>
+          <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'20px', padding:'25px', border:'1px solid rgba(255, 255, 255, 0.8)', textAlign:'center'}}>
             <div style={{fontSize:'12px', fontWeight:'800', color:'#64748b', letterSpacing:'1px', marginBottom:'10px'}}>CLAIM VELOCITY</div>
             <div style={{fontSize:'36px', fontWeight:'900', color: data.velocity?.status === 'Safe' ? '#10b981' : data.velocity?.status === 'Warning' ? '#f59e0b' : '#ef4444'}}>
               {data.velocity?.weekly_count || 0}/{data.velocity?.max_allowed || 14}
@@ -90,7 +90,7 @@ export default function Analytics({ userId, setCurrentView, setIsLoggedIn, setRo
         </div>
 
         {/* Risk Score History Chart */}
-        <div style={{background:'white', borderRadius:'24px', padding:'25px', border:'1px solid #e2e8f0', marginBottom:'20px', boxShadow:'0 10px 30px rgba(0,0,0,0.02)'}}>
+        <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'24px', padding:'25px', border:'1px solid rgba(255, 255, 255, 0.8)', marginBottom:'20px', boxShadow:'0 10px 30px rgba(0,0,0,0.02)'}}>
           <div style={{fontSize:'12px', fontWeight:'800', color:'#64748b', letterSpacing:'1px', marginBottom:'20px'}}>📈 RISK SCORE HISTORY</div>
           {data.risk_history && data.risk_history.length > 0 ? (
             <div>
@@ -119,7 +119,7 @@ export default function Analytics({ userId, setCurrentView, setIsLoggedIn, setRo
         </div>
 
         {/* Claim Statistics */}
-        <div style={{background:'white', borderRadius:'24px', padding:'25px', border:'1px solid #e2e8f0', marginBottom:'20px', boxShadow:'0 10px 30px rgba(0,0,0,0.02)'}}>
+        <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'24px', padding:'25px', border:'1px solid rgba(255, 255, 255, 0.8)', marginBottom:'20px', boxShadow:'0 10px 30px rgba(0,0,0,0.02)'}}>
           <div style={{fontSize:'12px', fontWeight:'800', color:'#64748b', letterSpacing:'1px', marginBottom:'20px'}}>🎯 CLAIM BREAKDOWN</div>
           
           {claimTotal > 0 ? (
@@ -159,7 +159,7 @@ export default function Analytics({ userId, setCurrentView, setIsLoggedIn, setRo
         </div>
 
         {/* Honor Score Explainer */}
-        <div style={{background:'white', borderRadius:'24px', padding:'25px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.02)'}}>
+        <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'24px', padding:'25px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 10px 30px rgba(0,0,0,0.02)'}}>
           <div style={{fontSize:'12px', fontWeight:'800', color:'#64748b', letterSpacing:'1px', marginBottom:'20px'}}>🛡️ HOW HONOR SCORE WORKS</div>
           
           <div style={{display:'flex', flexDirection:'column', gap:'12px'}}>

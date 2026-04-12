@@ -102,7 +102,7 @@ export default function Auth({ setUserId, setUserName, setSubscription, setHonor
           
           <div style={{position:'relative', zIndex:10}}>
             <div style={{display:'flex', alignItems:'center', gap:'12px', fontSize:'24px', fontWeight:'700', letterSpacing:'-0.5px', marginBottom:'64px', cursor:'pointer'}} onClick={() => setCurrentView('landing')}>
-              <div style={{width:'40px', height:'40px', background:'white', borderRadius:'12px', display:'flex', alignItems:'center', justifyContent:'center', color:'#2563eb', fontWeight:'900', boxShadow:'0 10px 15px -3px rgba(0,0,0,0.1)'}}>⊞</div>
+              <div style={{width:'40px', height:'40px', background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'12px', display:'flex', alignItems:'center', justifyContent:'center', color:'#2563eb', fontWeight:'900', boxShadow:'0 10px 15px -3px rgba(0,0,0,0.1)'}}>⊞</div>
               InsurGig <span style={{fontWeight:'300'}}>AI</span>
             </div>
 
@@ -167,7 +167,7 @@ export default function Auth({ setUserId, setUserName, setSubscription, setHonor
             </div>
           )}
 
-          <div style={{background:'white', borderRadius:'32px', padding: isMobile ? '32px' : '40px', boxShadow:'0 8px 30px rgba(0,0,0,0.04)', border:'1px solid #f1f5f9'}}>
+          <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'32px', padding: isMobile ? '32px' : '40px', boxShadow:'0 8px 30px rgba(0,0,0,0.04)', border:'1px solid rgba(255, 255, 255, 0.8)'}}>
             <h2 style={{fontSize:'24px', fontWeight:'900', color:'#0f172a', marginBottom:'8px'}}>
               {authMode === 'login' ? 'Welcome Back' : 'Create Account'}
             </h2>
@@ -182,7 +182,7 @@ export default function Auth({ setUserId, setUserName, setSubscription, setHonor
                   <div style={{position:'relative'}}>
                     <div style={{position:'absolute', left:'12px', top:'50%', transform:'translateY(-50%)', color:'#94a3b8'}}><Mail size={18} /></div>
                     <input type="email" value={authForm.email} onChange={e => setAuthForm({...authForm, email: e.target.value})} 
-                           style={{width:'100%', padding:'12px 16px 12px 40px', background:'#f8fafc', border:'1px solid #e2e8f0', borderRadius:'12px', fontSize:'14px', outline:'none', boxSizing:'border-box'}} 
+                           style={{width:'100%', padding:'12px 16px 12px 40px', background:'#f8fafc', border:'1px solid rgba(255, 255, 255, 0.8)', borderRadius:'12px', fontSize:'14px', outline:'none', boxSizing:'border-box'}} 
                            placeholder="name@example.com" />
                   </div>
                 </div>
@@ -192,7 +192,7 @@ export default function Auth({ setUserId, setUserName, setSubscription, setHonor
                   <div style={{position:'relative'}}>
                     <div style={{position:'absolute', left:'12px', top:'50%', transform:'translateY(-50%)', color:'#94a3b8'}}><Lock size={18} /></div>
                     <input type="password" value={authForm.password} onChange={e => setAuthForm({...authForm, password: e.target.value})} 
-                           style={{width:'100%', padding:'12px 16px 12px 40px', background:'#f8fafc', border:'1px solid #e2e8f0', borderRadius:'12px', fontSize:'14px', outline:'none', boxSizing:'border-box'}} 
+                           style={{width:'100%', padding:'12px 16px 12px 40px', background:'#f8fafc', border:'1px solid rgba(255, 255, 255, 0.8)', borderRadius:'12px', fontSize:'14px', outline:'none', boxSizing:'border-box'}} 
                            placeholder="••••••••" />
                   </div>
                 </div>
@@ -221,7 +221,7 @@ export default function Auth({ setUserId, setUserName, setSubscription, setHonor
                   <div style={{position:'relative'}}>
                     <div style={{position:'absolute', left:'12px', top:'50%', transform:'translateY(-50%)', color:'#94a3b8'}}><User size={18} /></div>
                     <input type="text" value={regForm.name} onChange={e => setRegForm({...regForm, name: e.target.value})} 
-                           style={{width:'100%', padding:'12px 16px 12px 40px', background:'#f8fafc', border:'1px solid #e2e8f0', borderRadius:'12px', fontSize:'14px', outline:'none', boxSizing:'border-box'}} 
+                           style={{width:'100%', padding:'12px 16px 12px 40px', background:'#f8fafc', border:'1px solid rgba(255, 255, 255, 0.8)', borderRadius:'12px', fontSize:'14px', outline:'none', boxSizing:'border-box'}} 
                            placeholder="John Doe" />
                   </div>
                 </div>
@@ -231,7 +231,7 @@ export default function Auth({ setUserId, setUserName, setSubscription, setHonor
                   <div style={{position:'relative'}}>
                     <div style={{position:'absolute', left:'12px', top:'50%', transform:'translateY(-50%)', color:'#94a3b8'}}><Mail size={18} /></div>
                     <input type="email" value={regForm.email} onChange={e => setRegForm({...regForm, email: e.target.value})} 
-                           style={{width:'100%', padding:'12px 16px 12px 40px', background:'#f8fafc', border:'1px solid #e2e8f0', borderRadius:'12px', fontSize:'14px', outline:'none', boxSizing:'border-box'}} 
+                           style={{width:'100%', padding:'12px 16px 12px 40px', background:'#f8fafc', border:'1px solid rgba(255, 255, 255, 0.8)', borderRadius:'12px', fontSize:'14px', outline:'none', boxSizing:'border-box'}} 
                            placeholder="name@example.com" />
                   </div>
                 </div>
@@ -242,7 +242,7 @@ export default function Auth({ setUserId, setUserName, setSubscription, setHonor
                     <div style={{position:'relative'}}>
                       <div style={{position:'absolute', left:'12px', top:'50%', transform:'translateY(-50%)', color:'#94a3b8'}}><Lock size={18} /></div>
                       <input type="password" value={regForm.password} onChange={e => setRegForm({...regForm, password: e.target.value})} 
-                             style={{width:'100%', padding:'12px 16px 12px 40px', background:'#f8fafc', border:'1px solid #e2e8f0', borderRadius:'12px', fontSize:'14px', outline:'none', boxSizing:'border-box'}} 
+                             style={{width:'100%', padding:'12px 16px 12px 40px', background:'#f8fafc', border:'1px solid rgba(255, 255, 255, 0.8)', borderRadius:'12px', fontSize:'14px', outline:'none', boxSizing:'border-box'}} 
                              placeholder="••••••••" />
                     </div>
                   </div>
@@ -251,7 +251,7 @@ export default function Auth({ setUserId, setUserName, setSubscription, setHonor
                     <div style={{position:'relative'}}>
                       <div style={{position:'absolute', left:'12px', top:'50%', transform:'translateY(-50%)', color:'#94a3b8'}}><MapPin size={18} /></div>
                       <input type="text" value={regForm.city} onChange={e => setRegForm({...regForm, city: e.target.value})} 
-                             style={{width:'100%', padding:'12px 16px 12px 40px', background:'#f8fafc', border:'1px solid #e2e8f0', borderRadius:'12px', fontSize:'14px', outline:'none', boxSizing:'border-box'}} 
+                             style={{width:'100%', padding:'12px 16px 12px 40px', background:'#f8fafc', border:'1px solid rgba(255, 255, 255, 0.8)', borderRadius:'12px', fontSize:'14px', outline:'none', boxSizing:'border-box'}} 
                              placeholder="Mumbai" />
                     </div>
                   </div>

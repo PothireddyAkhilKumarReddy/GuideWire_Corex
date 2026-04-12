@@ -39,7 +39,7 @@ export default function Chat({ role, isLoggedIn, setCurrentView, setIsLoggedIn, 
       <div style={{maxWidth:'700px', margin:'0 auto'}}>
         <header style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'30px'}}>
           <div style={{display:'flex', alignItems:'center', gap:'12px', cursor:'pointer'}} onClick={() => setCurrentView('dashboard')}>
-            <div style={{width:'44px', height:'44px', background:'white', borderRadius:'14px', border:'1px solid #e2e8f0', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.03)'}}>
+            <div style={{width:'44px', height:'44px', background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'14px', border:'1px solid rgba(255, 255, 255, 0.8)', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 4px 10px rgba(0,0,0,0.03)'}}>
               <span style={{fontSize:'20px'}}>←</span>
             </div>
             <div>
@@ -55,7 +55,7 @@ export default function Chat({ role, isLoggedIn, setCurrentView, setIsLoggedIn, 
         </header>
 
         {/* Messages */}
-        <div className="hover-card" style={{background:'white', borderRadius:'24px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', overflow:'hidden'}}>
+        <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'24px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 10px 30px rgba(0,0,0,0.03)', overflow:'hidden'}}>
           <div style={{padding:'20px', borderBottom:'1px solid #f1f5f9', display:'flex', alignItems:'center', gap:'12px'}}>
             <div style={{width:'40px', height:'40px', background:'#021676', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', color:'white', fontSize:'18px'}}>💬</div>
             <div>
@@ -75,14 +75,14 @@ export default function Chat({ role, isLoggedIn, setCurrentView, setIsLoggedIn, 
             ))}
           </div>
 
-          <div style={{padding:'15px 20px', borderTop:'1px solid #f1f5f9', display:'flex', gap:'10px', background:'white'}}>
+          <div style={{padding:'15px 20px', borderTop:'1px solid #f1f5f9', display:'flex', gap:'10px', background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)'}}>
             <input
               type="text"
               value={chatInput}
               onChange={(e) => setChatInput(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSendChat()}
               placeholder={role === 'admin' ? 'Reply to this complaint...' : 'Type your message or complaint...'}
-              style={{flex:1, padding:'14px 18px', borderRadius:'14px', border:'1px solid #e2e8f0', fontSize:'14px', color:'#0f172a', outline:'none', background:'#f8fafc'}}
+              style={{flex:1, padding:'14px 18px', borderRadius:'14px', border:'1px solid rgba(255, 255, 255, 0.8)', fontSize:'14px', color:'#0f172a', outline:'none', background:'#f8fafc'}}
             />
             <button onClick={handleSendChat} style={{width:'48px', height:'48px', borderRadius:'14px', background:'#021676', color:'white', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', fontSize:'18px', flexShrink:0}}>➤</button>
           </div>
@@ -96,7 +96,7 @@ export default function Chat({ role, isLoggedIn, setCurrentView, setIsLoggedIn, 
             {icon:'⚠️', label:'Report Bug', msg:'I found a bug in the app that needs attention.'},
             {icon:'💰', label:'Payment Help', msg:'I have a question about my premium payment.'},
           ].map((action, i) => (
-            <button key={i} className="hover-card" onClick={() => { setChatInput(action.msg); }} style={{background:'white', border:'1px solid #e2e8f0', borderRadius:'16px', padding:'16px', cursor:'pointer', textAlign:'center', transition:'all 0.2s ease', boxShadow:'0 2px 8px rgba(0,0,0,0.02)'}}>
+            <button key={i} className="hover-card" onClick={() => { setChatInput(action.msg); }} style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', border:'1px solid rgba(255, 255, 255, 0.8)', borderRadius:'16px', padding:'16px', cursor:'pointer', textAlign:'center', transition:'all 0.2s ease', boxShadow:'0 2px 8px rgba(0,0,0,0.02)'}}>
               <div style={{fontSize:'24px', marginBottom:'8px'}}>{action.icon}</div>
               <div style={{fontSize:'12px', fontWeight:'700', color:'#0f172a'}}>{action.label}</div>
             </button>

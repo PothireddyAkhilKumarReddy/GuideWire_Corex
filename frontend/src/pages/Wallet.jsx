@@ -143,7 +143,7 @@ export default function Wallet({ userId, setCurrentView, setIsLoggedIn, setRole,
 
         {/* Withdraw Modal */}
         {showWithdraw && (
-          <div style={{background:'white', borderRadius:'20px', padding:'25px', border:'1px solid #e2e8f0', marginBottom:'20px', boxShadow:'0 10px 30px rgba(0,0,0,0.06)'}}>
+          <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'20px', padding:'25px', border:'1px solid rgba(255, 255, 255, 0.8)', marginBottom:'20px', boxShadow:'0 10px 30px rgba(0,0,0,0.06)'}}>
             <div style={{fontSize:'12px', fontWeight:'800', color:'#64748b', letterSpacing:'1px', marginBottom:'15px'}}>WITHDRAW TO BANK</div>
             <input type="number" value={withdrawAmount} onChange={e => {
               const val = parseFloat(e.target.value);
@@ -155,7 +155,7 @@ export default function Wallet({ userId, setCurrentView, setIsLoggedIn, setRole,
               style={{width:'100%', padding:'14px 16px', borderRadius:'12px', border:'2px solid #e2e8f0', fontSize:'18px', fontWeight:'700', boxSizing:'border-box', outline:'none', marginBottom:'12px', opacity: balance <= 0 ? 0.5 : 1}} />
             <div style={{display:'flex', gap:'8px', marginBottom:'15px'}}>
               {[...new Set([50, 100, balance].filter(v => v > 0 && v <= balance))].map(v => (
-                <button key={v} onClick={() => setWithdrawAmount(String(v))} style={{flex:1, padding:'8px', borderRadius:'8px', background:'#f1f5f9', border:'1px solid #e2e8f0', fontSize:'12px', fontWeight:'700', color:'#0f172a', cursor:'pointer'}}>
+                <button key={v} onClick={() => setWithdrawAmount(String(v))} style={{flex:1, padding:'8px', borderRadius:'8px', background:'#f1f5f9', border:'1px solid rgba(255, 255, 255, 0.8)', fontSize:'12px', fontWeight:'700', color:'#0f172a', cursor:'pointer'}}>
                   {v === balance ? '₹All' : `₹${v}`}
                 </button>
               ))}
@@ -168,7 +168,7 @@ export default function Wallet({ userId, setCurrentView, setIsLoggedIn, setRole,
         )}
 
         {/* Transactions */}
-        <div style={{background:'white', borderRadius:'24px', padding:'25px', border:'1px solid #e2e8f0', boxShadow:'0 10px 30px rgba(0,0,0,0.02)'}}>
+        <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'24px', padding:'25px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 10px 30px rgba(0,0,0,0.02)'}}>
           <div style={{fontSize:'12px', fontWeight:'800', color:'#64748b', letterSpacing:'1px', marginBottom:'20px'}}>TRANSACTION HISTORY</div>
           
           {data?.transactions?.length > 0 ? (

@@ -56,7 +56,7 @@ export default function Landing({ setCurrentView }) {
         </div>
 
         <div style={{display:'flex', gap:'15px'}}>
-           <button style={{background:'white', color:'#021676', border:'1px solid #e2e8f0', padding:'10px 20px', borderRadius:'12px', fontWeight:'800', cursor:'pointer', boxShadow:'0 4px 10px rgba(0,0,0,0.02)'}} onClick={() => setCurrentView('plans')}>Pricing</button>
+           <button style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', color:'#021676', border:'1px solid rgba(255, 255, 255, 0.8)', padding:'10px 20px', borderRadius:'12px', fontWeight:'800', cursor:'pointer', boxShadow:'0 4px 10px rgba(0,0,0,0.02)'}} onClick={() => setCurrentView('plans')}>Pricing</button>
            <button style={{background:'#021676', color:'white', border:'none', padding:'10px 20px', borderRadius:'12px', fontWeight:'800', cursor:'pointer', boxShadow:'0 10px 20px rgba(2, 22, 118, 0.2)'}} onClick={() => setCurrentView('auth')}>Login</button>
         </div>
       </nav>
@@ -82,7 +82,7 @@ export default function Landing({ setCurrentView }) {
               <button style={{background:'#021676', color:'white', border:'none', padding:'18px 36px', borderRadius:'16px', fontSize:'16px', fontWeight:'800', cursor:'pointer', boxShadow:'0 15px 30px rgba(2, 22, 118, 0.25)', display:'flex', alignItems:'center', gap:'10px'}} onClick={() => setCurrentView('auth')}>
                  Get Started <span style={{fontSize:'18px', lineHeight:0}}>➔</span>
               </button>
-              <button style={{background:'white', color:'#0f172a', border:'1px solid #e2e8f0', padding:'18px 36px', borderRadius:'16px', fontSize:'16px', fontWeight:'800', cursor:'pointer', boxShadow:'0 10px 20px rgba(0,0,0,0.03)'}} onClick={() => document.getElementById('features').scrollIntoView({behavior:'smooth'})}>
+              <button style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', color:'#0f172a', border:'1px solid rgba(255, 255, 255, 0.8)', padding:'18px 36px', borderRadius:'16px', fontSize:'16px', fontWeight:'800', cursor:'pointer', boxShadow:'0 10px 20px rgba(0,0,0,0.03)'}} onClick={() => document.getElementById('features').scrollIntoView({behavior:'smooth'})}>
                  How It Works
               </button>
            </div>
@@ -100,7 +100,7 @@ export default function Landing({ setCurrentView }) {
         {/* Right Side: Hero Visual Cluster */}
         <div style={{position:'relative', height:'500px', display:'flex', alignItems:'center', justifyContent:'center'}}>
            {/* Card 1: Risk Coverage */}
-           <div className="floating-card-1 hover-card" style={{position:'absolute', top:'10%', left:'5%', width:'280px', background:'white', borderRadius:'24px', padding:'25px', boxShadow:'0 20px 50px rgba(0,0,0,0.08)', border:'1px solid #f1f5f9', transform:'rotate(-4deg)', zIndex:2, animation:'float 6s ease-in-out infinite'}}>
+           <div className="floating-card-1 hover-card" style={{position:'absolute', top:'10%', left:'5%', width:'280px', background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'24px', padding:'25px', boxShadow:'0 20px 50px rgba(0,0,0,0.08)', border:'1px solid rgba(255, 255, 255, 0.8)', transform:'rotate(-4deg)', zIndex:2, animation:'float 6s ease-in-out infinite'}}>
               <div style={{fontSize:'10px', color:'#64748b', fontWeight:'800', letterSpacing:'1px', marginBottom:'15px'}}>LIVE LOCATION RISK</div>
               <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
                  <div>
@@ -141,7 +141,7 @@ export default function Landing({ setCurrentView }) {
 
       {/* Animated Stats Counter */}
       <section style={{maxWidth:'1100px', margin:'0 auto', padding:'0 20px', position:'relative', zIndex:10}}>
-         <div style={{display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:'20px', background:'white', borderRadius:'24px', padding:'40px 30px', boxShadow:'0 20px 50px rgba(0,0,0,0.06)', border:'1px solid #f1f5f9'}}>
+         <div style={{display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:'20px', background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'24px', padding:'40px 30px', boxShadow:'0 20px 50px rgba(0,0,0,0.06)', border:'1px solid rgba(255, 255, 255, 0.8)'}}>
             <div style={{textAlign:'center'}}>
                <div style={{fontSize:'36px', fontWeight:'900', color:'#021676', marginBottom:'8px'}}>35,000+</div>
                <div style={{fontSize:'13px', fontWeight:'700', color:'#64748b', letterSpacing:'0.5px'}}>Workers Protected</div>
@@ -164,19 +164,19 @@ export default function Landing({ setCurrentView }) {
       {/* Trust & Features Section */}
       <section id="features" style={{maxWidth:'1200px', margin:'100px auto 0 auto', padding:'0 20px', position:'relative', zIndex:10}}>
          <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(300px, 1fr))', gap:'30px'}}>
-            <div className="hover-card" style={{background:'white', borderRadius:'32px', padding:'40px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.02)'}}>
+            <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'32px', padding:'40px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 20px 40px rgba(0,0,0,0.02)'}}>
                <div style={{width:'50px', height:'50px', background:'#eff6ff', borderRadius:'16px', display:'flex', alignItems:'center', justifyContent:'center', color:'#3b82f6', fontSize:'24px', marginBottom:'25px'}}>🛡️</div>
                <h3 style={{fontSize:'22px', fontWeight:'900', color:'#0f172a', marginBottom:'15px'}}>Affordable Coverage</h3>
                <p style={{fontSize:'15px', color:'#64748b', lineHeight:'1.6', margin:0}}>Starts at ₹40/week. Access Personal Accident cover, medical expense reimbursement, and hospital cash benefits alongside parametric payouts.</p>
             </div>
             
-            <div className="hover-card" style={{background:'white', borderRadius:'32px', padding:'40px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.02)'}}>
+            <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'32px', padding:'40px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 20px 40px rgba(0,0,0,0.02)'}}>
                <div style={{width:'50px', height:'50px', background:'#f0fdf4', borderRadius:'16px', display:'flex', alignItems:'center', justifyContent:'center', color:'#22c55e', fontSize:'24px', marginBottom:'25px'}}>📞</div>
                <h3 style={{fontSize:'22px', fontWeight:'900', color:'#0f172a', marginBottom:'15px'}}>WhatsApp Claims</h3>
                <p style={{fontSize:'15px', color:'#64748b', lineHeight:'1.6', margin:0}}>Submit accident or medical claims instantly via WhatsApp. Zero paperwork. Get AI-accelerated settlements processed in record time.</p>
             </div>
             
-            <div className="hover-card" style={{background:'white', borderRadius:'32px', padding:'40px', border:'1px solid #f1f5f9', boxShadow:'0 20px 40px rgba(0,0,0,0.02)'}}>
+            <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'32px', padding:'40px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 20px 40px rgba(0,0,0,0.02)'}}>
                <div style={{width:'50px', height:'50px', background:'#fef2f2', borderRadius:'16px', display:'flex', alignItems:'center', justifyContent:'center', color:'#ef4444', fontSize:'24px', marginBottom:'25px'}}>⚡</div>
                <h3 style={{fontSize:'22px', fontWeight:'900', color:'#0f172a', marginBottom:'15px'}}>AI-Parametric Truth</h3>
                <p style={{fontSize:'15px', color:'#64748b', lineHeight:'1.6', margin:0}}>Say goodbye to manual adjustors for gig disruptions. We use live API feeds for Weather and Traffic. When risk parameters hit the threshold, funding moves.</p>
@@ -192,7 +192,7 @@ export default function Landing({ setCurrentView }) {
             
             <div style={{display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(320px, 1fr))', gap:'20px', textAlign:'left'}}>
                {/* 1. Heavy Rain */}
-               <div className="hover-card" style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+               <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'16px', padding:'30px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
                   <div style={{fontSize:'28px', color:'#3b82f6'}}>🌧️</div>
                   <div>
                      <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Heavy Rain</h4>
@@ -201,7 +201,7 @@ export default function Landing({ setCurrentView }) {
                </div>
 
                {/* 2. Extreme Heat */}
-               <div className="hover-card" style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+               <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'16px', padding:'30px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
                   <div style={{fontSize:'28px', color:'#ef4444'}}>⚠️</div>
                   <div>
                      <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Extreme Heat</h4>
@@ -210,7 +210,7 @@ export default function Landing({ setCurrentView }) {
                </div>
 
                {/* 3. Severe AQI */}
-               <div className="hover-card" style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+               <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'16px', padding:'30px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
                   <div style={{fontSize:'28px', color:'#8b5cf6'}}>💨</div>
                   <div>
                      <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Severe AQI</h4>
@@ -219,7 +219,7 @@ export default function Landing({ setCurrentView }) {
                </div>
 
                {/* 4. Compound Event */}
-               <div className="hover-card" style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+               <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'16px', padding:'30px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
                   <div style={{fontSize:'28px', color:'#3b82f6'}}>⚡</div>
                   <div>
                      <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Compound Event</h4>
@@ -228,7 +228,7 @@ export default function Landing({ setCurrentView }) {
                </div>
 
                {/* 5. Flood Alert */}
-               <div className="hover-card" style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+               <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'16px', padding:'30px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
                   <div style={{fontSize:'28px', color:'#0ea5e9'}}>🌊</div>
                   <div>
                      <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Flood Alert</h4>
@@ -237,7 +237,7 @@ export default function Landing({ setCurrentView }) {
                </div>
 
                {/* 6. Strike / Curfew */}
-               <div className="hover-card" style={{background:'white', borderRadius:'16px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
+               <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'16px', padding:'30px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 4px 15px rgba(0,0,0,0.02)', display:'flex', gap:'20px', alignItems:'flex-start'}}>
                   <div style={{fontSize:'28px', color:'#f59e0b'}}>👥</div>
                   <div>
                      <h4 style={{fontSize:'16px', fontWeight:'800', color:'#0f172a', margin:'0 0 8px 0'}}>Strike / Curfew</h4>
@@ -283,24 +283,24 @@ export default function Landing({ setCurrentView }) {
          <h2 style={{fontSize:'clamp(28px, 4vw, 36px)', fontWeight:'900', color:'#0f172a', marginBottom:'15px'}}>Who We Serve</h2>
          <p style={{fontSize:'16px', color:'#64748b', maxWidth:'500px', margin:'0 auto 40px auto', lineHeight:'1.6'}}>Built for India's gig delivery workforce across all major platforms.</p>
          <div style={{display:'flex', flexWrap:'nowrap', justifyContent: 'center', gap:'20px', alignItems:'center', overflowX:'auto', paddingTop:'20px', paddingBottom:'25px', paddingLeft: '10px', paddingRight: '10px', maxWidth:'100%', margin: '-20px -10px 0 -10px'}}>
-            <div className="hover-card" style={{background:'white', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
+            <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
                <span style={{fontSize:'22px', fontWeight:'800', color:'#fc8019'}}>swiggy</span>
             </div>
-            <div className="hover-card" style={{background:'white', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
+            <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
                <img src="https://cdn.worldvectorlogo.com/logos/zomato-1.svg" alt="Zomato" style={{height:'30px', objectFit: 'contain'}} onError={(e) => {e.target.style.display='none'; e.target.nextSibling.style.display='block'}} />
                <span style={{display: 'none', fontSize:'24px', fontWeight:'900', color:'#cb202d', fontStyle:'italic'}}>zomato</span>
             </div>
-            <div className="hover-card" style={{background:'white', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
+            <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
                <span style={{fontSize:'26px', fontWeight:'900', color:'black', letterSpacing:'-1px'}}>blink<span style={{color:'#16a34a'}}>it</span></span>
             </div>
-            <div className="hover-card" style={{background:'white', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
+            <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
                <span style={{fontSize:'24px', fontWeight:'900', color:'#4b207f', letterSpacing:'-1px'}}>zepto</span>
             </div>
-            <div className="hover-card" style={{background:'white', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
+            <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b3/Uber_Eats_2020_logo.svg" alt="UberEats" style={{height:'24px', filter: 'auto', objectFit: 'contain'}} onError={(e) => {e.target.style.display='none'; e.target.nextSibling.style.display='block'}} />
                <span style={{display: 'none', fontSize:'20px', fontWeight:'700', color:'black'}}>UberEats</span>
             </div>
-            <div className="hover-card" style={{background:'white', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
+            <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', border:'1px solid #bae6fd', borderRadius:'16px', padding:'12px 20px', boxShadow:'0 4px 15px rgba(56, 189, 248, 0.1)', display:'flex', alignItems:'center', justifyContent:'center', height:'60px', minWidth:'110px'}}>
                <span style={{fontSize:'18px', fontWeight:'900', color:'#8dc63f'}}>big<span style={{color:'black'}}>basket</span></span>
             </div>
          </div>
@@ -341,7 +341,7 @@ export default function Landing({ setCurrentView }) {
 
          {/* Results Card */}
          {demoResult && !demoResult.error && !demoLoading && (
-            <div style={{background:'white', borderRadius:'24px', padding:'40px', boxShadow:'0 20px 50px rgba(0,0,0,0.08)', border:'1px solid #f1f5f9', position:'relative', overflow:'hidden'}}>
+            <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'24px', padding:'40px', boxShadow:'0 20px 50px rgba(0,0,0,0.08)', border:'1px solid rgba(255, 255, 255, 0.8)', position:'relative', overflow:'hidden'}}>
                {/* Gradient accent bar */}
                <div style={{position:'absolute', top:0, left:0, right:0, height:'4px', background:'linear-gradient(90deg, #3b82f6, #10b981, #8b5cf6)'}}></div>
                
@@ -405,7 +405,7 @@ export default function Landing({ setCurrentView }) {
          
          <div style={{display:'flex', flexDirection:'column', gap:'20px'}}>
             {/* FAQ 1 */}
-            <div className="hover-card" style={{background:'white', borderRadius:'20px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)'}}>
+            <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'20px', padding:'30px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 4px 15px rgba(0,0,0,0.02)'}}>
                <h4 style={{fontSize:'18px', fontWeight:'800', color:'#0f172a', margin:'0 0 12px 0', display:'flex', alignItems:'center', gap:'10px'}}>
                   <span style={{color:'#3b82f6'}}>Q.</span> How does the AI differentiate between normal rain and a parametric claim?
                </h4>
@@ -415,7 +415,7 @@ export default function Landing({ setCurrentView }) {
             </div>
 
             {/* FAQ 2 */}
-            <div className="hover-card" style={{background:'white', borderRadius:'20px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)'}}>
+            <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'20px', padding:'30px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 4px 15px rgba(0,0,0,0.02)'}}>
                <h4 style={{fontSize:'18px', fontWeight:'800', color:'#0f172a', margin:'0 0 12px 0', display:'flex', alignItems:'center', gap:'10px'}}>
                   <span style={{color:'#ef4444'}}>Q.</span> What happens if a gig worker spoofs their GPS location?
                </h4>
@@ -425,7 +425,7 @@ export default function Landing({ setCurrentView }) {
             </div>
 
             {/* FAQ 3 */}
-            <div className="hover-card" style={{background:'white', borderRadius:'20px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)'}}>
+            <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'20px', padding:'30px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 4px 15px rgba(0,0,0,0.02)'}}>
                <h4 style={{fontSize:'18px', fontWeight:'800', color:'#0f172a', margin:'0 0 12px 0', display:'flex', alignItems:'center', gap:'10px'}}>
                   <span style={{color:'#10b981'}}>Q.</span> Do workers need to log into the app to file paperwork during a disaster?
                </h4>
@@ -435,7 +435,7 @@ export default function Landing({ setCurrentView }) {
             </div>
 
             {/* FAQ 4 */}
-            <div className="hover-card" style={{background:'white', borderRadius:'20px', padding:'30px', border:'1px solid #e2e8f0', boxShadow:'0 4px 15px rgba(0,0,0,0.02)'}}>
+            <div className="hover-card" style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'20px', padding:'30px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 4px 15px rgba(0,0,0,0.02)'}}>
                <h4 style={{fontSize:'18px', fontWeight:'800', color:'#0f172a', margin:'0 0 12px 0', display:'flex', alignItems:'center', gap:'10px'}}>
                   <span style={{color:'#8b5cf6'}}>Q.</span> What if the worker didn't actually lose income today, but the weather was bad?
                </h4>
@@ -450,7 +450,7 @@ export default function Landing({ setCurrentView }) {
          <div style={{position:'absolute', inset:0, backgroundImage:'radial-gradient(circle at center, rgba(255,255,255,0.2) 1px, transparent 1px)', backgroundSize:'20px 20px', opacity:0.3}}></div>
          <h2 style={{fontSize:'clamp(32px, 5vw, 42px)', fontWeight:'900', margin:'0 0 20px 0', position:'relative'}}>Ready to Protect Your Income?</h2>
          <p style={{fontSize:'16px', color:'rgba(255,255,255,0.8)', margin:'0 auto 40px auto', maxWidth:'400px', position:'relative', lineHeight:'1.6'}}>Join thousands of gig workers across India who never worry about income loss again.</p>
-         <button style={{background:'white', color:'#021676', border:'none', padding:'20px 40px', borderRadius:'16px', fontSize:'16px', fontWeight:'800', cursor:'pointer', position:'relative'}} onClick={() => setCurrentView('auth')}>Get Started Free</button>
+         <button style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', color:'#021676', border:'none', padding:'20px 40px', borderRadius:'16px', fontSize:'16px', fontWeight:'800', cursor:'pointer', position:'relative'}} onClick={() => setCurrentView('auth')}>Get Started Free</button>
       </section>
       
       {/* Footer */}

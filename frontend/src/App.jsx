@@ -164,11 +164,11 @@ export default function App() {
     { id: 'premium', name: 'Premium', premium: 200, coverage: 1800, period: 'week', features: ['All Environmental Triggers', 'Highest Coverage Limit', 'Dedicated Claim Support', 'Minor Accident Telematics'] },
   ]
 
-  const [oracleStatus, setOracleStatus] = useState(null);
+  const [oracleStatus, setSystemStatus] = useState(null);
 
-  const handleZeroTouchOracle = async () => {
+  const handleZeroTouchAIEngine = async () => {
     if (!subscription) return;
-    setOracleStatus('scanning');
+    setSystemStatus('scanning');
     
     try {
       const payload = {
@@ -186,7 +186,7 @@ export default function App() {
       const payout = subscription.coverage;
       
       if (data.risk_level === 'Low' || data.risk_level === 'Medium') {
-          setOracleStatus('safe');
+          setSystemStatus('safe');
           return;
       }
       
@@ -204,10 +204,10 @@ export default function App() {
       setClaimHistory(prev => [newClaim, ...prev]);
       
       setResults(prev => prev ? { ...prev, riskScore: data.risk_level, claimStatus: "Triggered" } : null);
-      setOracleStatus('triggered');
+      setSystemStatus('triggered');
     } catch (e) {
       console.error(e);
-      setOracleStatus('error');
+      setSystemStatus('error');
     }
   }
 
@@ -271,7 +271,14 @@ export default function App() {
   };
 
   return (
-    <div style={{background: '#f8fafc', minHeight: '100vh', fontFamily: '"Inter", sans-serif', color: '#0f172a'}}>
+    <div style={{
+      background: 'radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.15) 0%, transparent 40%), radial-gradient(circle at 100% 100%, rgba(167, 139, 250, 0.15) 0%, transparent 40%), radial-gradient(circle at 40% 50%, rgba(52, 211, 153, 0.1) 0%, transparent 50%), linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%)', 
+      minHeight: '100vh', 
+      fontFamily: '"Inter", sans-serif', 
+      color: '#0f172a', 
+      position: 'relative', 
+      overflowX: 'hidden'
+    }}>
       {isPortalActive && (
         <Sidebar 
           currentView={currentView} 
@@ -308,7 +315,7 @@ export default function App() {
           subscription={subscription} setCurrentView={setCurrentView}
           setIsLoggedIn={setIsLoggedIn} setRole={setRole}
           results={results} loadingRisk={loadingRisk} handleCheckRisk={handleCheckRisk}
-          handleZeroTouchOracle={handleZeroTouchOracle} oracleStatus={oracleStatus} setOracleStatus={setOracleStatus}
+          handleZeroTouchAIEngine={handleZeroTouchAIEngine} oracleStatus={oracleStatus} setSystemStatus={setSystemStatus}
           honorScore={honorScore} walletBalance={walletBalance} profileComplete={profileComplete}
         />
       )}

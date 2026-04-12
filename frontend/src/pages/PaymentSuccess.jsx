@@ -93,7 +93,7 @@ export default function PaymentSuccess({ setSubscription, setCurrentView, setIsL
         )}
 
         {status === 'unpaid' && (
-          <div style={{background:'white', borderRadius:'24px', padding:'40px', border:'1px solid #e2e8f0', boxShadow:'0 20px 60px rgba(0,0,0,0.05)'}}>
+          <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'24px', padding:'40px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 20px 60px rgba(0,0,0,0.05)'}}>
             <div style={{width:'80px', height:'80px', background:'#fffbeb', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 20px auto'}}>
                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#d97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             </div>
@@ -102,20 +102,20 @@ export default function PaymentSuccess({ setSubscription, setCurrentView, setIsL
             <button onClick={handleReVerify} style={{width:'100%', padding:'16px', background:'#021676', color:'white', fontSize:'16px', fontWeight:'700', borderRadius:'12px', border:'none', cursor:'pointer', marginBottom:'12px'}}>
               Check Status Again
             </button>
-            <button onClick={() => setCurrentView('plans')} style={{width:'100%', padding:'16px', background:'#f8fafc', color:'#475569', fontSize:'16px', fontWeight:'700', borderRadius:'12px', border:'1px solid #e2e8f0', cursor:'pointer'}}>
+            <button onClick={() => setCurrentView('plans')} style={{width:'100%', padding:'16px', background:'#f8fafc', color:'#475569', fontSize:'16px', fontWeight:'700', borderRadius:'12px', border:'1px solid rgba(255, 255, 255, 0.8)', cursor:'pointer'}}>
               Back to Plans
             </button>
           </div>
         )}
 
         {status === 'success' && (
-          <div style={{background:'white', borderRadius:'24px', padding:'50px 40px', border:'1px solid #e2e8f0', boxShadow:'0 20px 60px rgba(0,0,0,0.05)'}}>
+          <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'24px', padding:'50px 40px', border:'1px solid rgba(255, 255, 255, 0.8)', boxShadow:'0 20px 60px rgba(0,0,0,0.05)'}}>
             <div style={{width:'80px', height:'80px', background:'#dcfce7', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 25px auto', fontSize:'36px'}}>✓</div>
             <h2 style={{fontSize:'28px', fontWeight:'900', color:'#0f172a', marginBottom:'10px'}}>Payment Successful!</h2>
             <p style={{color:'#64748b', fontSize:'15px', marginBottom:'30px'}}>Your insurance plan is now active</p>
             
             {planData && (
-              <div style={{background:'#f8fafc', borderRadius:'16px', padding:'20px', marginBottom:'30px', border:'1px solid #e2e8f0'}}>
+              <div style={{background:'#f8fafc', borderRadius:'16px', padding:'20px', marginBottom:'30px', border:'1px solid rgba(255, 255, 255, 0.8)'}}>
                 <div style={{display:'flex', justifyContent:'space-between', marginBottom:'10px'}}>
                   <span style={{fontSize:'13px', color:'#64748b', fontWeight:'700'}}>Plan</span>
                   <span style={{fontSize:'13px', fontWeight:'900', color:'#0f172a'}}>{planData.plan}</span>
@@ -143,7 +143,7 @@ export default function PaymentSuccess({ setSubscription, setCurrentView, setIsL
         )}
 
         {status === 'failed' && (
-          <div style={{background:'white', borderRadius:'24px', padding:'50px 40px', border:'1px solid #e2e8f0'}}>
+          <div style={{background:'rgba(255, 255, 255, 0.7)', backdropFilter:'blur(24px)', borderRadius:'24px', padding:'50px 40px', border:'1px solid rgba(255, 255, 255, 0.8)'}}>
             <div style={{width:'80px', height:'80px', background:'#fef2f2', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 25px auto', fontSize:'36px'}}>✕</div>
             <h2 style={{fontSize:'24px', fontWeight:'900', color:'#0f172a', marginBottom:'10px'}}>Payment Failed</h2>
             <p style={{color:'#64748b', fontSize:'14px', marginBottom:'30px'}}>Something went wrong. Please try again.</p>
