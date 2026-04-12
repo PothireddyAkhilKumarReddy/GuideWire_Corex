@@ -57,56 +57,65 @@ export default function RiskMap({ role, setIsLoggedIn, setCurrentView, setRole }
                   @keyframes radar-sweep {
                      from { transform: rotate(0deg); }
                      to { transform: rotate(360deg); }
+                  <style>{`
+                  @keyframes radar-sweep {
+                     from { transform: rotate(0deg); }
+                     to { transform: rotate(360deg); }
                   }
-                  @keyframes globe-spin {
+                  @keyframes spinEarth {
                      from { background-position: 0 0; }
-                     to { background-position: -200px 0; }
+                     to { background-position: -2048px 0; }
                   }
-                  .holo-globe {
+                  .real-earth {
                      position: absolute;
                      top: 50%; left: 55%;
                      transform: translate(-50%, -50%);
                      width: 500px; height: 500px;
                      border-radius: 50%;
-                     background: radial-gradient(circle at 30% 30%, rgba(56, 189, 248, 0.05), rgba(2, 22, 118, 0.4) 80%);
-                     box-shadow: inset 0 0 80px rgba(56, 189, 248, 0.3), 0 0 100px rgba(56, 189, 248, 0.1);
-                     border: 2px solid rgba(56, 189, 248, 0.2);
+                     background: url('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg');
+                     background-size: auto 100%;
+                     animation: spinEarth 30s linear infinite;
+                     box-shadow: inset -60px -60px 100px rgba(0,0,0,0.95), 0 0 60px rgba(56, 189, 248, 0.4);
+                     z-index: 1;
                   }
-                  .holo-globe::before {
-                     content: '';
+                  .real-clouds {
                      position: absolute;
-                     inset: 0;
+                     top: 50%; left: 55%;
+                     transform: translate(-50%, -50%);
+                     width: 512px; height: 512px;
                      border-radius: 50%;
-                     background-image: 
-                        linear-gradient(rgba(56, 189, 248, 0.2) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(56, 189, 248, 0.2) 1px, transparent 1px);
-                     background-size: 30px 30px;
-                     animation: globe-spin 15s linear infinite;
-                     border-radius: 50%;
-                     mask-image: radial-gradient(circle, white 40%, transparent 100%);
-                     -webkit-mask-image: radial-gradient(circle, white 40%, transparent 100%);
+                     background: url('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_clouds_1024.png');
+                     background-size: auto 100%;
+                     animation: spinEarth 45s linear infinite;
+                     opacity: 0.6;
+                     z-index: 2;
                   }
                   .radar-scanner {
                      position: absolute;
                      top: 50%; left: 55%;
                      transform-origin: center;
-                     width: 500px; height: 500px;
-                     margin-top: -250px; margin-left: -250px;
+                     width: 650px; height: 650px;
+                     margin-top: -325px; margin-left: -325px;
                      border-radius: 50%;
-                     background: conic-gradient(from 0deg, transparent 70%, rgba(56, 189, 248, 0.5) 100%);
-                     animation: radar-sweep 4s linear infinite;
+                     background: conic-gradient(from 0deg, transparent 70%, rgba(56, 189, 248, 0.3) 100%);
+                     animation: radar-sweep 6s linear infinite;
+                     z-index: 3;
+                     pointer-events: none;
                   }
                   .ring-1 {
-                     position: absolute; top: 50%; left: 55%; width: 300px; height: 300px;
-                     transform: translate(-50%, -50%); border-radius: 50%; border: 1px dashed rgba(56, 189, 248, 0.4);
+                     position: absolute; top: 50%; left: 55%; width: 550px; height: 550px;
+                     transform: translate(-50%, -50%); border-radius: 50%; border: 2px dashed rgba(56, 189, 248, 0.5);
+                     z-index: 3; pointer-events: none;
                   }
                   .ring-2 {
-                     position: absolute; top: 50%; left: 55%; width: 700px; height: 700px;
-                     transform: translate(-50%, -50%); border-radius: 50%; border: 1px solid rgba(56, 189, 248, 0.1);
+                     position: absolute; top: 50%; left: 55%; width: 800px; height: 800px;
+                     transform: translate(-50%, -50%); border-radius: 50%; border: 1px solid rgba(56, 189, 248, 0.2);
+                     z-index: 3; pointer-events: none;
                   }
                   `}</style>
                   
-                  <div className="holo-globe"></div>
+                  <div className="real-earth"></div>
+                  <div className="real-clouds"></div>
                   <div className="radar-scanner"></div>
                   <div className="ring-1"></div>
                   <div className="ring-2"></div>

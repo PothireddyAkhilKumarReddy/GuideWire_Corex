@@ -48,7 +48,7 @@ export default function Sidebar({ currentView, setCurrentView, userName, handleL
       <nav style={{flex: 1, padding: '0 12px', display: 'flex', flexDirection: 'column', gap: '2px'}}>
         {navItems.map((item) => {
           const Icon = item.icon;
-          const isActive = currentView === item.id || (item.id === 'profile-setup' && currentView === 'profile');
+          const isActive = currentView === item.id || (item.id === 'profile-setup' && currentView === 'profile') || (item.id === 'map' && currentView === 'map');
           
           return (
             <button
