@@ -138,7 +138,7 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
               <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'#334155'}}><span style={{color:'#22c55e'}}>✓</span> WhatsApp Claim Alerts</div>
               <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'#334155'}}><span style={{color:'#22c55e'}}>✓</span> Basic Payout Protection</div>
             </div>
-            <button style={{width:'100%', padding:'16px', background:'white', color:'#021676', border:'2px solid #e2e8f0', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[0], premium: calculatePrice(40)}) : setCurrentView('auth')}>{paymentLoading === 'basic' ? '⏳ Redirecting...' : 'SELECT BASIC'}</button>
+            <button style={{width:'100%', padding:'16px', background:'white', color:'#021676', border:'2px solid #e2e8f0', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[0], premium: calculatePrice(100)}) : setCurrentView('auth')}>{paymentLoading === 'basic' ? '⏳ Redirecting...' : 'SELECT BASIC'}</button>
           </div>
 
           {/* Standard */}
@@ -156,7 +156,7 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
               <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.9)'}}><span style={{color:'#34d399'}}>✓</span> AI Risk Monitoring 24/7</div>
               <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.9)'}}><span style={{color:'#34d399'}}>✓</span> Priority Claim Processing</div>
             </div>
-            <button style={{width:'100%', padding:'16px', background:'white', color:'#021676', border:'none', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[1], premium: calculatePrice(70)}) : setCurrentView('auth')}>{paymentLoading === 'standard' ? '⏳ Redirecting...' : 'GET PROTECTED'}</button>
+            <button style={{width:'100%', padding:'16px', background:'white', color:'#021676', border:'none', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[1], premium: calculatePrice(150)}) : setCurrentView('auth')}>{paymentLoading === 'standard' ? '⏳ Redirecting...' : 'GET PROTECTED'}</button>
           </div>
 
           {/* Premium */}
@@ -176,7 +176,7 @@ export default function Plans({ isLoggedIn, setCurrentView, setIsLoggedIn, setRo
               <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.85)'}}><span style={{color:'#d4a848'}}>✓</span> Dedicated Claim Support</div>
               <div style={{display:'flex', alignItems:'center', gap:'10px', fontSize:'14px', color:'rgba(255,255,255,0.85)'}}><span style={{color:'#d4a848'}}>✓</span> Fastest Payout Processing</div>
             </div>
-            <button style={{width:'100%', padding:'16px', background:'linear-gradient(135deg, #d4a848, #f5d680)', color:'#0a0a0a', border:'none', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer', boxShadow:'0 4px 15px rgba(212,168,72,0.3)'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[2], premium: calculatePrice(100)}) : setCurrentView('auth')}>{paymentLoading === 'premium' ? '⏳ Redirecting...' : 'SELECT PREMIUM'}</button>
+            <button style={{width:'100%', padding:'16px', background:'linear-gradient(135deg, #d4a848, #f5d680)', color:'#0a0a0a', border:'none', borderRadius:'14px', fontSize:'14px', fontWeight:'800', cursor:'pointer', boxShadow:'0 4px 15px rgba(212,168,72,0.3)'}} onClick={() => isLoggedIn ? handleBuyPlan({...PLANS[2], premium: calculatePrice(200)}) : setCurrentView('auth')}>{paymentLoading === 'premium' ? '⏳ Redirecting...' : 'SELECT PREMIUM'}</button>
           </div>
         </div>
 
