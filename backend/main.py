@@ -6,10 +6,26 @@ from database.database import engine, Base, get_db
 # Import Routers
 from routes import auth, risk, claims, plans, admin, profile, wallet, payment
 
+from apscheduler.schedulers.background import BackgroundScheduler
+from services.daemon_service import run_autonomous_sweep
+from contextlib import asynccontextmanager
+
 # Initialize DB Tables
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="InsurGig AI API", description="Predictive Security & Automated Claims for Gig Workers")
+# Setup Autonomous Daemon
+scheduler = BackgroundScheduler()
+scheduler.add_job(run_autonomous_sweep, 'interval', minutes=1)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    print("🚀 Starting InsurGig AI Server & Autonomous Daemon...")
+    scheduler.start()
+    yield
+    print("🛑 Shutting down Daemon...")
+    scheduler.shutdown()
+
+app = FastAPI(title="InsurGig AI API", description="Predictive Security & Automated Claims for Gig Workers", lifespan=lifespan)
 
 # Configure CORS
 app.add_middleware(

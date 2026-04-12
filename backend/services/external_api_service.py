@@ -207,3 +207,29 @@ def get_aqi_data(lat: float, lon: float):
     except Exception as e:
         print(f"Error fetching AQI data: {e}. Falling back to simulated data.")
         return fallback_aqi
+
+def get_seismic_data(lat: float, lon: float):
+    """
+    Mock: Simulates checking USGS Earthquake endpoints.
+    Normally fetches last 1-hour GeoJSON feed and checks proximity.
+    Returns: Tuple (magnitude, distance_km)
+    """
+    import random
+    # Let's say 1% chance there's a minor tremor in a demo, 0.1% chance for major
+    rand = random.random()
+    if rand > 0.999:
+        return (6.5, 12.0)  # Major quake nearby (High risk)
+    elif rand > 0.98:
+        return (4.2, 45.0)  # Minor tremor
+    return (0.0, 999.0)     # Safe
+
+def get_telematics_data(user_id: int):
+    """
+    Mock: Simulates receiving an IoT Webhook from a gig worker's phone accelerometer.
+    Returns simulated G-Force peak.
+    """
+    import random
+    # 0.5% chance per scrape that a rider experiences a >4.5 G-force event (crash)
+    if random.random() > 0.995:
+        return 5.2 # Hard Crash
+    return random.uniform(0.1, 1.2) # Normal movement
