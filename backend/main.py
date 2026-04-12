@@ -19,10 +19,10 @@ scheduler.add_job(run_autonomous_sweep, 'interval', minutes=1)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    print("🚀 Starting InsurGig AI Server & Autonomous Daemon...")
+    print("Starting InsurGig AI Server & Autonomous Daemon...")
     scheduler.start()
     yield
-    print("🛑 Shutting down Daemon...")
+    print("Shutting down Daemon...")
     scheduler.shutdown()
 
 app = FastAPI(title="InsurGig AI API", description="Predictive Security & Automated Claims for Gig Workers", lifespan=lifespan)

@@ -7,7 +7,7 @@ from services.external_api_service import get_seismic_data, get_telematics_data
 from services.fraud_service import update_honor_score
 
 def run_autonomous_sweep():
-    print(f"[{datetime.datetime.now()}] 🤖 Overlord Daemon sweeping live users...")
+    print(f"[{datetime.datetime.now()}] Overlord Daemon sweeping live users...")
     db: Session = SessionLocal()
     try:
         # Get active subscriptions
@@ -62,7 +62,7 @@ def run_autonomous_sweep():
                     ).first()
                     
                     if not recent_payout:
-                        print(f"⚡ THREAT DETECTED FOR USER {user.id}. TRIGGERING {trigger_reason}")
+                        print(f"THREAT DETECTED FOR USER {user.id}. TRIGGERING {trigger_reason}")
                         # CREATE CLAIM
                         new_claim = Claim(
                             user_id=user.id,
@@ -89,10 +89,11 @@ def run_autonomous_sweep():
                         update_honor_score(db, user.id, "approved")
                         
                         db.commit()
+                        print(f"{payout} released to Wallet #{user.id}")
             except Exception as e:
                 print(f"Daemon Error checking user {user.id}: {e}")
                 
     finally:
         db.close()
     
-    print(f"[{datetime.datetime.now()}] 🏁 Sweep Complete.")
+    print(f"[{datetime.datetime.now()}] Sweep Complete.")
