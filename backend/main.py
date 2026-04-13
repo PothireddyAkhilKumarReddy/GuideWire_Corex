@@ -15,7 +15,7 @@ Base.metadata.create_all(bind=engine)
 
 # Setup Autonomous Daemon
 scheduler = BackgroundScheduler()
-scheduler.add_job(run_autonomous_sweep, 'interval', minutes=1)
+scheduler.add_job(run_autonomous_sweep, 'interval', minutes=2)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
